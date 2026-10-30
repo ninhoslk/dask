@@ -24,7 +24,20 @@ Depois do push, confira o deploy no painel da Vercel (aba Deployments) ou, com a
 - **URL de demonstração:** <https://colegio-dask.vercel.app>
 - Conta Vercel do Breno: **brenobaalves-7852** (plano Hobby). O projeto antigo `colegio-dask` foi publicado antes pela CLI, a partir de `site/`.
 - Última conferência manual no endereço público (deploy pela CLI): home e `/central-do-aluno` respondem 200, 37 imagens carregam, sem erro de console, abertura em vídeo funciona em desktop e celular.
-- Em 30/10/2026 o repositório foi **apagado e recriado** no GitHub (mesmo endereço), e a Vercel foi reconectada pelo Breno.
+- Em 30/10/2026 o repositório foi **apagado e recriado** no GitHub (mesmo endereço), e a Vercel foi reconectada pelo Breno (projeto `colegio-dask` → `ninhoslk/dask`, branch de produção `main`).
+- O primeiro deploy por Git falhou porque o **Root Directory** do projeto estava vazio (raiz). Foi corrigido para `site` por API (`vercel api /v9/projects/<id> -X PATCH -f rootDirectory=site`).
+
+### Se o deploy por Git falhar
+
+| Sintoma no log | Causa | Correção |
+| --- | --- | --- |
+| `Couldn't find any pages or app directory` | Root Directory vazio ou errado | Settings → Build and Deployment → Root Directory = `site` |
+| Erro de TypeScript/ESLint no build | Push com `typecheck`/`build` quebrado | Rode `npm run typecheck && npm run build` em `site/`, corrija e envie de novo |
+| Deploy "Ready", mas página antiga | Alias de produção ainda no deploy anterior | Veja Deployments; só `main` atualiza o domínio de produção |
+
+Ver logs: `cd site && npx vercel@latest inspect <url-do-deploy> --logs`.
+No Git Bash do Windows, prefixe comandos `vercel api /…` com `MSYS_NO_PATHCONV=1`,
+senão o caminho é convertido para um caminho de arquivo.
 
 ## Publicar manualmente (CLI, sem Git)
 
