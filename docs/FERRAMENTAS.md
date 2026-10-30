@@ -51,6 +51,10 @@ nas sessões que construíram o site.
 > Breno e **não** está no repositório. Cada colaborador deve gerar a sua em
 > <https://21st.dev/mcp>. Nunca coloque chaves em arquivos versionados.
 
+## Graphify (grafo de conhecimento do código)
+
+Instalado com `uv tool install --python 3.13 graphifyy` (v0.9.97) e `graphify install`. Gera `graphify-out/`, que fica no repositório. Uso, atualização, limites e instalação para colaboradores: [GRAFO.md](GRAFO.md). Programas extras instalados por causa dele: `uv` (`winget install astral-sh.uv`).
+
 ## Atalhos do shadcn
 
 ```bash

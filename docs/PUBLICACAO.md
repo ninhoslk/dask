@@ -1,13 +1,32 @@
 # Publicação (Vercel)
 
+## Fluxo normal: commit + push = deploy
+
+O repositório `ninhoslk/dask` está **conectado à Vercel** (feito pelo Breno no painel
+da Vercel). A regra do projeto é: **toda mudança vira commit e push**.
+
+- `git push` na **`main`** → deploy de **produção**.
+- Push em qualquer outra branch / PR → **URL de preview**.
+- A Vercel precisa estar com **Root Directory = `site`** (o projeto Next.js não está na raiz do repositório). Framework: Next.js (detectado). Build: `npm run build` (padrão). Sem variáveis de ambiente.
+- Antes do push, rode `typecheck`, `lint` e `build` em `site/`: se o build local falha, o deploy da Vercel também falha.
+
+```bash
+cd site && npm run typecheck && npm run lint && npm run build
+cd .. && graphify update .          # atualiza o grafo (ver docs/GRAFO.md)
+git add -A && git commit -m "Descreve a mudança" && git push
+```
+
+Depois do push, confira o deploy no painel da Vercel (aba Deployments) ou, com a CLI:
+`cd site && npx vercel@latest ls`.
+
 ## Estado atual
 
 - **URL de demonstração:** <https://colegio-dask.vercel.app>
-- Projeto `colegio-dask` na conta Vercel **brenobaalves-7852** (plano Hobby).
-- Publicado **pela CLI**, de dentro de `site/` (`vercel deploy --prod`). Ainda **não** há integração com o GitHub: um `git push` **não** publica sozinho.
-- Último deploy conferido no endereço público: home e `/central-do-aluno` respondem 200, 37 imagens carregam, sem erro de console, abertura em vídeo funciona em desktop e celular.
+- Conta Vercel do Breno: **brenobaalves-7852** (plano Hobby). O projeto antigo `colegio-dask` foi publicado antes pela CLI, a partir de `site/`.
+- Última conferência manual no endereço público (deploy pela CLI): home e `/central-do-aluno` respondem 200, 37 imagens carregam, sem erro de console, abertura em vídeo funciona em desktop e celular.
+- Em 30/10/2026 o repositório foi **apagado e recriado** no GitHub (mesmo endereço), e a Vercel foi reconectada pelo Breno.
 
-## Publicar manualmente
+## Publicar manualmente (CLI, sem Git)
 
 Requer conta Vercel e a CLI (via `npx`, sem instalar):
 

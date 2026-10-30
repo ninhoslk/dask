@@ -35,6 +35,7 @@ Outros comandos (todos dentro de `site/`):
 Dask/
 ├── site/            ← o projeto Next.js (tudo que roda e vai para produção)
 ├── docs/            ← documentação detalhada (comece pelo ARQUITETURA.md)
+├── graphify-out/    ← grafo de conhecimento do código (consulte antes de ler arquivos)
 ├── scripts/         ← utilitários usados para levantar conteúdo e testar (PowerShell/Node)
 ├── referencia/      ← texto extraído dos sites originais + RESUMO.md (as fotos brutas não são versionadas)
 ├── CLAUDE.md        ← instruções para o Claude Code e visão geral para quem colabora
@@ -50,11 +51,17 @@ Dask/
 | [docs/CONTEUDO.md](docs/CONTEUDO.md) | De onde vem cada texto, foto e número, e onde editar |
 | [docs/ANIMACOES.md](docs/ANIMACOES.md) | Como funcionam as animações (abertura cinematográfica, robótica, conquistas, entradas) e o que muda no celular |
 | [docs/DESIGN.md](docs/DESIGN.md) | Direção de arte, cores, tipografia, regras visuais e por quê |
-| [docs/PUBLICACAO.md](docs/PUBLICACAO.md) | Como publicar na Vercel e o estado atual do deploy |
+| [docs/GRAFO.md](docs/GRAFO.md) | **Grafo de conhecimento do código (Graphify)**: como consultar, atualizar e instalar. Economiza tokens |
+| [docs/PUBLICACAO.md](docs/PUBLICACAO.md) | Commit + push publica na Vercel; passo a passo manual e estado atual |
 | [docs/FERRAMENTAS.md](docs/FERRAMENTAS.md) | Skills e servidores MCP usados com o Claude Code, e como reproduzir |
 | [docs/HISTORICO.md](docs/HISTORICO.md) | Decisões tomadas, o que foi feito, estado dos testes e pendências |
 | [scripts/README.md](scripts/README.md) | O que cada script faz |
 | [referencia/RESUMO.md](referencia/RESUMO.md) | Dados institucionais levantados dos sites originais |
+
+## Regras de trabalho (resumo; detalhes no [CLAUDE.md](CLAUDE.md))
+
+1. **Consulte o grafo antes de ler código** (`graphify query "<pergunta>"`, `graphify explain "<Nome>"`) e rode `graphify update .` depois de mudar código. Ver [docs/GRAFO.md](docs/GRAFO.md).
+2. **Toda mudança vira commit e push.** O repositório está conectado à Vercel: o push na `main` publica o site, e cada PR ganha um preview. Rode `typecheck`, `lint` e `build` antes.
 
 ## Antes de publicar de verdade
 

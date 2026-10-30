@@ -18,6 +18,16 @@ site/.taste-skill/*
 !site/.taste-skill/direction.json
 scripts/.profile/
 
+# Grafo do Graphify: graph.json, GRAPH_REPORT.md, graph.html e o resto VÃO para
+# o Git (é o que economiza tokens). Ficam de fora só o cache local, as cópias
+# datadas do grafo anterior (graphify-out/AAAA-MM-DD/) e arquivos com caminho
+# absoluto da máquina; o Graphify recria tudo isso.
+graphify-out/cache/
+graphify-out/.graphify_root
+graphify-out/.graphify_build_state.json
+graphify-out/.graphify_labels.pending.json
+graphify-out/20*/
+
 # --- material bruto de referência (grande; recriado pelos scripts) ---
 # As ~940 fotos baixadas dos sites ficam só na máquina de quem rodou
 # scripts/download.ps1. As fotos usadas no site estão em site/public/.

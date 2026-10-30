@@ -5,6 +5,44 @@ Código em `site/`. Idioma do projeto: **português do Brasil** (textos, nomes d
 componentes, variáveis e comentários). Visão geral em [README.md](README.md);
 detalhes em [docs/](docs/).
 
+## Duas regras que valem sempre
+
+### 1. Consulte o grafo antes de ler arquivos (economiza tokens)
+
+O repositório tem um **grafo de conhecimento do código** em `graphify-out/`
+(gerado pelo [Graphify](https://github.com/Graphify-Labs/graphify)): quais componentes
+existem, quem importa quem, quem chama quem. Para qualquer pergunta sobre o código,
+**pergunte ao grafo primeiro**; só leia o arquivo inteiro depois que o grafo apontar
+onde olhar.
+
+```bash
+graphify query "como a abertura controla o vídeo pelo scroll"   # subgrafo da pergunta
+graphify explain "HeroCinematico"                                # um conceito e seus vizinhos
+graphify path "Home" "whatsappLink"                              # como duas coisas se ligam
+graphify affected "whatsappLink"                                 # o que quebra se eu mudar isto
+```
+
+- Visão geral rápida: `graphify-out/GRAPH_REPORT.md` (nós mais conectados, comunidades, perguntas sugeridas) ou abra `graphify-out/graph.html` no navegador.
+- Consulta típica custa ~1,8 mil tokens contra ~24 mil para ler código e documentação inteiros (medido com `graphify benchmark`: ~13x menos). O ganho cresce com o projeto.
+- **Depois de mudar código, atualize o grafo** (sem custo de API, só AST local): `graphify update .`
+- Detalhes, instalação e limites em [docs/GRAFO.md](docs/GRAFO.md).
+
+### 2. Toda mudança vira commit e push (a Vercel publica a partir do GitHub)
+
+O repositório está conectado à Vercel: **cada `git push` na `main` publica o site**
+(e cada branch/PR ganha uma URL de preview). Por isso, **toda vez que algo mudar,
+faça commit e push**; não deixe alteração só no computador.
+
+```bash
+cd site && npm run typecheck && npm run lint && npm run build   # tem que passar
+cd .. && graphify update .                                        # atualiza o grafo
+git add -A && git commit -m "Descreve a mudança em português"
+git push
+```
+
+Se o build falhar localmente, **não faça push**: o deploy da Vercel quebraria.
+Depois do push, confira o deploy (ver [docs/PUBLICACAO.md](docs/PUBLICACAO.md)).
+
 ## Comandos (rodar dentro de `site/`)
 
 ```bash
@@ -127,3 +165,14 @@ Se conectar o repositório à Vercel, defina **Root Directory = `site`**.
 [docs/HISTORICO.md](docs/HISTORICO.md) lista o que foi feito, as decisões do
 cliente (ex.: "sem seção própria do SAS", "robótica com a foto da bandeira"), o
 estado dos testes e as pendências.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.

@@ -1,0 +1,18 @@
+{
+  "0": "package.json",
+  "1": "app/page.tsx",
+  "2": "site-header.tsx",
+  "3": "central-do-aluno/page.tsx",
+  "4": "components.json",
+  "5": "react",
+  "6": "compilerOptions",
+  "7": "ensino.tsx",
+  "8": "hero-cinematico.tsx",
+  "9": "cine-test.mjs",
+  "10": "layout.tsx",
+  "12": "download.ps1",
+  "13": "postcss.config.mjs",
+  "14": "crawl.ps1",
+  "15": "pick.ps1",
+  "16": "sheet.ps1"
+}

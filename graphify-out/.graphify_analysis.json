@@ -1,0 +1,458 @@
+{
+  "communities": {
+    "0": [
+      "ref_eslint",
+      "ref_eslint_config_next",
+      "ref_next_themes",
+      "ref_prettier",
+      "ref_prettier_plugin_tailwindcss",
+      "ref_react_dom",
+      "ref_shadcn",
+      "ref_tailwindcss",
+      "ref_tailwindcss_postcss",
+      "ref_tw_animate_css",
+      "ref_types_node",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript",
+      "site_eslint_config",
+      "site_eslint_config_eslintconfig",
+      "site_package",
+      "site_package_dependencies",
+      "site_package_dependencies_lucide_react",
+      "site_package_dependencies_next",
+      "site_package_dependencies_next_themes",
+      "site_package_dependencies_react",
+      "site_package_dependencies_react_dom",
+      "site_package_dependencies_shadcn",
+      "site_package_dependencies_tw_animate_css",
+      "site_package_devdependencies",
+      "site_package_devdependencies_eslint",
+      "site_package_devdependencies_eslint_config_next",
+      "site_package_devdependencies_prettier",
+      "site_package_devdependencies_prettier_plugin_tailwindcss",
+      "site_package_devdependencies_tailwindcss",
+      "site_package_devdependencies_tailwindcss_postcss",
+      "site_package_devdependencies_types_node",
+      "site_package_devdependencies_types_react",
+      "site_package_devdependencies_types_react_dom",
+      "site_package_devdependencies_typescript",
+      "site_package_name",
+      "site_package_private",
+      "site_package_type",
+      "site_package_version"
+    ],
+    "1": [
+      "ref_next",
+      "site_app_page",
+      "site_app_page_home",
+      "site_components_sections_conquistas_conquistas",
+      "site_components_sections_contato",
+      "site_components_sections_contato_contato",
+      "site_components_sections_escola_escola",
+      "site_components_sections_faixa_fotos",
+      "site_components_sections_faixa_fotos_faixafotos",
+      "site_components_sections_faixa_fotos_fotos",
+      "site_components_sections_hero",
+      "site_components_sections_hero_apresentacao",
+      "site_components_sections_hero_destaques",
+      "site_components_sections_metodo",
+      "site_components_sections_metodo_arvore",
+      "site_components_sections_metodo_lista",
+      "site_components_sections_metodo_metodo",
+      "site_components_sections_metodo_sas",
+      "site_components_sections_noticias",
+      "site_components_sections_noticias_data",
+      "site_components_sections_noticias_formato",
+      "site_components_sections_noticias_noticia",
+      "site_components_sections_noticias_noticias",
+      "site_components_sections_noticias_outrafoto",
+      "site_components_sections_noticias_resumo",
+      "site_components_sections_showcase_showcase",
+      "site_components_sections_vida",
+      "site_components_sections_vida_prints",
+      "site_components_sections_vida_vida",
+      "site_components_site_footer",
+      "site_components_site_footer_sitefooter",
+      "site_lib_noticias",
+      "site_lib_site_mensagemvisita",
+      "site_lib_site_whatsapplink",
+      "site_next_config",
+      "site_next_config_nextconfig"
+    ],
+    "2": [
+      "site_components_site_header",
+      "site_components_site_header_acessos",
+      "site_components_site_header_siteheader",
+      "site_components_ui_dropdown_menu",
+      "site_components_ui_dropdown_menu_dropdownmenu",
+      "site_components_ui_dropdown_menu_dropdownmenucheckboxitem",
+      "site_components_ui_dropdown_menu_dropdownmenucontent",
+      "site_components_ui_dropdown_menu_dropdownmenugroup",
+      "site_components_ui_dropdown_menu_dropdownmenuitem",
+      "site_components_ui_dropdown_menu_dropdownmenulabel",
+      "site_components_ui_dropdown_menu_dropdownmenuportal",
+      "site_components_ui_dropdown_menu_dropdownmenuradiogroup",
+      "site_components_ui_dropdown_menu_dropdownmenuradioitem",
+      "site_components_ui_dropdown_menu_dropdownmenuseparator",
+      "site_components_ui_dropdown_menu_dropdownmenushortcut",
+      "site_components_ui_dropdown_menu_dropdownmenusub",
+      "site_components_ui_dropdown_menu_dropdownmenusubcontent",
+      "site_components_ui_dropdown_menu_dropdownmenusubtrigger",
+      "site_components_ui_dropdown_menu_dropdownmenutrigger",
+      "site_components_ui_sheet",
+      "site_components_ui_sheet_sheet",
+      "site_components_ui_sheet_sheetclose",
+      "site_components_ui_sheet_sheetcontent",
+      "site_components_ui_sheet_sheetdescription",
+      "site_components_ui_sheet_sheetfooter",
+      "site_components_ui_sheet_sheetheader",
+      "site_components_ui_sheet_sheetoverlay",
+      "site_components_ui_sheet_sheetportal",
+      "site_components_ui_sheet_sheettitle",
+      "site_components_ui_sheet_sheettrigger"
+    ],
+    "3": [
+      "site_app_central_do_aluno_page",
+      "site_app_central_do_aluno_page_acesso",
+      "site_app_central_do_aluno_page_centraldoaluno",
+      "site_app_central_do_aluno_page_doc",
+      "site_app_central_do_aluno_page_docsporsegmento",
+      "site_app_central_do_aluno_page_metadata",
+      "site_components_sections_conquistas",
+      "site_components_sections_escola",
+      "site_components_ui_tabs",
+      "site_components_ui_tabs_tabs",
+      "site_components_ui_tabs_tabscontent",
+      "site_components_ui_tabs_tabslist",
+      "site_components_ui_tabs_tabslistvariants",
+      "site_components_ui_tabs_tabstrigger",
+      "site_lib_site",
+      "site_lib_site_conquistas",
+      "site_lib_site_contato",
+      "site_lib_site_coordenacao",
+      "site_lib_site_documentos",
+      "site_lib_site_linhadotempo",
+      "site_lib_site_navegacao",
+      "site_lib_site_psicologa",
+      "site_lib_site_segmento",
+      "site_lib_site_segmentos"
+    ],
+    "4": [
+      "site_components",
+      "site_components_aliases",
+      "site_components_aliases_components",
+      "site_components_aliases_hooks",
+      "site_components_aliases_lib",
+      "site_components_aliases_ui",
+      "site_components_aliases_utils",
+      "site_components_iconlibrary",
+      "site_components_menuaccent",
+      "site_components_menucolor",
+      "site_components_registries",
+      "site_components_rsc",
+      "site_components_rtl",
+      "site_components_schema",
+      "site_components_style",
+      "site_components_tailwind",
+      "site_components_tailwind_basecolor",
+      "site_components_tailwind_config",
+      "site_components_tailwind_css",
+      "site_components_tailwind_cssvariables",
+      "site_components_tailwind_prefix",
+      "site_components_tsx"
+    ],
+    "5": [
+      "ref_class_variance_authority",
+      "ref_cn",
+      "ref_radix_ui",
+      "ref_react",
+      "site_components_sections_showcase",
+      "site_components_sections_showcase_stages",
+      "site_components_ui_button",
+      "site_components_ui_button_button",
+      "site_components_ui_button_buttonvariants",
+      "site_components_ui_toggle",
+      "site_components_ui_toggle_group",
+      "site_components_ui_toggle_group_togglegroup",
+      "site_components_ui_toggle_group_togglegroupcontext",
+      "site_components_ui_toggle_group_togglegroupitem",
+      "site_components_ui_toggle_toggle",
+      "site_components_ui_toggle_togglevariants",
+      "site_lib_utils",
+      "site_package_dependencies_class_variance_authority",
+      "site_package_dependencies_cn",
+      "site_package_dependencies_radix_ui"
+    ],
+    "6": [
+      "site_tsconfig",
+      "site_tsconfig_compileroptions",
+      "site_tsconfig_compileroptions_allowjs",
+      "site_tsconfig_compileroptions_esmoduleinterop",
+      "site_tsconfig_compileroptions_incremental",
+      "site_tsconfig_compileroptions_isolatedmodules",
+      "site_tsconfig_compileroptions_jsx",
+      "site_tsconfig_compileroptions_lib",
+      "site_tsconfig_compileroptions_module",
+      "site_tsconfig_compileroptions_moduleresolution",
+      "site_tsconfig_compileroptions_noemit",
+      "site_tsconfig_compileroptions_paths",
+      "site_tsconfig_compileroptions_plugins",
+      "site_tsconfig_compileroptions_resolvejsonmodule",
+      "site_tsconfig_compileroptions_skiplibcheck",
+      "site_tsconfig_compileroptions_strict",
+      "site_tsconfig_compileroptions_target",
+      "site_tsconfig_exclude",
+      "site_tsconfig_include"
+    ],
+    "7": [
+      "ref_lucide_react",
+      "site_components_sections_ensino",
+      "site_components_sections_ensino_ensino",
+      "site_components_sections_ensino_segmentoda",
+      "site_components_ui_select",
+      "site_components_ui_select_select",
+      "site_components_ui_select_selectcontent",
+      "site_components_ui_select_selectgroup",
+      "site_components_ui_select_selectitem",
+      "site_components_ui_select_selectlabel",
+      "site_components_ui_select_selectscrolldownbutton",
+      "site_components_ui_select_selectscrollupbutton",
+      "site_components_ui_select_selectseparator",
+      "site_components_ui_select_selecttrigger",
+      "site_components_ui_select_selectvalue",
+      "site_lib_utils_cn"
+    ],
+    "8": [
+      "site_components_sections_hero_cinematico",
+      "site_components_sections_hero_cinematico_assinarreduzido",
+      "site_components_sections_hero_cinematico_clamp",
+      "site_components_sections_hero_cinematico_desenharcover",
+      "site_components_sections_hero_cinematico_herocinematico",
+      "site_components_sections_hero_cinematico_visibilidade",
+      "site_lib_hero_cinematico",
+      "site_lib_hero_cinematico_alturasecao",
+      "site_lib_hero_cinematico_blocos",
+      "site_lib_hero_cinematico_blocotexto",
+      "site_lib_hero_cinematico_carregamentoparalelo",
+      "site_lib_hero_cinematico_duracaotransicao",
+      "site_lib_hero_cinematico_larguramobile",
+      "site_lib_hero_cinematico_sequenciaframes",
+      "site_lib_hero_cinematico_sequencias"
+    ],
+    "9": [
+      "ref_node_child_process",
+      "ref_node_fs",
+      "ref_node_path",
+      "scripts_cine_test",
+      "scripts_cine_test_chrome",
+      "scripts_cine_test_errors",
+      "scripts_cine_test_evaljs",
+      "scripts_cine_test_pending",
+      "scripts_cine_test_report",
+      "scripts_cine_test_send",
+      "scripts_cine_test_sleep"
+    ],
+    "10": [
+      "site_app_globals",
+      "site_app_layout",
+      "site_app_layout_metadata",
+      "site_app_layout_rootlayout",
+      "site_app_layout_schibsted",
+      "site_app_layout_viewport",
+      "site_components_motion",
+      "site_components_motion_motion"
+    ],
+    "11": [
+      "site_package_scripts",
+      "site_package_scripts_build",
+      "site_package_scripts_dev",
+      "site_package_scripts_format",
+      "site_package_scripts_lint",
+      "site_package_scripts_start",
+      "site_package_scripts_typecheck"
+    ],
+    "12": [
+      "scripts_download",
+      "scripts_download_get_file"
+    ],
+    "13": [
+      "site_postcss_config",
+      "site_postcss_config_config"
+    ],
+    "14": [
+      "scripts_crawl"
+    ],
+    "15": [
+      "scripts_pick"
+    ],
+    "16": [
+      "scripts_sheet"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06923076923076923,
+    "1": 0.10476190476190476,
+    "2": 0.12643678160919541,
+    "3": 0.14492753623188406,
+    "4": 0.09090909090909091,
+    "5": 0.15789473684210525,
+    "6": 0.10526315789473684,
+    "7": 0.275,
+    "8": 0.24761904761904763,
+    "9": 0.2,
+    "10": 0.32142857142857145,
+    "11": 0.2857142857142857,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0
+  },
+  "gods": [
+    {
+      "id": "site_components_site_header_siteheader",
+      "label": "SiteHeader()",
+      "degree": 18
+    },
+    {
+      "id": "site_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "ref_next",
+      "label": "next",
+      "degree": 15
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 14
+    },
+    {
+      "id": "site_app_page_home",
+      "label": "Home()",
+      "degree": 12
+    },
+    {
+      "id": "site_components_sections_ensino_ensino",
+      "label": "Ensino()",
+      "degree": 12
+    },
+    {
+      "id": "site_lib_site_whatsapplink",
+      "label": "whatsappLink()",
+      "degree": 11
+    },
+    {
+      "id": "ref_cn",
+      "label": "cn",
+      "degree": 10
+    },
+    {
+      "id": "site_components_sections_hero_cinematico_herocinematico",
+      "label": "HeroCinematico()",
+      "degree": 9
+    },
+    {
+      "id": "ref_radix_ui",
+      "label": "radix-ui",
+      "degree": 9
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Home()",
+      "target": "Ensino()",
+      "source_files": [
+        "site/app/page.tsx",
+        "site/components/sections/ensino.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "Home()",
+      "target": "HeroCinematico()",
+      "source_files": [
+        "site/app/page.tsx",
+        "site/components/sections/hero-cinematico.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "CentralDoAluno()",
+      "target": "SiteFooter()",
+      "source_files": [
+        "site/app/central-do-aluno/page.tsx",
+        "site/components/site-footer.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "Ensino()",
+      "target": "whatsappLink()",
+      "source_files": [
+        "site/components/sections/ensino.tsx",
+        "site/lib/site.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "HeroCinematico()",
+      "target": "whatsappLink()",
+      "source_files": [
+        "site/components/sections/hero-cinematico.tsx",
+        "site/lib/site.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `next` connect `app/page.tsx` to `package.json`, `site-header.tsx`, `central-do-aluno/page.tsx`, `react`, `ensino.tsx`, `layout.tsx`?",
+      "why": "High betweenness centrality (0.153) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `package.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06923076923076923 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `react` to `package.json`, `site-header.tsx`, `central-do-aluno/page.tsx`, `ensino.tsx`, `hero-cinematico.tsx`, `layout.tsx`?",
+      "why": "High betweenness centrality (0.113) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `app/page.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10476190476190476 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `lucide-react` connect `ensino.tsx` to `package.json`, `site-header.tsx`, `central-do-aluno/page.tsx`?",
+      "why": "High betweenness centrality (0.043) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `site-header.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.12643678160919541 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `central-do-aluno/page.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14492753623188406 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

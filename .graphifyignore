@@ -1,0 +1,7 @@
+# Arquivos que não entram no grafo (mídia, material bruto e saídas de build).
+# O grafo é só da estrutura do código e da configuração do site.
+site/public/
+referencia/
+site/node_modules/
+site/.next/
+site/.taste-skill/

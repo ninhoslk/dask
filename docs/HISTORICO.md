@@ -17,6 +17,9 @@ SAS, **sem criar foto nova**.
 5. Primeira revisão: página "muito vazia, muito branco". Pediu mais cheia e viva. Trocar a foto da robótica (sem foco no zoom) pela da bandeira; trocar a foto de "Acontece no Dask"; a frase "Nossos alunos estiveram…" passou a mudar **conforme o scroll**; adicionar o **logo do SAS** e fazer o mesmo com a plataforma **Árvore**; "lembre de sempre usar logos"; publicar na Vercel; garantir animações boas no celular, removendo alguma **somente** no celular e **só se necessário**.
 6. Segunda revisão: abertura em **vídeo cinematográfico controlado pelo scroll**, usando o vídeo do drone enviado por ele (`Aerial_view_of_school_building…mp4`) e um roteiro técnico detalhado.
 7. Colocar tudo no GitHub (`ninhoslk/dask`) com CLAUDE.md e documentação completa para um amigo colaborar.
+8. O repositório foi **apagado e recriado** no GitHub (mesmo endereço) para que o nome de uma conta antiga não aparecesse na lista de contribuidores; a Vercel foi reconectada ao novo repositório.
+9. Instalar o **Graphify**, gerar o grafo do código (`graphify-out/`) e deixar explícito no repositório que ele deve ser consultado antes de ler arquivos, para economizar tokens ([GRAFO.md](GRAFO.md)).
+10. **Toda mudança vira commit e push**, porque a Vercel publica a partir do GitHub.
 
 ## O que foi feito
 
