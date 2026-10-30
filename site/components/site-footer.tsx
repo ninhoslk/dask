@@ -51,8 +51,14 @@ export function SiteFooter() {
           <a href={contato.facebook} target="_blank" rel="noopener noreferrer" className="link">
             Facebook
           </a>
+          <Link href="/noticias" className="link">
+            Notícias
+          </Link>
           <Link href="/central-do-aluno" className="link">
             Central do aluno
+          </Link>
+          <Link href="/tour-360" className="link">
+            Tour 360°
           </Link>
           <a href={contato.trabalheConosco} target="_blank" rel="noopener noreferrer" className="link">
             Trabalhe conosco

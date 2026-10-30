@@ -30,6 +30,8 @@
   --color-brand: var(--brand);
   --color-tint: var(--tint);
   --color-sky: var(--sky);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-ink: var(--whatsapp-ink);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -69,6 +71,9 @@
   --field-foreground: #f4f8f8;
   --tint: #dcf3ee;
   --sky: #196ca0;
+  --whatsapp: #25d366;
+  --whatsapp-foreground: #073b21;
+  --whatsapp-ink: #0b7a3e;
   --radius: 0.875rem;
 
   --margin: clamp(16px, 2.2vw, 32px);
@@ -216,11 +221,6 @@
   object-fit: cover;
   transition: transform 900ms var(--ease-out);
 }
-.showcase-caption {
-  transition:
-    opacity 500ms ease,
-    transform 500ms var(--ease-out);
-}
 .showcase-second {
   transition:
     opacity 600ms ease,
@@ -238,8 +238,7 @@
   .showcase-frame {
     width: 100%;
   }
-  .showcase-second,
-  .showcase-caption {
+  .showcase-second {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -277,35 +276,63 @@
   z-index: 5;
 }
 
-/* ---------- proof: names as one sentence ---------- */
-/* the sentence stays pinned while the section scrolls by; each stretch lights the next name */
+/* ---------- proof: the sentence is read line by line (after onform.studio) ---------- */
+/* Each word is filled left to right as its line crosses a reading line at 58%
+   of the viewport. The fill is a hard colour stop clipped to the glyphs, not a
+   visible gradient. Without JS (no .lendo) the text is plain and fully lit. */
 .conquistas {
-  height: 210vh;
+  padding-top: clamp(80px, 8vw, 155px);
+  padding-bottom: clamp(110px, 11vw, 210px);
+}
+.leitura {
+  font-size: clamp(30px, 4.05vw, 80px);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.055em;
   position: relative;
 }
-.conquistas-palco {
-  position: sticky;
-  top: 0;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: 48px;
+.leitura [data-palavra] {
+  display: inline-block;
 }
-.names span[data-name] {
-  color: color-mix(in srgb, var(--field-foreground) 38%, var(--field));
-  transition: color 350ms ease;
+.leitura.lendo [data-palavra] {
+  --fill: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--field-foreground) var(--fill),
+    color-mix(in srgb, var(--field-foreground) 32%, var(--field)) var(--fill)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
-.names span[data-name][data-lit] {
-  color: var(--field-foreground);
-}
-.names span[data-name][data-now] {
-  color: var(--brand);
-}
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .conquistas {
-    height: 190vh;
+    padding-top: 75px;
+    padding-bottom: 90px;
   }
+  .leitura {
+    font-size: clamp(29px, 7.2vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leitura.lendo [data-palavra] {
+    background: none;
+    color: var(--field-foreground);
+  }
+}
+
+/* Lenis drives the scroll; native smooth scrolling would fight it */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis {
+  scroll-behavior: auto;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 /* ---------- cinematic opening: scroll drives the drone flight ---------- */
@@ -519,6 +546,130 @@ html.js-motion [data-reveal] {
   transform: scale(0.97);
 }
 
+/* ---------- news: share chips, filters and article text ---------- */
+.rede {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: 0 1em;
+  border-radius: 999px;
+  background: var(--tint);
+  font-weight: 600;
+  transition: background-color 160ms ease;
+}
+.rede:hover {
+  background: color-mix(in srgb, var(--brand) 45%, var(--tint));
+}
+.filtro {
+  min-height: 44px;
+  padding: 0 1.1em;
+  border-radius: 999px;
+  border: 1px solid var(--input);
+  font-weight: 600;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.filtro:hover {
+  background: var(--tint);
+}
+.filtro-ativo,
+.filtro-ativo:hover {
+  background: var(--field);
+  border-color: var(--field);
+  color: var(--field-foreground);
+}
+.noticia-texto {
+  font-size: var(--step-lead);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  max-width: 62ch;
+}
+.noticia-texto > * + * {
+  margin-top: 1em;
+}
+.noticia-texto a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.noticia-texto h2,
+.noticia-texto h3 {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.noticia-texto ul {
+  list-style: disc;
+  padding-left: 1.2em;
+}
+.noticia-texto ol {
+  list-style: decimal;
+  padding-left: 1.2em;
+}
+.noticia-texto img {
+  border-radius: var(--radius);
+  height: auto;
+}
+
+/* ---------- floating shortcuts (bottom right) ---------- */
+/* a ring in the page colour separates them from any section, instead of a shadow */
+.flutuantes {
+  position: fixed;
+  right: max(var(--margin), env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.flutuante {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  outline: 2px solid var(--background);
+  transition:
+    transform 180ms var(--ease-out),
+    opacity 220ms ease;
+}
+.flutuante:hover {
+  transform: scale(1.06);
+}
+.flutuante:active {
+  transform: scale(0.95);
+}
+.flutuante-whatsapp {
+  width: 58px;
+  height: 58px;
+  background: var(--whatsapp);
+  color: var(--whatsapp-foreground);
+}
+.flutuante-instagram,
+.flutuante-topo {
+  width: 44px;
+  height: 44px;
+  background: var(--field);
+  color: var(--field-foreground);
+}
+.flutuante-topo:not([data-visivel]) {
+  opacity: 0;
+  transform: translateY(10px);
+  visibility: hidden;
+}
+.flutuante-topo {
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 220ms ease,
+    visibility 0s linear 0s;
+}
+.flutuante-topo:not([data-visivel]) {
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 220ms ease,
+    visibility 0s linear 220ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -532,4 +683,9 @@ html.js-motion [data-reveal] {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ---------- editor preview: hidden sections stay visible, faded ---------- */
+[data-oculta] > * {
+  opacity: 0.35;
 }

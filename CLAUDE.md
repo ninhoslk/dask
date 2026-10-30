@@ -77,7 +77,11 @@ estrutura. Antes de escrever código de Next, leia o guia relevante em
 | `site/components/motion.tsx` | Revela elementos `[data-reveal]` ao rolar |
 | `site/components/ui/*` | Componentes shadcn/ui (Button, Select, Sheet, Tabs, DropdownMenu, Toggle) |
 | `site/lib/site.ts` | **Dados institucionais**: contatos, links, segmentos, coordenações, linha do tempo, conquistas, documentos |
-| `site/lib/noticias.json` | Notícias reais do blog do colégio (9) |
+| `site/lib/noticias-todas.json` | **Todas** as notícias do blog do colégio (265), importadas por `scripts/importar-noticias.mjs`; fallback quando o banco não responde |
+| `site/app/noticias/` | Lista de notícias (filtros, busca) e página de cada notícia com compartilhamento |
+| `site/app/admin/`, `site/components/admin/` | **Painel** (editor visual, notícias, mídia, tour 360°). Ver [docs/PAINEL.md](docs/PAINEL.md) |
+| `site/lib/conteudo/` | Esquema do conteúdo editável da home, validação e leitura do banco |
+| `site/lib/supabase/`, `site/proxy.ts`, `supabase/migrations/` | Supabase: clientes, sessão do painel, tabelas e RLS |
 | `site/lib/hero-cinematico.ts` | Configuração da abertura cinematográfica (frames, altura, textos) |
 | `site/public/` | Fotos, logos, frames do vídeo (`hero/`), imagens das notícias |
 
@@ -99,7 +103,7 @@ do que isso proíbe e por quê, em [docs/DESIGN.md](docs/DESIGN.md):
 
 - Títulos em **no máximo duas linhas** em qualquer largura.
 - **Sem** rótulos pequenos acima de títulos (eyebrows), **sem** numeração 01/02/03 (exceto sequência real, como a linha do tempo), **sem** fonte monoespaçada, **sem** linhas finas decorativas, **sem** sombras em elementos parados, **sem** vidro/blur, **sem** emoji, **sem** palavra de destaque em itálico/cor dentro de título.
-- **Sem gradientes.** A única exceção é o véu escuro sob o texto da abertura em vídeo (`.cine-veu`), por legibilidade.
+- **Sem gradientes.** Exceções: o véu escuro sob o texto da abertura em vídeo (`.cine-veu`), por legibilidade, e o preenchimento de cor dura (sem transição visível) das palavras da frase de conquistas (`.leitura`), que reproduz o efeito de leitura da ONFORM.
 - Uma fonte só: **Schibsted Grotesk** (400, 600, 800).
 - Cores via tokens em `globals.css` (`bg-tint`, `bg-field`, `bg-brand`, `text-sky`…), nunca hex solto nos componentes.
 - Cada seção tem composição diferente da vizinha; nada de grade de cartões idênticos.

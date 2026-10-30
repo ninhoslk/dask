@@ -2,9 +2,11 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { ArrowUpRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { Linhas } from "@/components/linhas"
+import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
+import { IconeWhatsApp } from "@/components/icones-redes"
 import {
   Select,
   SelectContent,
@@ -26,7 +28,8 @@ function segmentoDa(serie: string | undefined): Segmento | undefined {
   return segmentos.find((s) => serie && s.series.includes(serie))
 }
 
-export function Ensino() {
+export function Ensino({ c }: { c: Conteudo }) {
+  const foto = img(c, "foto")
   const [serie, setSerie] = useState<string>()
   const atual = segmentoDa(serie)
 
@@ -38,9 +41,7 @@ export function Ensino() {
       style={{ paddingBlock: "var(--section-gap)" }}
     >
       <h2 id="ensino-title" className="head md:indent-[3vw]" data-reveal>
-        Do primeiro ano
-        <br />
-        ao vestibular.
+        <Linhas texto={txt(c, "titulo")} />
       </h2>
 
       <div className="grid12 mt-16 gap-y-16 md:mt-24">
@@ -51,7 +52,7 @@ export function Ensino() {
             className="flex flex-col gap-4 rounded-[var(--radius)] bg-background p-6 md:p-7"
           >
             <label htmlFor="serie" className="lead font-semibold">
-              Em que série seu filho vai estudar?
+              {txt(c, "pergunta")}
             </label>
             <Select value={serie} onValueChange={setSerie}>
               <SelectTrigger id="serie" className="h-12 w-full bg-background text-base">
@@ -89,6 +90,7 @@ export function Ensino() {
                         `Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar o ${serie}.`
                       )}
                     >
+                      <IconeWhatsApp className="size-5" />
                       Agendar visita para o {serie}
                     </a>
                     {atual.id === "fund1" && (
@@ -112,8 +114,8 @@ export function Ensino() {
             className="media hidden aspect-[4/5] w-[78%] md:block"
           >
             <Image
-              src="/fotos/laboratorio.jpg"
-              alt="Alunos do Fundamental observando experimentos no laboratório"
+              src={foto.src}
+              alt={foto.alt}
               width={1920}
               height={1440}
               sizes="30vw"
@@ -175,10 +177,11 @@ export function Ensino() {
                       href={`https://wa.me/${s.coordenacao.numero}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link inline-flex items-center gap-1 font-semibold"
+                      className="link inline-flex items-center gap-2 font-semibold"
+                      aria-label={`WhatsApp da ${s.coordenacao.cargo.toLowerCase()}: ${s.coordenacao.telefone}`}
                     >
+                      <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
                       {s.coordenacao.telefone}
-                      <ArrowUpRightIcon aria-hidden className="size-4" />
                     </a>
                   </td>
                 </tr>

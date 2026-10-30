@@ -9,10 +9,14 @@ export const contato = {
   endereco: "R. Aristides Zanoni, s/n – Jardim América",
   cidade: "Dracena-SP",
   cep: "17911-262",
+  mapa: "https://www.google.com/maps/search/?api=1&query=Col%C3%A9gio+Dask+Dracena+SP",
+  mapaEmbed:
+    "https://www.google.com/maps?q=Col%C3%A9gio+Dask,+R.+Aristides+Zanoni,+Dracena+-+SP&z=16&output=embed",
   instagram: "https://www.instagram.com/colegiodask/",
   facebook: "https://www.facebook.com/colegiodask",
-  diarioDoAluno: "https://colegiodask.eduxe.com.br",
-  profWeb: "https://colegiodask.eduxego.com.br/",
+  // eduxego é o app de alunos e famílias; eduxe (Eduxe Class) é o diário de classe do professor.
+  diarioDoAluno: "https://colegiodask.eduxego.com.br/",
+  profWeb: "https://colegiodask.eduxe.com.br",
   trabalheConosco:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQ6YoWv4TvpOwl0vIMFd1TU18r5CuRGAYDBWLNZPlFWw2rHQ/viewform?usp=header",
   mantenedora: "Associação Dracenense de Ensino e Cultura",
@@ -26,6 +30,26 @@ export function whatsappLink(mensagem: string) {
 
 export const mensagemVisita =
   "Olá! Gostaria de agendar uma visita ao Colégio Dask."
+
+// Parceiros pedagógicos: logo e "Ver mais" levam ao site oficial de cada um.
+export const parceiros = {
+  sas: "https://www.saseducacao.com.br/",
+  arvore: "https://www.arvore.com.br/",
+}
+
+// Compartilhar uma notícia nas redes. O Instagram não tem link de
+// compartilhamento pela web; ele aparece como "seguir" ao lado.
+export function linksDeCompartilhamento(url: string, titulo: string, imagem?: string) {
+  const u = encodeURIComponent(url)
+  const t = encodeURIComponent(titulo)
+  const midia = imagem ? `&media=${encodeURIComponent(imagem)}` : ""
+  return [
+    { rede: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${u}` },
+    { rede: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
+    { rede: "Pinterest", href: `https://pinterest.com/pin/create/button/?url=${u}&description=${t}${midia}` },
+    { rede: "WhatsApp", href: `https://wa.me/?text=${t}%20${u}` },
+  ] as const
+}
 
 export type Coordenacao = {
   cargo: string
@@ -139,5 +163,5 @@ export const navegacao = [
   { href: "/#escola", label: "A escola" },
   { href: "/#ensino", label: "Ensino" },
   { href: "/#vida", label: "Vida no Dask" },
-  { href: "/#noticias", label: "Notícias" },
+  { href: "/noticias", label: "Notícias" },
 ]

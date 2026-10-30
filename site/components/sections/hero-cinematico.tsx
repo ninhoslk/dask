@@ -12,6 +12,8 @@ import {
   sequencias,
   type SequenciaFrames,
 } from "@/lib/hero-cinematico"
+import { Linhas } from "@/components/linhas"
+import { txt, type Conteudo } from "@/lib/conteudo/documento"
 import { mensagemVisita, whatsappLink } from "@/lib/site"
 
 // Abertura de tela cheia: o voo do drone até a porta do Dask avança e volta
@@ -45,7 +47,7 @@ function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: 
   ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh)
 }
 
-export function HeroCinematico() {
+export function HeroCinematico({ c }: { c: Conteudo }) {
   const secaoRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
@@ -242,12 +244,10 @@ export function HeroCinematico() {
             className="cine-bloco"
           >
             <h1 id="hero-title" className="display text-[clamp(52px,10vw,176px)] text-white">
-              Evoluir
-              <br />
-              para transformar.
+              <Linhas texto={txt(c, "titulo1")} />
             </h1>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              Colégio Dask, em Dracena-SP: do Fundamental I ao Ensino Médio.
+              {txt(c, "texto1")}
             </p>
             {estatico && (
               <a
@@ -256,7 +256,7 @@ export function HeroCinematico() {
                 rel="noopener noreferrer"
                 className="btn-action mt-8 text-lg"
               >
-                Agende uma visita
+                {txt(c, "botao")}
               </a>
             )}
           </div>
@@ -269,12 +269,10 @@ export function HeroCinematico() {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(40px,6.4vw,112px)] text-white">
-              Uma escola feita de
-              <br />
-              professores para alunos.
+              <Linhas texto={txt(c, "titulo2")} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              Desde 1996, com mais de 700 alunos e o sistema de ensino SAS.
+              {txt(c, "texto2")}
             </p>
           </div>
 
@@ -286,12 +284,10 @@ export function HeroCinematico() {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(44px,7.4vw,128px)] text-white">
-              A porta está
-              <br />
-              aberta.
+              <Linhas texto={txt(c, "titulo3")} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              Agende uma visita e conheça a escola por dentro.
+              {txt(c, "texto3")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
@@ -300,7 +296,7 @@ export function HeroCinematico() {
                 rel="noopener noreferrer"
                 className="btn-action text-lg"
               >
-                Agende uma visita
+                {txt(c, "botao")}
               </a>
               <a href="#ensino" className="link font-semibold text-white">
                 Ver séries e turnos

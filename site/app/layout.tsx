@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next"
 import { Schibsted_Grotesk } from "next/font/google"
 
 import "./globals.css"
+import { BotoesFlutuantes } from "@/components/botoes-flutuantes"
 import { Motion } from "@/components/motion"
+import { RolagemSuave } from "@/components/rolagem-suave"
 
 const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -37,7 +39,9 @@ export default function RootLayout({
           Pular para o conteúdo
         </a>
         {children}
+        <BotoesFlutuantes />
         <Motion />
+        <RolagemSuave />
       </body>
     </html>
   )

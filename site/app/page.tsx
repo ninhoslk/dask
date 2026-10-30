@@ -1,29 +1,17 @@
+import { PaginaInicial } from "@/components/pagina-inicial"
 import { SiteFooter } from "@/components/site-footer"
-import { Conquistas } from "@/components/sections/conquistas"
-import { Contato } from "@/components/sections/contato"
-import { Ensino } from "@/components/sections/ensino"
-import { Escola } from "@/components/sections/escola"
-import { Apresentacao } from "@/components/sections/hero"
-import { HeroCinematico } from "@/components/sections/hero-cinematico"
-import { Metodo } from "@/components/sections/metodo"
-import { Noticias } from "@/components/sections/noticias"
-import { Showcase } from "@/components/sections/showcase"
-import { Vida } from "@/components/sections/vida"
+import { resolver } from "@/lib/conteudo/documento"
+import { documentoPublicado } from "@/lib/conteudo/obter"
+import { listarNoticias } from "@/lib/noticias"
+import { paraCartao } from "@/lib/noticias-tipos"
 
-export default function Home() {
+export default async function Home() {
+  const [doc, noticias] = await Promise.all([documentoPublicado(), listarNoticias()])
+
   return (
     <>
       <main id="conteudo">
-        <HeroCinematico />
-        <Apresentacao />
-        <Escola />
-        <Ensino />
-        <Metodo />
-        <Showcase />
-        <Vida />
-        <Conquistas />
-        <Noticias />
-        <Contato />
+        <PaginaInicial secoes={resolver(doc)} noticias={noticias.slice(0, 5).map(paraCartao)} />
       </main>
       <SiteFooter />
     </>
