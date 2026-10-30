@@ -30,16 +30,21 @@ export default async function Tour360() {
         <h1 className="head mt-20 md:mt-28">{data?.titulo || padrao.titulo}</h1>
         <p className="lead mt-6 max-w-[46ch] text-muted-foreground">{data?.descricao || padrao.descricao}</p>
         {url ? (
-          <div className="media mt-12 aspect-video">
-            <iframe
-              src={url}
-              title={data?.titulo || padrao.titulo}
-              className="size-full border-0"
-              sandbox="allow-scripts allow-same-origin allow-popups allow-fullscreen allow-presentation"
-              allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-              loading="lazy"
-            />
-          </div>
+          <>
+            <div className="media mt-12 aspect-video">
+              <iframe
+                src={url}
+                title={data?.titulo || padrao.titulo}
+                className="size-full border-0"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
+                allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
+                loading="lazy"
+              />
+            </div>
+            <a href={url} target="_blank" rel="noopener noreferrer" className="btn-action mt-6 inline-flex">
+              Abrir o tour em tela cheia
+            </a>
+          </>
         ) : (
           <p className="mt-12 inline-block rounded-full bg-tint px-5 py-3 font-semibold">Tour em preparação</p>
         )}

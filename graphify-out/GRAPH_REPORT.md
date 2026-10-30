@@ -1,17 +1,17 @@
 # Graph Report - Dask  (2026-10-30)
 
 ## Corpus Check
-- 112 files · ~81,708 words
+- 112 files · ~81,960 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
 ## Summary
-- 656 nodes · 1592 edges · 36 communities (26 shown, 10 thin omitted)
+- 659 nodes · 1598 edges · 37 communities (25 shown, 12 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0c17090a`
+- Built from commit: `83057e3a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,10 +43,11 @@
 - Colégio Dask — novo site
 - eslint
 - Conteúdo: de onde vem e onde editar
-- ensino.tsx
-- package.json
-- react-dom
-- @types/sanitize-html
+- Arquitetura
+- @dnd-kit/sortable
+- next-themes
+- sanitize-html
+- tw-animate-css
 
 ## God Nodes (most connected - your core abstractions)
 1. `react` - 37 edges
@@ -63,63 +64,63 @@
 ## Surprising Connections (you probably didn't know these)
 - `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/site.ts
-- `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
-  docs/ARQUITETURA.md → site/components/sections/ensino.tsx
 - `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/site-footer.tsx
 - `Cabeçalho (`site-header.tsx`)` --references--> `Sheet()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/ui/sheet.tsx
+- `Central do aluno (`app/central-do-aluno/page.tsx`)` --references--> `Tabs()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/ui/tabs.tsx
 - `Como funciona` --references--> `normalizar()`  [INFERRED]
   docs/PAINEL.md → site/lib/conteudo/documento.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (36 total, 10 thin omitted)
+## Communities (37 total, 12 thin omitted)
 
 ### Community 0 - "package.json"
-Cohesion: 0.13
-Nodes (15): prettier, prettier-plugin-tailwindcss, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom, devDependencies (+7 more)
+Cohesion: 0.12
+Nodes (23): prettier, prettier-plugin-tailwindcss, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom, @types/sanitize-html (+15 more)
 
 ### Community 1 - "documento.ts"
-Cohesion: 0.08
-Nodes (59): Como a home é montada (`app/page.tsx`), next, PaginaInicial(), Conquistas(), Palavra, palavrasDa(), Contato(), Escola() (+51 more)
+Cohesion: 0.06
+Nodes (72): Como a sincronização funciona, Como a home é montada (`app/page.tsx`), Tipos e dados, Linhas(), PaginaInicial(), Conquistas(), Palavra, palavrasDa() (+64 more)
 
 ### Community 2 - "site-header.tsx"
 Cohesion: 0.12
 Nodes (17): Acessibilidade, acessos, SiteHeader(), DropdownMenu(), DropdownMenuContent(), DropdownMenuGroup(), DropdownMenuItem(), DropdownMenuTrigger() (+9 more)
 
 ### Community 3 - "editor.tsx"
-Cohesion: 0.09
-Nodes (48): lucide-react, sonner, apagarMidia(), apagarNoticia(), conteudoSeguro(), falha(), lerVersao(), listarVersoes() (+40 more)
+Cohesion: 0.07
+Nodes (61): lucide-react, sonner, apagarMidia(), apagarNoticia(), conteudoSeguro(), enderecoDoTour(), falha(), lerVersao() (+53 more)
 
 ### Community 4 - "components.json"
 Cohesion: 0.09
 Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent (+13 more)
 
 ### Community 5 - "react"
-Cohesion: 0.07
-Nodes (58): Regras de design, class-variance-authority, cn, radix-ui, react, FormularioLogin(), avisos, Login() (+50 more)
+Cohesion: 0.06
+Nodes (61): Regras de design, class-variance-authority, cn, radix-ui, react, NoticiaForm, FormularioLogin(), avisos (+53 more)
 
 ### Community 6 - "compilerOptions"
 Cohesion: 0.11
 Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
 
 ### Community 7 - "ensino.tsx"
-Cohesion: 0.14
-Nodes (21): lenis, metadata, RootLayout(), schibsted, viewport, BotoesFlutuantes(), Compartilhar(), icones (+13 more)
+Cohesion: 0.13
+Nodes (22): lenis, metadata, RootLayout(), schibsted, viewport, BotoesFlutuantes(), Compartilhar(), icones (+14 more)
 
 ### Community 8 - "next"
 Cohesion: 0.11
-Nodes (20): next-themes, server-only, @supabase/ssr, entrar(), EstadoLogin, sair(), tentativas, LayoutPainel() (+12 more)
+Nodes (23): next, server-only, @supabase/ssr, entrar(), EstadoLogin, sair(), tentativas, LayoutPainel() (+15 more)
 
 ### Community 9 - "cine-test.mjs"
-Cohesion: 0.08
-Nodes (21): sanitize-html, chrome, errors, evalJs(), pending, report, send(), categorias (+13 more)
+Cohesion: 0.09
+Nodes (19): chrome, errors, evalJs(), pending, report, send(), categorias, entidades (+11 more)
 
 ### Community 10 - "previa-ao-vivo.tsx"
-Cohesion: 0.09
-Nodes (39): metadata, Previa(), metadata, PaginaNoticias(), generateMetadata(), generateStaticParams(), PaginaNoticia(), Props (+31 more)
+Cohesion: 0.08
+Nodes (42): metadata, Previa(), Acesso(), CentralDoAluno(), Doc, docsPorSegmento, metadata, metadata (+34 more)
 
 ### Community 17 - "CLAUDE.md — Colégio Dask"
 Cohesion: 0.13
@@ -138,16 +139,16 @@ Cohesion: 0.25
 Nodes (8): Cores (tokens em `site/app/globals.css`), Design, Espaço, Ideia, Imagens, O que é proibido (e por quê), Responsivo, Tipografia
 
 ### Community 23 - "1. Abertura cinematográfica (scroll controla o vídeo)"
-Cohesion: 0.13
-Nodes (15): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, Animações, Carregamento, Como a sincronização funciona (+7 more)
+Cohesion: 0.15
+Nodes (13): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, Animações, Carregamento, Como ajustar (tudo em `lib/hero-cinematico.ts`) (+5 more)
 
 ### Community 24 - "Publicação (Vercel)"
 Cohesion: 0.25
 Nodes (8): Cuidados, Domínio, Estado atual, Fluxo normal: commit + push = deploy, Publicar manualmente (CLI, sem Git), Publicação (Vercel), Quem colabora e quer ver a própria versão, Se o deploy por Git falhar
 
 ### Community 25 - "dependencies"
-Cohesion: 0.11
-Nodes (18): @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities, tw-animate-css, dependencies, class-variance-authority@^0.7.1, cn@^0.5.0, @dnd-kit/core@^6.3.1 (+10 more)
+Cohesion: 0.10
+Nodes (20): @dnd-kit/core, @dnd-kit/utilities, react-dom, shadcn, @supabase/supabase-js, dependencies, class-variance-authority@^0.7.1, cn@^0.5.0 (+12 more)
 
 ### Community 26 - "Ferramentas, skills e servidores MCP"
 Cohesion: 0.29
@@ -173,31 +174,27 @@ Nodes (5): eslint, eslint-config-next, eslintConfig, eslint@^9, eslint-config-ne
 Cohesion: 0.40
 Nodes (5): Contatos usados (do site da escola), Conteúdo: de onde vem e onde editar, Fotos, Notícias: como atualizar, Onde editar cada coisa
 
-### Community 32 - "ensino.tsx"
-Cohesion: 0.08
-Nodes (39): Arquitetura, Cabeçalho (`site-header.tsx`), Central do aluno (`app/central-do-aluno/page.tsx`), Fonte, tema e acessibilidade global, Mapa de arquivos de `site/`, Seletor de série (`ensino.tsx`), Tipos e dados, Acesso() (+31 more)
-
-### Community 33 - "package.json"
-Cohesion: 0.18
-Nodes (10): shadcn, @supabase/supabase-js, typescript, shadcn@^4.23.0, @supabase/supabase-js@^2.118.0, typescript@^5, name, private (+2 more)
+### Community 32 - "Arquitetura"
+Cohesion: 0.33
+Nodes (6): Arquitetura, Cabeçalho (`site-header.tsx`), Central do aluno (`app/central-do-aluno/page.tsx`), Fonte, tema e acessibilidade global, Mapa de arquivos de `site/`, Seletor de série (`ensino.tsx`)
 
 ## Knowledge Gaps
-- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `package.json`, `ensino.tsx`, `previa-ao-vivo.tsx`, `dependencies`?**
+- **Why does `react` connect `react` to `package.json`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `ensino.tsx`, `previa-ao-vivo.tsx`, `dependencies`?**
   _High betweenness centrality (0.139) - this node is a cross-community bridge._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
-- **Why does `next` connect `documento.ts` to `ensino.tsx`, `package.json`, `site-header.tsx`, `editor.tsx`, `react`, `ensino.tsx`, `next`, `previa-ao-vivo.tsx`, `dependencies`?**
+  _Cohesion score 0.11594202898550725 - nodes in this community are weakly interconnected._
+- **Why does `next` connect `next` to `package.json`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `react`, `ensino.tsx`, `previa-ao-vivo.tsx`, `dependencies`?**
   _High betweenness centrality (0.128) - this node is a cross-community bridge._
 - **Should `documento.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.0763963963963964 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06460674157303371 - nodes in this community are weakly interconnected._
 - **Why does `CLAUDE.md — Colégio Dask` connect `CLAUDE.md — Colégio Dask` to `README.md`, `react`?**
   _High betweenness centrality (0.102) - this node is a cross-community bridge._
 - **Should `site-header.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.12258064516129032 - nodes in this community are weakly interconnected._
 - **Should `editor.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.08771929824561403 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06905370843989769 - nodes in this community are weakly interconnected._

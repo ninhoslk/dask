@@ -11,10 +11,14 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 
 const httpsValido = /^https:\/\/[^\s"'<>]+$/
+// mesmo critério do servidor: endereço puro ou o src de um código <iframe>
+const endereco = (t: string) =>
+  (/<iframe[^>]*\ssrc\s*=\s*["']([^"']+)["']/i.exec(t)?.[1] ?? t).replaceAll("&amp;", "&").trim()
 
 export function FormTour({ inicial }: { inicial: TourForm }) {
   const [f, setF] = useState(inicial)
   const [salvando, iniciar] = useTransition()
+  const previa = endereco(f.url_embed)
 
   return (
     <form
@@ -38,15 +42,18 @@ export function FormTour({ inicial }: { inicial: TourForm }) {
           <Textarea id="descricao" rows={3} maxLength={1000} value={f.descricao} onChange={(e) => setF({ ...f, descricao: e.target.value })} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="url">Endereço de incorporação (embed)</FieldLabel>
-          <Input
+          <FieldLabel htmlFor="url">Código de incorporação (embed)</FieldLabel>
+          <Textarea
             id="url"
-            type="url"
-            placeholder="https://my.matterport.com/show/?m=…"
+            rows={3}
+            placeholder={'<iframe src="https://…"></iframe>  ou só o endereço https://…'}
             value={f.url_embed}
             onChange={(e) => setF({ ...f, url_embed: e.target.value })}
           />
-          <FieldDescription>Só endereços https. O tour abre num quadro isolado do site.</FieldDescription>
+          <FieldDescription>
+            No site do tour, use Compartilhar → Incorporar (embed) e cole o código do iframe ou o endereço dele. O link
+            comum de compartilhar geralmente não pode aparecer dentro de outro site.
+          </FieldDescription>
         </Field>
         <Field orientation="horizontal">
           <Switch id="ativo" checked={f.ativo} onCheckedChange={(v) => setF({ ...f, ativo: v })} />
@@ -54,13 +61,13 @@ export function FormTour({ inicial }: { inicial: TourForm }) {
         </Field>
       </FieldGroup>
 
-      {httpsValido.test(f.url_embed) && (
+      {httpsValido.test(previa) && (
         <div className="aspect-video overflow-hidden rounded-md bg-muted">
           <iframe
-            src={f.url_embed}
+            src={previa}
             title="Prévia do tour 360"
             className="size-full border-0"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-fullscreen allow-presentation"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
             allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
           />
         </div>
