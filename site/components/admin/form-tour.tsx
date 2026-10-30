@@ -27,8 +27,13 @@ export function FormTour({ inicial }: { inicial: TourForm }) {
         e.preventDefault()
         iniciar(async () => {
           const r = await salvarTour(f)
-          if (r.ok) toast.success("Tour salvo.")
-          else toast.error(r.erro)
+          if (!r.ok) toast.error(r.erro)
+          else if (r.dados?.semQuadro)
+            toast.warning(
+              "Tour salvo, mas o site do tour não permite aparecer dentro de outro site. No site, os visitantes verão um botão que abre o tour em outra aba.",
+              { duration: 12000 }
+            )
+          else toast.success("Tour salvo.")
         })
       }}
     >

@@ -5,6 +5,7 @@ import sanitizeHtml from "sanitize-html"
 
 import { adminOuErro } from "@/lib/admin/sessao"
 import { normalizar, type Documento } from "@/lib/conteudo/documento"
+import { permiteIncorporar } from "@/lib/tour"
 
 type Resultado<T = undefined> = { ok: true; dados?: T } | { ok: false; erro: string }
 
@@ -170,35 +171,13 @@ function enderecoDoTour(entrada: string) {
   return src.replaceAll("&amp;", "&").trim()
 }
 
-// O site do tour pode proibir que a página apareça dentro de outro site
-// (X-Frame-Options ou CSP frame-ancestors). Links de "compartilhar" costumam
-// fazer isso; o código de "incorporar" não. Sem resposta, não bloqueia.
-async function permiteIncorporar(url: string): Promise<boolean> {
-  const host = new URL(url).hostname
-  if (host === "localhost" || /^[\d.]+$/.test(host) || host.includes(":")) return false
-  try {
-    const r = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(6000), cache: "no-store" })
-    r.body?.cancel()
-    const xfo = r.headers.get("x-frame-options")?.toLowerCase() ?? ""
-    if (xfo.includes("deny") || xfo.includes("sameorigin")) return false
-    const ancestrais = /frame-ancestors([^;]*)/i.exec(r.headers.get("content-security-policy") ?? "")?.[1].trim()
-    if (ancestrais && !/(^|\s)(\*|https:)(\s|$)/.test(ancestrais)) return false
-    return true
-  } catch {
-    return true
-  }
-}
-
-export async function salvarTour(f: TourForm): Promise<Resultado> {
+export async function salvarTour(f: TourForm): Promise<Resultado<{ semQuadro: boolean }>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
   const url = enderecoDoTour(String(f.url_embed ?? ""))
   if (url && !/^https:\/\/[^\s"'<>]+$/.test(url)) return falha("O endereço do tour precisa começar com https://")
   if (f.ativo && !url) return falha("Para ativar, informe o endereço do tour.")
-  if (url && f.ativo && !(await permiteIncorporar(url)))
-    return falha(
-      "Esse endereço não pode aparecer dentro de outro site (é um link de compartilhar). No site do tour, procure Compartilhar → Incorporar (embed) e cole aqui o código do iframe."
-    )
+  const semQuadro = Boolean(url && f.ativo && !(await permiteIncorporar(url)))
   const { error } = await a.sb
     .from("tour360")
     .update({
@@ -211,7 +190,7 @@ export async function salvarTour(f: TourForm): Promise<Resultado> {
   if (error) return falha("Não foi possível salvar.")
   await a.sb.from("auditoria").insert({ acao: "editar tour 360", alvo: url, user_id: a.user.id })
   revalidatePath("/", "layout")
-  return { ok: true }
+  return { ok: true, dados: { semQuadro } }
 }
 
 // ---------------------------------------------------------------- mídia

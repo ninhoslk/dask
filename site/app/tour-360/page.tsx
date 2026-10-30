@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { clientePublico } from "@/lib/supabase/publico"
+import { permiteIncorporar } from "@/lib/tour"
 
 export const metadata: Metadata = {
   title: "Tour 360° · Colégio Dask",
@@ -20,6 +21,9 @@ export default async function Tour360() {
     ? await sb.from("tour360").select("ativo,titulo,descricao,url_embed").eq("id", 1).maybeSingle()
     : { data: null }
   const url = data?.ativo && data.url_embed?.startsWith("https://") ? data.url_embed : null
+  // Se o site do tour proíbe ser incorporado, um quadro em branco seria pior
+  // que um botão: o visitante abre o tour direto, em outra aba.
+  const incorporavel = url ? await permiteIncorporar(url, { revalidate: 3600 }) : false
 
   return (
     <>
@@ -31,18 +35,20 @@ export default async function Tour360() {
         <p className="lead mt-6 max-w-[46ch] text-muted-foreground">{data?.descricao || padrao.descricao}</p>
         {url ? (
           <>
-            <div className="media mt-12 aspect-video">
-              <iframe
-                src={url}
-                title={data?.titulo || padrao.titulo}
-                className="size-full border-0"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
-                allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-                loading="lazy"
-              />
-            </div>
-            <a href={url} target="_blank" rel="noopener noreferrer" className="btn-action mt-6 inline-flex">
-              Abrir o tour em tela cheia
+            {incorporavel && (
+              <div className="media mt-12 aspect-video">
+                <iframe
+                  src={url}
+                  title={data?.titulo || padrao.titulo}
+                  className="size-full border-0"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
+                  allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
+                  loading="lazy"
+                />
+              </div>
+            )}
+            <a href={url} target="_blank" rel="noopener noreferrer" className={`btn-action inline-flex ${incorporavel ? "mt-6" : "mt-12"}`}>
+              {incorporavel ? "Abrir o tour em tela cheia" : "Abrir o tour"}
             </a>
           </>
         ) : (
