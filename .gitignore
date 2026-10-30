@@ -1,0 +1,33 @@
+# --- segredos e estado local (nunca versionar) ---
+.env
+.env.*
+!.env.example
+.vercel/
+.claude/
+**/.claude/settings.local.json
+
+# --- dependências e builds ---
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# --- saídas de ferramentas ---
+site/.taste-skill/*
+!site/.taste-skill/direction.json
+scripts/.profile/
+
+# --- material bruto de referência (grande; recriado pelos scripts) ---
+# As ~940 fotos baixadas dos sites ficam só na máquina de quem rodou
+# scripts/download.ps1. As fotos usadas no site estão em site/public/.
+referencia/fotos/
+*.mp4
+*.mov
+
+# --- sistema operacional / editor ---
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

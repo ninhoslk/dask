@@ -1,0 +1,90 @@
+# Histórico, decisões e pendências
+
+## Pedido original
+
+Reformar o site do **Colégio Dask** (Dracena-SP) para **oferecer à escola** um
+site novo, com cara nova. Foram dados como material o arquivo do site principal
+do colégio e o do SAS Educação (parceiro de material didático). Depois o cliente
+pediu para ler **todo** o conteúdo dos sites ao vivo e usar as fotos do Dask e do
+SAS, **sem criar foto nova**.
+
+## Decisões do cliente (por ordem)
+
+1. Escola em **Dracena-SP**.
+2. **Não** quer seção ou aba própria do SAS: ele deve estar **integrado** ao site. A Geekie One do site antigo deve ser **esquecida** ("agora é uma escola SAS").
+3. Quer um site **100% profissional**, com animações, usando todas as skills de construção de site/UI.
+4. Recomendações aceitas no questionário inicial (resumo): objetivo principal é captar matrículas; proposta/protótipo; público é família de futuros alunos; Next.js + Tailwind + shadcn/ui; manter logo e paleta com cara nova; tom moderno e acolhedor com toque tecnológico; manter logo e conteúdo do site atual; CTA "Agende uma visita" com WhatsApp e botão flutuante; usar só números reais; **Central do aluno** com acessos, documentos e coordenações; rodar local e publicar na Vercel; cor dominante teal do logo com azul-marinho.
+5. Primeira revisão: página "muito vazia, muito branco". Pediu mais cheia e viva. Trocar a foto da robótica (sem foco no zoom) pela da bandeira; trocar a foto de "Acontece no Dask"; a frase "Nossos alunos estiveram…" passou a mudar **conforme o scroll**; adicionar o **logo do SAS** e fazer o mesmo com a plataforma **Árvore**; "lembre de sempre usar logos"; publicar na Vercel; garantir animações boas no celular, removendo alguma **somente** no celular e **só se necessário**.
+6. Segunda revisão: abertura em **vídeo cinematográfico controlado pelo scroll**, usando o vídeo do drone enviado por ele (`Aerial_view_of_school_building…mp4`) e um roteiro técnico detalhado.
+7. Colocar tudo no GitHub (`ninhoslk/dask`) com CLAUDE.md e documentação completa para um amigo colaborar.
+
+## O que foi feito
+
+### Levantamento
+- Crawl de colegiodask.com.br: 60 páginas e, via API do WordPress, 5 páginas + 265 posts (dez/2022 → out/2026) e catálogo de 521 mídias.
+- Crawl de saseducacao.com.br: 45 páginas.
+- Leitura da home da Árvore e do post do Dask sobre o uso da plataforma.
+- Download de 704 fotos do Dask e 231 do SAS; curadoria visual por folhas de contato numeradas; escolha de 26 + 9 fotos para o site.
+- Resultado resumido em [referencia/RESUMO.md](../referencia/RESUMO.md).
+
+### Site
+- Projeto criado com `npx shadcn@latest init --template next --base radix --preset nova`.
+- Direção de arte e regras de design com a taste-skill (ver [DESIGN.md](DESIGN.md)).
+- Home com 10 seções + rodapé e a página Central do aluno (ver [ARQUITETURA.md](ARQUITETURA.md)).
+- Animações (ver [ANIMACOES.md](ANIMACOES.md)): abertura cinematográfica, robótica, conquistas, entradas, faixas de fotos.
+- SAS Educação e Árvore integrados à seção Método, cada um com logo oficial, texto e fotos.
+- Publicado na Vercel (ver [PUBLICACAO.md](PUBLICACAO.md)).
+
+### Auditorias
+- `web-design-guidelines` (Vercel): aplicadas correções de toque (`touch-action`), `overflow-x`, `transition` só de propriedades nomeadas, reticências em placeholders.
+- Rodadas do inspetor da taste-skill na primeira versão: 6 falhas → 2 → 1 → **0** no build de produção. Depois da versão "mais cheia e colorida" a medição voltou a apontar 1 falha (trechos vazios); veja o estado abaixo.
+
+## Estado dos testes (honesto)
+
+| Verificação | Resultado |
+| --- | --- |
+| `tsc --noEmit` | passa |
+| `eslint` (app, components, lib) | passa |
+| `npm run build` | passa; 2 rotas estáticas |
+| `scripts/cine-test.mjs` desktop, celular e movimento reduzido, local **e** no site publicado | passa: textos nos intervalos certos, vai e volta, página segue normal depois, sem erro de console, sem rolagem horizontal |
+| Seletor de série (7º ano) no navegador | passa: mostra Fundamental II, Marcia Fonte, botão do WhatsApp com a série na mensagem |
+| Inspetor taste-skill **completo** | **não foi repetido** depois da abertura cinematográfica e dos últimos ajustes. A última execução completa (antes da abertura) tinha **1 FAIL** (trechos vazios em 3 pontos) e 3 avisos (18 tamanhos de fonte; uma "declaração" de 5 linhas; sem vídeo, hoje resolvido pela abertura). Depois disso foram encurtadas as seções fixas e o bloco de notícias, mas sem nova medição |
+| Dispositivos reais (iPhone/Android) | **não testado** |
+
+## Pendências e confirmações com a escola
+
+**Conteúdo**
+1. **Endereço:** o site atual mostra "R. Aristides Zanoni, s/n" e "R. Venezuela, 220", com CEPs diferentes. O novo usa Aristides Zanoni, CEP 17911-262.
+2. **"Mais de 700 alunos":** no site da escola é um marco de **2021**; o novo site o apresenta como número de hoje (Apresentação, Escola). Confirmar o número atual.
+3. **Documentos "Em breve"** (calendário 2026, horários, datas de provas…) ainda não têm link, igual ao site atual.
+4. **Uso de imagens e marcas do SAS e da Árvore:** confirmar com cada empresa. As fotos do SAS vêm do site deles; os logos são os oficiais.
+5. Fotos de alunos vêm do blog da própria escola; a escola deve confirmar autorização de uso de imagem.
+6. **Sem depoimentos de famílias**: não foram encontrados reais do Dask e nada foi inventado.
+
+**Itens aceitos no questionário inicial e ainda não construídos**
+7. Página dedicada de **Matrícula / Agende uma visita** (hoje o CTA é WhatsApp).
+8. **Galeria** de fotos.
+9. **Depoimentos** (dependem de depoimentos reais).
+10. Blog "Acontece no Dask" com **filtros** Ensino/Eventos (hoje: 1 destaque + 4 notícias e link para o blog completo no site da escola).
+
+**Técnico**
+11. **Memória na abertura em vídeo:** os frames carregados ficam como `HTMLImageElement`. Em celulares com pouca memória (principalmente Safari do iOS) a decodificação de 95 imagens de 720×1278 pode pesar bastante; no desktop são até 190 imagens de 1440×810. O navegador pode descartar dados decodificados, mas **isso não foi medido em dispositivos reais**. Mitigações possíveis: manter só uma janela de frames ao redor do atual, usar `ImageBitmap`, reduzir resolução ou quantidade de frames.
+12. O título da abertura quebra em **3 linhas** no celular (regra de design é ≤ 2) e a abertura **não foi medida** pelo inspetor.
+13. Notícias são um JSON estático: não atualizam sozinhas. Opção: buscar a API do WordPress no build com revalidação (`revalidate`).
+14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
+15. Sem analytics, sem domínio próprio, sem integração Git→Vercel, sem testes automatizados (unitários/E2E) no repositório.
+16. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
+17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
+
+## Como foram gerados os dados
+
+Os scripts de levantamento estão em [../scripts/](../scripts/README.md). Resumo do
+que cada dado precisou:
+
+- **Páginas, posts e mídia do WordPress:** `GET https://colegiodask.com.br/wp-json/wp/v2/pages|posts|media?per_page=100&page=N`. Salvos em `referencia/dask/wp_content.json` e `media_catalog.json`.
+- **`site/lib/noticias.json`:** dos posts mais recentes com imagem de destaque, via `wp/v2/media/<id>`: baixa a imagem `large` para `site/public/noticias/<slug>.jpg` e grava `slug`, `title`, `date`, `category` (1=Geral, 7=Eventos, 8=Ensino), `excerpt` (HTML removido, cortado no fim), `image`, `url`.
+- **Cores e fontes da marca:** variáveis `--e-global-color-*` do CSS do Elementor do site antigo (`#196CA0`, `#54D4BF`, `#61CE70`, `#6EC1E4`, `#54595F`).
+- **Logo do SAS:** `https://www.saseducacao.com.br/themes/custom/sas_edu_theme/quark-storybook/packages/core/src/images/logo-md.png`.
+- **Logo da Árvore:** `https://assets-global.website-files.com/61155c49f7b752684a9f0584/6139298b482f344a8b3236be_logo-arvore-verde-completo.svg`.
+- **Frames do vídeo:** `site/public/hero/README.md`.
+- **Fotos extras** (bandeira da robótica e Árvore) foram baixadas à mão da API de mídia do post de origem (`wp/v2/media?parent=<id>`) e redimensionadas para ≤ 2200 px (JPEG 84); não fazem parte de `scripts/pick.ps1`, que registra apenas o primeiro lote.

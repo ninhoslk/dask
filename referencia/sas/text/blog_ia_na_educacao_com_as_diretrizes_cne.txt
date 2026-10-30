@@ -1,0 +1,158 @@
+﻿URL: https://www.saseducacao.com.br/blog/ia-na-educacao-com-as-diretrizes-cne
+
+IA na educação: O que muda com as diretrizes do CNE?
+Pular para o conteúdo principal
+SAS Educação
+Conheça
+Sobre nós
+Há 21 anos sendo referência em educação.
+Carreiras
+Faça parte do nosso time de pessoas excelentes.
+Nossas Soluções
+Nossas Soluções
+Soluções que apoiam os primeiros passos da jornada de aprendizagem.
+Consultoria pedagógica
+Acompanhamento personalizado, feito por especialistas.
+Formação continuada
+Evolução da prática pedagógica para fortalecer o ensino e aprendizagem.
+Ensino Infantil
+Soluções que apoiam os primeiros passos da jornada de aprendizagem.
+Ensino Fundamental
+Ampliando o aprendizado para uma formação integral e progressiva.
+Ensino Médio
+Ampliando o aprendizado para uma formação integral e progressiva.
+Observatório Enem
+Relatório detalhado do desempenho da escola no Enem
+SAS no Enem
+Saiba tudo sobre o Enem e as aplicações das provas.
+Jornada Olímpica
+Incentivamos a cultura olímpica nas escolas parceiras.
+Na mídia
+Imprensa
+Nosso impacto na educação.
+Participação em eventos
+Estamos presentes nos principais fóruns de educação.
+Fórum de Mantenedores
+Inspirando lideranças a transformarem desafios em oportunidades.
+Prêmio Escolas que Inspiram
+Reconhecemos e compartilhamos iniciativas de impacto.
+Conteúdos
+Blog SAS Educação
+Pesquisar
+Portal SAS Educação
+Seja um parceiro
+Gestão escolar
+Diretrizes do CNE para IA na educação básica: o que muda na escola
+13 de Novembro de 2026 • SAS Educação
+A IA na educação deixou de ser tema de congresso e entrou na rotina da escola, com ou sem planejamento da gestão. Em 1º de setembro de 2026 , o Conselho Nacional de Educação aprovou diretrizes nacionais para orientar esse uso, e o texto traz proibições, níveis de risco e exigências de governança que chegam direto à mesa do mantenedor.
+O movimento acontece num cenário em que a tecnologia já circula. A pesquisa TIC Kids Online Brasil 2025, do Cetic.br, apontou que 65% dos usuários de internet de 9 a 17 anos já usaram IA generativa para ao menos uma das finalidades investigadas. Entre esses usuários, 59% recorreram à ferramenta para pesquisas escolares ou estudo.
+Dentro da escola, o cenário é parecido. O Cetic.br registrou que 70% dos alunos do Ensino Médio e 58% dos professores usam essas ferramentas em tarefas escolares, quase sempre sem regras definidas pela instituição.
+Imagem
+O que são as diretrizes do CNE para a IA na educação?
+O CNE aprovou as Diretrizes Orientadoras da Utilização da Inteligência Artificial na Educação Brasileira , que cobrem todas as etapas e modalidades de ensino. A cobertura do Porvir resume a lógica do texto: a IA pode apoiar atividades pedagógicas e administrativas, mas não substitui o professor nem decide sozinha sobre avaliação, notas, aprovação, retenção, certificação ou sanções disciplinares.
+Na prática, o documento trata a IA como ferramenta de apoio sob supervisão humana . A decisão pedagógica continua com a escola, e cabe a cada instituição definir regras internas sobre como cada ferramenta entra na rotina.
+Em que fase está a homologação?
+O texto corresponde ao Parecer CNE/CP nº 15/2026 . Segundo o escritório Mattos Filho , a súmula foi publicada no Diário Oficial da União em 6 de outubro e o parecer segue para homologação do ministro da Educação, etapa que dá força normativa ao documento.
+Ainda de acordo com a cobertura do Porvir, o texto aprovado prevê 12 meses para a adequação dos sistemas de ensino, e as vedações a práticas classificadas como nocivas têm aplicação imediata. Mesmo antes da homologação, o conteúdo indica a direção da regulação, e a escola que se organiza agora chega ao prazo com menos pressa.
+Por que o assunto pede atenção do mantenedor?
+A diretriz transforma uma decisão informal em responsabilidade de gestão . O estudo do Cetic.br descreve um "pacto silencioso" nas escolas: professores sabem que os alunos usam IA, mas não se sentem seguros para discutir o uso sem critérios definidos pela instituição.
+Para a escola privada, o tema também pesa na relação com as famílias. Os responsáveis comparam instituições e querem saber como a escola protege dados, orienta o uso de IA e evita excessos. Uma política clara vira argumento de confiança , algo que conversa diretamente com a retenção de alunos no ensino privado .
+O que as diretrizes proíbem e restringem?
+Os quatro níveis de risco
+O texto organiza as aplicações de IA em quatro categorias , e cada uma pede um grau diferente de cuidado:
+Baixo risco: Ferramentas de uso instrumental, organizacional, pedagógico complementar ou de acessibilidade, sem impacto relevante sobre direitos ou decisões acadêmicas.
+Risco moderado: Tutores digitais, sistemas de personalização e recomendação e ferramentas de apoio à produção intelectual, sem decisões automatizadas sensíveis.
+Alto risco: Sistemas capazes de influenciar avaliações, certificações, permanência, progressão ou sanções, além de aplicações que tratam dados sensíveis ou elaboram perfis comportamentais.
+Risco excessivo: Aplicações incompatíveis com a finalidade educacional e, por isso, vedadas.
+A classificação funciona como régua de governança . Quanto maior o impacto sobre a trajetória do estudante, maior a exigência de supervisão humana e de proteção de dados.
+O que fica vedado?
+Entre as práticas vedadas estão a correção exclusivamente automatizada de redações e outras produções autorais, o uso isolado de detectores de texto para punir alunos, os sistemas de pontuação social e o reconhecimento automatizado de emoções de estudantes e profissionais.
+Também ficam fora a vigilância biométrica contínua e o uso de dados de crianças e adolescentes para publicidade direcionada.
+Educação Infantil e anos iniciais: acesso mediado
+Para as crianças menores, o texto veda o acesso direto, autônomo ou não supervisionado a ferramentas de IA generativa ou conversacional na Educação Infantil e nos anos iniciais do Ensino Fundamental. O uso nessas etapas deve ocorrer em atividades planejadas e mediadas por professores.
+A regra atinge o desenho de tarefas, de plataformas e da comunicação com as famílias. Nesse sentido, vale revisar quais recursos digitais os pequenos acessam e quem acompanha esse uso.
+Nessas etapas, o SAS Educação organiza o percurso em torno da aprendizagem progressiva no Ensino Infantil e da formação integral no Ensino Fundamental , e as soluções digitais entram como complemento planejado do material didático.
+O que muda na rotina da escola?
+As diretrizes tocam quatro frentes da gestão. Em cada uma, o caminho começa por decisões simples, que a escola controla e que não dependem de uma ferramenta específica.
+Avaliação e correção de produções
+Toda ferramenta que influencia nota, progressão ou certificação passa a pedir supervisão humana . Isso vale para redações corrigidas por software, para provas dissertativas e para detectores de texto usados como prova de autoria.
+Um bom ponto de partida é separar o que a ferramenta sugere do que o professor decide . O sistema de avaliação do SAS Educação, por exemplo, gera dados de diagnóstico para direcionar a estratégia pedagógica, e a leitura desses dados fica com a coordenação.
+No Ensino Médio, o Observatório Enem mostra o desempenho da escola em cada competência da prova e apoia decisões com base em evidência.
+Governança, proteção de dados e relação com as famílias
+Escolas e redes deverão estabelecer regras internas de governança, segurança e proteção de dados . Na prática, isso começa por um inventário: quais ferramentas com IA estão em uso, quem as autorizou, quais dados cada uma coleta e se existe consentimento dos responsáveis.
+A LGPD já exige consentimento específico de ao menos um responsável para tratar dados de crianças, e o ECA Digital reforça a proteção desse público no ambiente digital.
+Na escolha de fornecedores , é interessante perguntar que dados cada plataforma coleta, para quê e onde ficam armazenados, já que as diretrizes vedam a exploração comercial de dados educacionais.
+O inventário também alimenta a conversa com as famílias . Um comunicado simples, que explique o que a escola usa, para quê e com quais limites, reduz ruídos e reforça a imagem de uma instituição que conhece o próprio ambiente digital.
+Currículo e letramento digital
+As diretrizes pedem que as instituições incorporem aos currículos temas como o funcionamento dos sistemas de IA , o tratamento de dados , a identificação de desinformação , os vieses algorítmicos e a ética digital.
+O tema conversa com a competência geral de cultura digital da BNCC , que orienta o uso crítico e criativo de tecnologias.
+Esse trabalho não exige uma disciplina nova. O pensamento computacional e as atividades de análise de fontes cabem em componentes que a escola já oferece, e os mapas de foco da BNCC ajudam a decidir em que bimestre cada tema entra.
+A progressão por etapa ajuda a organizar o trabalho. Nos anos iniciais, o letramento pode partir de conversas sobre como reconhecer uma informação confiável. Já no Ensino Médio, ganham espaço a checagem de fontes e a discussão sobre autoria. O professor conduz, e a escola registra o planejamento no projeto pedagógico.
+Formação de professores
+O texto prevê formação continuada para os profissionais da educação, com foco no uso pedagógico das tecnologias, na análise de dados educacionais e na avaliação ética das ferramentas. O estudo do Cetic.br mostra que os professores querem essa formação , mas citam falta de tempo, de infraestrutura e de apoio institucional como obstáculos.
+Para o mantenedor, a formação é o ponto em que a regra vira prática. A Formação Continuada SAS Educação (FOCOS) apoia a gestão para que os professores aperfeiçoem a prática, com cursos adaptáveis à rotina e certificação pela participação. Um calendário de formação sobre IA, desenhado com a coordenação, é uma boa solução para evitar que o tema dependa de um único professor entusiasmado.
+Como o SAS Educação apoia a escola nesse cenário?
+O SAS Educação nasceu dentro de uma escola, o Colégio Ari de Sá Cavalcante, em Fortaleza, e trata a tecnologia como aliada do ensino , sem tirar o professor do centro.
+Na área de Inovação e Tecnologia das soluções da marca, o sistema descreve o uso de IA para apoiar o gestor e a rotina docente , com recursos que ajudam a criar planos de aula a partir das lacunas de aprendizagem, desenvolver questões e atividades autorais, além de adaptar materiais para a inclusão.
+Esses usos são de apoio ao planejamento e à acessibilidade , e a decisão pedagógica fica com o educador. Essa lógica conversa com a ênfase das diretrizes na supervisão humana, e o conteúdo do SAS Educação sobre IA na gestão escolar aprofunda o equilíbrio entre dados e a leitura de quem conhece a escola por dentro.
+Três frentes ajudam o mantenedor a transformar a diretriz em rotina. A primeira é a cultura de dados , com avaliações diagnósticas e sistemáticas que mostram onde agir. A segunda é a formação docente , com o já mencionado FOCOS.
+A terceira frente é a consultoria pedagógica , em que especialistas acompanham a gestão do planejamento à leitura dos resultados e ajudam a converter diretrizes em plano de ação, com responsáveis e prazos.
+Para trocar experiências com outras lideranças, o Fórum de Mantenedores reúne gestores que buscam transformar desafios em oportunidades.
+Plano de 90 dias para o mantenedor
+Sem esperar a homologação, a gestão pode avançar em quatro passos que cabem em um trimestre:
+Mapeie o uso real: Liste as ferramentas com IA usadas por professores, alunos e equipe administrativa, com finalidade, dados coletados e responsável.
+Classifique por risco: Use os quatro níveis do texto como régua e dê atenção às ferramentas que tocam avaliação, perfil de aluno ou dados sensíveis.
+Escreva a política interna: Defina o que é permitido em cada etapa, como o uso será declarado em trabalhos e quem decide os casos duvidosos. Comunique o resultado às famílias.
+Forme a equipe e meça: Programe a formação, acompanhe o uso a cada bimestre e revise a política conforme a homologação e as atualizações do CNE, que prevê revisão das diretrizes a cada dois anos.
+Os conteúdos do SAS Educação sobre por onde a gestão deve começar com IA e sobre como medir o impacto da IA na educação complementam esse plano.
+IA na educação: o caminho da escola daqui para frente
+As diretrizes do CNE não pedem que a escola recuse a tecnologia. Pedem que ela decida como, onde e com que supervisão a IA entra na rotina.
+Para o mantenedor, isso significa política interna, dados protegidos, professores formados e avaliação com palavra final humana. Quem organiza esse caminho agora chega à homologação com mais tranquilidade e com um argumento sólido diante das famílias.
+O SAS Educação acompanha as escolas parceiras com conteúdo forte, cultura de dados, formação docente e consultoria pedagógica . Com isso em mente, que tal transformar as diretrizes da sua escola em um plano de ação eficaz? Fale com um consultor SAS Educação e descubra por onde começar.
+Perguntas frequentes sobre IA na educação
+As diretrizes do CNE para IA já estão em vigor?
+Ainda não. O parecer foi aprovado em 1º de setembro de 2026 e segue para homologação do MEC , que dá força normativa ao texto . O documento prevê 12 meses para a adequação dos sistemas de ensino , e o texto aprovado indica aplicação imediata das vedações a práticas nocivas.
+A escola pode usar IA para corrigir redações?
+A correção exclusivamente automatizada de redações e outras produções autorais está vedada. A ferramenta pode apoiar o professor, mas a decisão sobre nota e avaliação continua humana. Detectores de texto também não podem servir isoladamente como base para punição.
+Alunos pequenos podem usar IA na escola?
+Na Educação Infantil e nos anos iniciais do Ensino Fundamental, o acesso direto, autônomo ou não supervisionado a IA generativa ou conversacional é vedado. O uso só cabe em atividades planejadas e mediadas pelo professor.
+Avalie
+Compartilhe
+Deixe seu comentário
+Nome
+Email
+Comentário
+Quero receber a newsletter
+Posts relacionados
+Gestão escolar
+16 de Outubro, 2026
+Tendências educacionais 2027: o que o gestor deve priorizar?
+Ensino Médio | Gestão escolar
+15 de Outubro, 2026
+Microdados Enem: o que o ranking não mostra sobre o desempenho da escola
+Gestão escolar
+07 de Outubro, 2026
+Cursinho militar: o que é, quando vale a pena e como a escola pode orientar o aluno
+Faça sua pesquisa
+Pesquisar
+Sobre nós
+Carreiras
+Nossas Soluções
+Portal SAS Educação
+SAS Educação na Mídia
+Imprensa
+Participação em Eventos
+Fórum de Mantenedores
+Escolas que Inspiram
+Redes Sociais
+Facebook
+Youtube
+Instagram
+Linkedin
+X
+Assine a nossa newsletter
+Código de Ética e Conduta para Terceiros
+Canal de Ética
+Política de Privacidade
+Política de Privacidade para Crianças e Adolescentes
+© Todos os direitos reservados – SAS Educação

@@ -1,0 +1,535 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-field: var(--field);
+  --color-field-foreground: var(--field-foreground);
+  --color-brand: var(--brand);
+  --color-tint: var(--tint);
+  --color-sky: var(--sky);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/*
+  Dask brand mapped onto shadcn roles.
+  ground  #F4F8F8  cool paper
+  ink     #0E2944  deep navy (from the brand navy #183E6D)
+  muted   #344D68
+  accent  #54D4BF  the logo teal, used on the action
+  field   #183E6D  brand navy, footer field
+*/
+:root {
+  --background: #f4f8f8;
+  --foreground: #0e2944;
+  --card: #e7efef;
+  --card-foreground: #0e2944;
+  --popover: #ffffff;
+  --popover-foreground: #0e2944;
+  --primary: #54d4bf;
+  --primary-foreground: #0e2944;
+  --secondary: #e7efef;
+  --secondary-foreground: #0e2944;
+  --muted: #e7efef;
+  --muted-foreground: #344d68;
+  --accent: #dcebea;
+  --accent-foreground: #0e2944;
+  --destructive: #c2364b;
+  --border: #c9d8dc;
+  --input: #b7c9ce;
+  --ring: #196ca0;
+  --brand: #54d4bf;
+  --field: #183e6d;
+  --field-foreground: #f4f8f8;
+  --tint: #dcf3ee;
+  --sky: #196ca0;
+  --radius: 0.875rem;
+
+  --margin: clamp(16px, 2.2vw, 32px);
+  --section-gap: clamp(80px, 9vw, 140px);
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.25rem, 1.3rem + 3.6vw, 4.5rem);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 24px;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: var(--step-body);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--brand);
+    color: var(--foreground);
+  }
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+  }
+  img {
+    max-width: 100%;
+  }
+  body {
+    overflow-x: clip;
+  }
+  a,
+  button,
+  [role="combobox"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--brand) 30%, transparent);
+  }
+}
+
+/* ---------- frame ---------- */
+.frame {
+  padding-inline: var(--margin);
+}
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(12px, 1.6vw, 24px);
+}
+.display {
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+.head {
+  font-size: var(--step-head);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.small {
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: text-decoration-color 160ms ease;
+}
+.link:hover {
+  text-decoration-color: currentColor;
+}
+.media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- about: portrait as drop cap ---------- */
+.dropcap-portrait {
+  float: left;
+  width: 3.6em;
+  height: 3.6em;
+  margin: 0.2em 0.5em 0 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.dropcap-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 640px) {
+  .dropcap-portrait {
+    width: 4.8em;
+    height: 4.8em;
+  }
+}
+
+/* ---------- showcase: one frame, three distances ---------- */
+.showcase {
+  height: 210vh;
+  position: relative;
+}
+.showcase-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.showcase-frame {
+  width: min(48vw, 760px);
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+.showcase-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out);
+}
+.showcase-caption {
+  transition:
+    opacity 500ms ease,
+    transform 500ms var(--ease-out);
+}
+.showcase-second {
+  transition:
+    opacity 600ms ease,
+    transform 600ms var(--ease-out);
+}
+@media (max-width: 768px) {
+  /* on a phone the run is not pinned: the frame and both halves read in order */
+  .showcase {
+    height: auto;
+  }
+  .showcase-stage {
+    position: static;
+    height: auto;
+  }
+  .showcase-frame {
+    width: 100%;
+  }
+  .showcase-second,
+  .showcase-caption {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- gallery: prints dropped on the headline ---------- */
+.prints {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.print {
+  position: absolute;
+  border: 8px solid var(--background);
+  border-radius: 4px;
+  overflow: hidden;
+  transition:
+    rotate 220ms var(--ease-out),
+    scale 220ms var(--ease-out),
+    opacity 700ms ease,
+    transform 800ms var(--ease-out);
+  transition-delay: 0ms, 0ms, var(--d, 0ms), var(--d, 0ms);
+  z-index: 2;
+}
+.print img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.print:hover {
+  rotate: 0deg;
+  scale: 1.03;
+  z-index: 5;
+}
+
+/* ---------- proof: names as one sentence ---------- */
+/* the sentence stays pinned while the section scrolls by; each stretch lights the next name */
+.conquistas {
+  height: 210vh;
+  position: relative;
+}
+.conquistas-palco {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 48px;
+}
+.names span[data-name] {
+  color: color-mix(in srgb, var(--field-foreground) 38%, var(--field));
+  transition: color 350ms ease;
+}
+.names span[data-name][data-lit] {
+  color: var(--field-foreground);
+}
+.names span[data-name][data-now] {
+  color: var(--brand);
+}
+@media (max-width: 768px) {
+  .conquistas {
+    height: 190vh;
+  }
+}
+
+/* ---------- cinematic opening: scroll drives the drone flight ---------- */
+.cine {
+  position: relative;
+  height: 420svh; /* overwritten by the script from lib/hero-cinematico.ts */
+  background: var(--field);
+}
+.cine[data-modo="estatico"] {
+  height: 100svh;
+}
+.cine-palco {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.cine-poster,
+.cine-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cine-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cine-poster {
+  transition: opacity 400ms ease;
+}
+.cine-poster[data-oculto] {
+  opacity: 0;
+}
+/* neutral scrim: dark at the bottom where the text sits, light at the top
+   behind the header; the only gradient on the page, and only under text */
+.cine-veu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(8 22 40 / 0.55), rgb(8 22 40 / 0) 22%),
+    linear-gradient(to top, rgb(8 22 40 / 0.78), rgb(8 22 40 / 0.25) 55%, rgb(8 22 40 / 0) 80%);
+}
+.cine-textos {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+}
+.cine-bloco {
+  position: absolute;
+  left: var(--margin);
+  right: var(--margin);
+  bottom: clamp(56px, 9svh, 112px);
+  will-change: opacity, transform;
+  text-shadow: 0 1px 24px rgb(8 22 40 / 0.35);
+}
+/* before the script runs only the opening text shows */
+.cine-bloco:not(:first-child) {
+  opacity: 0;
+  visibility: hidden;
+}
+.cine-dica {
+  position: absolute;
+  z-index: 10;
+  right: var(--margin);
+  bottom: clamp(56px, 9svh, 112px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: var(--step-small);
+  font-weight: 600;
+  writing-mode: vertical-rl;
+}
+.cine-dica-linha {
+  width: 2px;
+  height: 56px;
+  background: rgb(255 255 255 / 0.35);
+  position: relative;
+  overflow: hidden;
+}
+.cine-dica-linha::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  animation: dica 1.6s var(--ease-out) infinite;
+}
+@keyframes dica {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+.cine-progresso {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: rgb(255 255 255 / 0.15);
+}
+.cine-progresso > div {
+  height: 100%;
+  background: var(--brand);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+@media (max-width: 767px) {
+  .cine-dica {
+    display: none;
+  }
+}
+
+/* ---------- photo strip ---------- */
+.faixa {
+  overflow: hidden;
+  padding-block: 4px;
+}
+.faixa-trilho {
+  display: flex;
+  gap: clamp(10px, 1.2vw, 18px);
+  width: max-content;
+  animation: faixa 60s linear infinite;
+}
+.faixa-trilho[data-reverso] {
+  animation-direction: reverse;
+}
+.faixa:hover .faixa-trilho {
+  animation-play-state: paused;
+}
+.faixa-trilho li {
+  width: clamp(220px, 24vw, 380px);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex: none;
+}
+.faixa-trilho img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@keyframes faixa {
+  to {
+    transform: translateX(calc(-50% - clamp(5px, 0.6vw, 9px)));
+  }
+}
+
+/* ---------- logo chips (partner brands keep their own colours) ---------- */
+.logo-chip {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 14px 20px;
+}
+
+/* ---------- slow drift on the contact photo ---------- */
+@keyframes drift {
+  from {
+    transform: scale(1.04) translate(-1%, 0);
+  }
+  to {
+    transform: scale(1.1) translate(1%, -1%);
+  }
+}
+.drift img {
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+/* ---------- section entrances (only when JS is running) ---------- */
+html.js-motion [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+html.js-motion [data-reveal] {
+  transition:
+    opacity 700ms ease,
+    transform 800ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+/* ---------- controls ---------- */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--foreground);
+  font-weight: 600;
+  padding: 0.85em 1.4em;
+  line-height: 1;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 160ms ease;
+}
+.btn-action:hover {
+  background: color-mix(in srgb, var(--brand) 82%, var(--foreground));
+}
+.btn-action:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js-motion [data-reveal]:not([data-shown]) {
+    opacity: 1;
+    transform: none;
+  }
+}
