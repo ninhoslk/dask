@@ -18,7 +18,6 @@ type Linha = {
   conteudo: string
   imagem: string | null
   miniatura: string | null
-  url_original: string | null
 }
 
 const doBanco = (l: Linha): Noticia => ({
@@ -30,7 +29,7 @@ const doBanco = (l: Linha): Noticia => ({
   conteudo: l.conteudo,
   imagem: l.imagem,
   miniatura: l.miniatura,
-  urlOriginal: l.url_original,
+  urlOriginal: null,
 })
 
 // Sem banco (build local, Supabase fora do ar), as notícias importadas do
@@ -47,7 +46,7 @@ const doArquivo: Noticia[] = todas.map((n) => ({
   urlOriginal: n.url,
 }))
 
-const colunas = "slug,titulo,data,categoria,resumo,conteudo,imagem,miniatura,url_original"
+const colunas = "slug,titulo,data,categoria,resumo,conteudo,imagem,miniatura"
 
 export async function listarNoticias(): Promise<Noticia[]> {
   const sb = clientePublico()

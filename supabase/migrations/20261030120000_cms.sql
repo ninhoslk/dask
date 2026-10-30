@@ -112,6 +112,33 @@ create policy "admin lê versões" on public.versoes
 create policy "admin grava versões" on public.versoes
   for insert to authenticated with check ((select public.eh_admin()));
 
+alter table public.versoes alter column conteudo set compression lz4;
+
+-- Espaço do banco é limitado: guarda só as 20 últimas publicações por página
+-- e a auditoria dos últimos 180 dias (no máximo 2000 linhas).
+create or replace function public.podar_historico()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if tg_table_name = 'versoes' then
+    delete from public.versoes v
+    where v.pagina = new.pagina
+      and v.id not in (
+        select id from public.versoes where pagina = new.pagina order by criado_em desc, id desc limit 20
+      );
+  else
+    delete from public.auditoria a
+    where a.criado_em < now() - interval '180 days'
+       or a.id <= (select max(id) - 2000 from public.auditoria);
+  end if;
+  return null;
+end;
+$$;
+revoke all on function public.podar_historico() from public;
+
 -- limite de tamanho do documento (defesa contra abuso)
 alter table public.paginas add constraint paginas_tamanho check (pg_column_size(conteudo) < 1000000);
 alter table public.rascunhos add constraint rascunhos_tamanho check (pg_column_size(conteudo) < 1000000);
@@ -126,15 +153,13 @@ create table public.noticias (
   resumo text not null default '' check (length(resumo) <= 2000),
   conteudo text not null default '' check (length(conteudo) <= 200000),
   imagem text check (imagem is null or imagem ~ '^https://'),
-  imagem_w int,
-  imagem_h int,
   miniatura text check (miniatura is null or miniatura ~ '^https://'),
-  url_original text,
   publicado boolean not null default true,
-  destaque boolean not null default false,
   criado_em timestamptz not null default now(),
   atualizado_em timestamptz not null default now()
 );
+-- o texto das notícias é o que mais ocupa: lz4 comprime melhor e mais rápido
+alter table public.noticias alter column conteudo set compression lz4;
 create index noticias_data_idx on public.noticias (data desc) where publicado;
 alter table public.noticias enable row level security;
 create policy "todos leem notícias publicadas" on public.noticias
@@ -183,6 +208,13 @@ create trigger paginas_atualizado before update on public.paginas
   for each row execute function public.tocar_atualizado_em();
 create trigger rascunhos_atualizado before update on public.rascunhos
   for each row execute function public.tocar_atualizado_em();
+create trigger versoes_podar after insert on public.versoes
+  for each row execute function public.podar_historico();
+create trigger auditoria_podar after insert on public.auditoria
+  for each row execute function public.podar_historico();
+
+-- defesa extra: o público nunca escreve, mesmo que uma política futura erre
+revoke insert, update, delete, truncate on all tables in schema public from anon;
 
 insert into public.paginas (id) values ('home');
 insert into public.rascunhos (id) values ('home');

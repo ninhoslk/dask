@@ -451,9 +451,9 @@
     "semantic_hash": ""
   },
   "site/components/admin/seletor-imagem.tsx": {
-    "mtime": 1793384977.925131,
-    "seen": 1793385611.0847957,
-    "ast_hash": "2abfbfe32c6b0226b2356558a885429c",
+    "mtime": 1793398290.4184885,
+    "seen": 1793398976.5801642,
+    "ast_hash": "2a9740d02d11f5abee0f22dcadc5afdb",
     "semantic_hash": ""
   },
   "site/components/admin/tabela-noticias.tsx": {
@@ -607,9 +607,9 @@
     "semantic_hash": ""
   },
   "site/lib/noticias.ts": {
-    "mtime": 1793384624.1289759,
-    "seen": 1793385611.0889099,
-    "ast_hash": "c62d7897ac540652da8b84a7509e1cff",
+    "mtime": 1793398293.6051874,
+    "seen": 1793398976.5968819,
+    "ast_hash": "f8b14f41a952e53957724a60bf95f2d6",
     "semantic_hash": ""
   },
   "site/lib/rolagem.ts": {
@@ -649,9 +649,15 @@
     "semantic_hash": ""
   },
   "docs/PAINEL.md": {
-    "mtime": 1793385535.4032073,
-    "seen": 1793385611.092268,
-    "ast_hash": "145072ef1191a5ba98cb1dc1afff3960",
+    "mtime": 1793398955.619491,
+    "seen": 1793398976.603922,
+    "ast_hash": "d9aac9a54609ef3203fe3e8278a9ce83",
+    "semantic_hash": ""
+  },
+  "scripts/semear-noticias.mjs": {
+    "mtime": 1793398397.1670256,
+    "seen": 1793398976.571092,
+    "ast_hash": "a8c6130544e7b76c028838a93d5d8e2f",
     "semantic_hash": ""
   },
   "site/package-lock.json": {

@@ -30,9 +30,26 @@ cabeçalho, contatos e telefones continuam em `site/lib/site.ts`.
 
 ## Banco (Supabase)
 
-Migração em [`supabase/migrations/`](../supabase/migrations). Tabelas: `admins`,
+Projeto Supabase **"Dask Site"** (`ijtczqufmwyulchjwbmb`, us-east-1). Migrações em
+[`supabase/migrations/`](../supabase/migrations), já aplicadas. Tabelas: `admins`,
 `paginas` (publicada, leitura pública), `rascunhos` (só painel), `versoes`,
-`noticias`, `tour360`, `auditoria`; bucket `midia`.
+`noticias`, `tour360`, `auditoria`; bucket `midia`. As funções de permissão
+ficam no schema `privado`, fora da API.
+
+As 265 notícias do blog foram copiadas com `scripts/semear-noticias.mjs`, que
+entra com uma conta do painel (pode rodar de novo; atualiza pelo slug).
+
+### Economia de espaço
+
+O plano grátis tem 500 MB de banco e 1 GB de arquivos. Hoje o banco usa ~12 MB
+(quase tudo é o próprio Supabase; as 265 notícias ocupam ~0,5 MB).
+
+- A página guarda só o que mudou em relação ao texto padrão (centenas de bytes).
+- Fotos das notícias antigas continuam no site do colégio (só o endereço vai ao banco).
+- Texto das notícias e versões com compressão `lz4`.
+- Histórico: só as **20 últimas publicações**; auditoria: **180 dias / 2000 linhas**.
+- Fotos enviadas pelo painel são reduzidas no navegador (lado maior 2000px, WebP)
+  antes de subir.
 
 Variáveis (Vercel e `site/.env.local`, que **não** vai para o Git):
 
@@ -75,3 +92,22 @@ select id, 'Nome da pessoa', 'editor' from auth.users where email = 'pessoa@cole
 Recomendado no painel do Supabase: desligar cadastro público (*Auth → Sign In
 / Providers → Allow new users to sign up*), ligar proteção contra senhas
 vazadas e MFA.
+
+Existe uma conta de teste `admin.teste@dask.test` (senha só no arquivo local
+`.login-teste.local.txt`, fora do Git). Apague antes de entregar à escola:
+`delete from auth.users where email = 'admin.teste@dask.test';`
+
+## Testes de segurança (30/10/2026)
+
+Rodados contra o banco real: visitante (anon) não lê rascunho, histórico,
+equipe nem auditoria e não escreve em nada; conta logada **fora** da equipe
+idem (não se promove a admin, não envia arquivo); funções de permissão não
+são chamáveis pela API; bucket recusa SVG e envio sem login; slug, imagem e
+tour só aceitam formatos válidos/https; HTML com `<script>`, `onerror` e
+`javascript:` sai limpo; senha errada dá mensagem genérica e a 6ª tentativa
+em 10 min é bloqueada; `/admin` sem sessão redireciona ao login. Advisors do
+Supabase: sem alertas de segurança além da proteção de senha vazada (opção
+do painel do Supabase).
+
+O freio de tentativas do site é por instância do servidor; o Supabase Auth
+tem o próprio limite por IP por trás.

@@ -32,6 +32,28 @@ const doSite: Imagem[] = (() => {
 
 export const urlPublica = (nome: string) => `${supabaseUrl}/storage/v1/object/public/midia/${nome}`
 
+const LADO = 2000
+
+// O armazenamento é limitado: antes de enviar, a foto é reduzida (lado maior
+// até 2000px) e regravada em WebP. Uma foto de celular de 5 MB vira ~400 KB.
+// GIF fica como está (animação); se a versão nova não for menor, vai a original.
+async function comprimir(arquivo: File): Promise<Blob> {
+  if (arquivo.type === "image/gif") return arquivo
+  try {
+    const bmp = await createImageBitmap(arquivo)
+    const escala = Math.min(1, LADO / Math.max(bmp.width, bmp.height))
+    const canvas = document.createElement("canvas")
+    canvas.width = Math.round(bmp.width * escala)
+    canvas.height = Math.round(bmp.height * escala)
+    canvas.getContext("2d")!.drawImage(bmp, 0, 0, canvas.width, canvas.height)
+    bmp.close()
+    const webp = await new Promise<Blob | null>((ok) => canvas.toBlob(ok, "image/webp", 0.82))
+    return webp && webp.type === "image/webp" && webp.size < arquivo.size ? webp : arquivo
+  } catch {
+    return arquivo
+  }
+}
+
 /** Envia um arquivo ao bucket "midia" com nome aleatório; devolve a URL pública. */
 export async function enviarImagem(arquivo: File): Promise<string | null> {
   if (!TIPOS.includes(arquivo.type)) {
@@ -42,10 +64,11 @@ export async function enviarImagem(arquivo: File): Promise<string | null> {
     toast.error("A imagem passa de 8 MB. Reduza antes de enviar.")
     return null
   }
-  const ext = arquivo.type.split("/")[1].replace("jpeg", "jpg")
+  const corpo = await comprimir(arquivo)
+  const ext = corpo.type.split("/")[1].replace("jpeg", "jpg")
   const nome = `${crypto.randomUUID()}.${ext}`
-  const { error } = await clienteNavegador().storage.from("midia").upload(nome, arquivo, {
-    contentType: arquivo.type,
+  const { error } = await clienteNavegador().storage.from("midia").upload(nome, corpo, {
+    contentType: corpo.type,
     cacheControl: "31536000",
     upsert: false,
   })
