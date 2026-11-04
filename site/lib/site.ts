@@ -6,12 +6,12 @@ export const contato = {
   whatsapp: "(18) 99781-5960",
   whatsappNumero: "5518997815960",
   email: "secretaria@colegiodask.com.br",
-  endereco: "R. Aristides Zanoni, s/n – Jardim América",
+  endereco: "R. Venezuela, 220 – Jardim América",
   cidade: "Dracena-SP",
-  cep: "17911-262",
+  cep: "17900-000",
   mapa: "https://www.google.com/maps/search/?api=1&query=Col%C3%A9gio+Dask+Dracena+SP",
   mapaEmbed:
-    "https://www.google.com/maps?q=Col%C3%A9gio+Dask,+R.+Aristides+Zanoni,+Dracena+-+SP&z=16&output=embed",
+    "https://www.google.com/maps?q=Col%C3%A9gio+Dask,+R.+Venezuela,+220,+Jardim+Am%C3%A9rica,+Dracena+-+SP&z=16&output=embed",
   instagram: "https://www.instagram.com/colegiodask/",
   facebook: "https://www.facebook.com/colegiodask",
   // eduxego é o app de alunos e famílias; eduxe (Eduxe Class) é o diário de classe do professor.

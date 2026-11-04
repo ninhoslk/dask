@@ -393,6 +393,18 @@ html.lenis {
   will-change: opacity, transform;
   text-shadow: 0 1px 24px rgb(8 22 40 / 0.35);
 }
+/* Títulos da abertura: o tamanho de sempre (clamp), reduzido só quando preciso
+   para que a linha mais longa do texto padrão caiba na largura útil (≤ 2 linhas).
+   O divisor é a largura da linha mais longa em em (medida com a Schibsted 800). */
+.cine-titulo-1 {
+  font-size: min(clamp(52px, 10vw, 176px), calc((100vw - 2 * var(--margin)) / 8.3));
+}
+.cine-titulo-2 {
+  font-size: min(clamp(40px, 6.4vw, 112px), calc((100vw - 2 * var(--margin)) / 11.6));
+}
+.cine-titulo-3 {
+  font-size: min(clamp(44px, 7.4vw, 128px), calc((100vw - 2 * var(--margin)) / 5.8));
+}
 /* before the script runs only the opening text shows */
 .cine-bloco:not(:first-child) {
   opacity: 0;

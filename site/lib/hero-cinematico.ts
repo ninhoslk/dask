@@ -31,6 +31,15 @@ export const larguraMobile = 768
  */
 export const alturaSecao = { desktop: 420, mobile: 320 }
 
+/**
+ * Quantos frames ficam decodificados de cada lado do frame atual. Fora dessa
+ * janela o frame é liberado da memória e baixado de novo (do cache HTTP) se
+ * o visitante voltar. Cada frame decodificado ocupa largura × altura × 4 bytes:
+ * desktop 61 × 1440×810 ≈ 285 MB (antes 190 ≈ 890 MB); celular 33 × 720×1278
+ * ≈ 120 MB (antes 95 ≈ 350 MB).
+ */
+export const janelaFrames = { desktop: 30, mobile: 16 }
+
 /** frames carregados em paralelo */
 export const carregamentoParalelo = 6
 

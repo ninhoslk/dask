@@ -8,6 +8,7 @@ import {
   blocos,
   carregamentoParalelo,
   duracaoTransicao,
+  janelaFrames,
   larguraMobile,
   sequencias,
   type SequenciaFrames,
@@ -39,11 +40,35 @@ function visibilidade(p: number, entra: number, sai: number) {
   return Math.min(dentro, fora)
 }
 
+// Um frame decodificado. ImageBitmap fica pronto para desenhar e pode ser
+// liberado na hora com close(); sem suporte, cai para HTMLImageElement.
+type Frame = ImageBitmap | HTMLImageElement
+
+const larguraDe = (f: Frame) => ("naturalWidth" in f ? f.naturalWidth : f.width)
+const alturaDe = (f: Frame) => ("naturalHeight" in f ? f.naturalHeight : f.height)
+const liberar = (f: Frame) => {
+  if ("close" in f) f.close()
+}
+
+/** baixa e decodifica um frame; o cache HTTP torna a segunda vez quase grátis */
+async function carregarFrame(url: string): Promise<Frame> {
+  if (typeof createImageBitmap === "function") {
+    const resposta = await fetch(url)
+    if (!resposta.ok) throw new Error(String(resposta.status))
+    return createImageBitmap(await resposta.blob())
+  }
+  const img = new Image()
+  img.decoding = "async"
+  img.src = url
+  await img.decode()
+  return img
+}
+
 /** desenha a imagem cobrindo o canvas inteiro, sem distorcer (object-fit: cover) */
-function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: number, h: number) {
-  const escala = Math.max(w / img.naturalWidth, h / img.naturalHeight)
-  const dw = img.naturalWidth * escala
-  const dh = img.naturalHeight * escala
+function desenharCover(ctx: CanvasRenderingContext2D, img: Frame, w: number, h: number) {
+  const escala = Math.max(w / larguraDe(img), h / alturaDe(img))
+  const dw = larguraDe(img) * escala
+  const dh = alturaDe(img) * escala
   ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh)
 }
 
@@ -71,7 +96,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
     if (!secao || !canvas || !ctx) return
 
     let seq: SequenciaFrames = sequencias.desktop
-    let frames: (HTMLImageElement | null)[] = []
+    let frames: (Frame | null)[] = []
     let estado: ("vazio" | "carregando" | "ok" | "erro")[] = []
     let emVoo = 0
     let alvo = 0
@@ -82,19 +107,40 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
     const escolherSequencia = () =>
       window.innerWidth < larguraMobile ? sequencias.mobile : sequencias.desktop
 
+    const mobile = () => window.innerWidth < larguraMobile
+    const janela = () => (mobile() ? janelaFrames.mobile : janelaFrames.desktop)
+
+    const liberarTodos = () => {
+      frames.forEach((f) => f && liberar(f))
+    }
+
     const iniciarSequencia = (nova: SequenciaFrames) => {
+      liberarTodos()
       seq = nova
       frames = new Array(seq.quantidade).fill(null)
       estado = new Array(seq.quantidade).fill("vazio")
       desenhado = -1
-      secao.style.height = `${window.innerWidth < larguraMobile ? alturaSecao.mobile : alturaSecao.desktop}svh`
+      secao.style.height = `${mobile() ? alturaSecao.mobile : alturaSecao.desktop}svh`
     }
 
     const url = (i: number) => `${seq.pasta}/${String(i).padStart(3, "0")}.webp`
 
-    // carrega primeiro o frame alvo e seus vizinhos, depois o resto em ondas
+    // Mantém decodificados só os frames perto do alvo: 190 imagens de
+    // 1440×810 (ou 95 de 720×1278 no celular) somariam centenas de MB.
+    const descartarForaDaJanela = () => {
+      const j = janela()
+      frames.forEach((f, i) => {
+        if (f && Math.abs(i - alvo) > j && i !== desenhado) {
+          liberar(f)
+          frames[i] = null
+          estado[i] = "vazio"
+        }
+      })
+    }
+
+    // carrega primeiro o frame alvo e seus vizinhos, em ondas até a borda da janela
     const proximoParaCarregar = () => {
-      for (let r = 0; r < seq.quantidade; r++) {
+      for (let r = 0; r <= janela(); r++) {
         for (const i of [alvo + r, alvo - r]) {
           if (i >= 0 && i < seq.quantidade && estado[i] === "vazio") return i
         }
@@ -106,29 +152,33 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
       while (ativo && emVoo < carregamentoParalelo) {
         const i = proximoParaCarregar()
         if (i < 0) return
-        const img = new Image()
-        img.decoding = "async"
         estado[i] = "carregando"
         emVoo++
         const sequenciaDaVez = seq
-        img.onload = () => {
-          emVoo--
-          if (sequenciaDaVez !== seq) return bombear()
-          frames[i] = img
-          estado[i] = "ok"
-          if (i === 0) setPrimeiroFrame(true)
-          // redesenha se este frame está mais perto do alvo do que o atual
-          if (Math.abs(i - alvo) < Math.abs(desenhado - alvo) || desenhado < 0) agendar()
-          bombear()
-        }
-        img.onerror = () => {
-          emVoo--
-          // se nenhum frame carregar, o poster continua visível e os textos
-          // seguem animando pelo scroll normalmente
-          estado[i] = "erro"
-          bombear()
-        }
-        img.src = url(i)
+        carregarFrame(url(i)).then(
+          (frame) => {
+            emVoo--
+            if (!ativo || sequenciaDaVez !== seq) {
+              liberar(frame)
+              return bombear()
+            }
+            frames[i] = frame
+            estado[i] = "ok"
+            // qualquer frame serve: com a janela, quem abre a página no meio
+            // da abertura pode nunca carregar o frame 0
+            setPrimeiroFrame(true)
+            // redesenha se este frame está mais perto do alvo do que o atual
+            if (Math.abs(i - alvo) < Math.abs(desenhado - alvo) || desenhado < 0) agendar()
+            bombear()
+          },
+          () => {
+            emVoo--
+            // se nenhum frame carregar, o poster continua visível e os textos
+            // seguem animando pelo scroll normalmente
+            if (sequenciaDaVez === seq) estado[i] = "erro"
+            bombear()
+          }
+        )
       }
     }
 
@@ -180,6 +230,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
       if (barraRef.current) barraRef.current.style.transform = `scaleX(${p})`
       if (dicaRef.current) dicaRef.current.style.opacity = String(clamp(1 - p / 0.04))
 
+      descartarForaDaJanela()
       bombear()
     }
 
@@ -204,6 +255,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
     return () => {
       ativo = false
       cancelAnimationFrame(raf)
+      liberarTodos()
       window.removeEventListener("scroll", agendar)
       window.removeEventListener("resize", aoRedimensionar)
       secao.style.height = ""
@@ -243,7 +295,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             }}
             className="cine-bloco"
           >
-            <h1 id="hero-title" className="display text-[clamp(52px,10vw,176px)] text-white">
+            <h1 id="hero-title" className="display cine-titulo-1 text-white">
               <Linhas texto={txt(c, "titulo1")} />
             </h1>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
@@ -268,7 +320,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             className="cine-bloco"
             style={estatico ? { display: "none" } : undefined}
           >
-            <p className="display text-[clamp(40px,6.4vw,112px)] text-white">
+            <p className="display cine-titulo-2 text-white">
               <Linhas texto={txt(c, "titulo2")} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
@@ -283,7 +335,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             className="cine-bloco"
             style={estatico ? { display: "none" } : undefined}
           >
-            <p className="display text-[clamp(44px,7.4vw,128px)] text-white">
+            <p className="display cine-titulo-3 text-white">
               <Linhas texto={txt(c, "titulo3")} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
