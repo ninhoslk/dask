@@ -403,9 +403,9 @@
     "semantic_hash": ""
   },
   "site/app/tour-360/page.tsx": {
-    "mtime": 1793402948.5542667,
-    "seen": 1793403027.7594328,
-    "ast_hash": "57c9773be613ab68a9b7326e000e0354",
+    "mtime": 1793823681.3710701,
+    "seen": 1793823933.1131725,
+    "ast_hash": "771ef59df987a527e991bb8f23b6875a",
     "semantic_hash": ""
   },
   "site/components/admin/biblioteca-midia.tsx": {
@@ -649,9 +649,9 @@
     "semantic_hash": ""
   },
   "docs/PAINEL.md": {
-    "mtime": 1793398955.619491,
-    "seen": 1793398976.603922,
-    "ast_hash": "d9aac9a54609ef3203fe3e8278a9ce83",
+    "mtime": 1793823856.2686658,
+    "seen": 1793823933.1404567,
+    "ast_hash": "babfa8adeea513467205ff46b0781537",
     "semantic_hash": ""
   },
   "scripts/semear-noticias.mjs": {
@@ -661,9 +661,15 @@
     "semantic_hash": ""
   },
   "site/lib/tour.ts": {
-    "mtime": 1793402930.232578,
-    "seen": 1793403027.7810223,
-    "ast_hash": "713f9af362586d28c77c9962fa858878",
+    "mtime": 1793823744.1614912,
+    "seen": 1793823933.1353922,
+    "ast_hash": "25ca0979c3a7495d7988828ed885fe48",
+    "semantic_hash": ""
+  },
+  "site/components/tour-ao-clicar.tsx": {
+    "mtime": 1793823678.1888478,
+    "seen": 1793823933.124088,
+    "ast_hash": "4b781adccccec281ab8448a7fd4d497a",
     "semantic_hash": ""
   },
   "site/package-lock.json": {

@@ -1,5 +1,17 @@
 import "server-only"
 
+// frame-ancestors aceita "*", "https:" ou origens (com curinga no início do
+// host). Vale se alguma delas cobre o endereço deste site.
+function ancestraisPermitem(lista: string) {
+  const site = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://colegio-dask.vercel.app")
+  return lista.split(/\s+/).some((fonte) => {
+    if (fonte === "*" || fonte === "https:") return true
+    const m = /^(https?):\/\/(\*\.)?([^/:]+)/i.exec(fonte)
+    if (!m || `${m[1]}:` !== site.protocol) return false
+    return m[2] ? site.hostname.endsWith(`.${m[3]}`) : site.hostname === m[3]
+  })
+}
+
 // O site do tour pode proibir que a página apareça dentro de outro site
 // (X-Frame-Options ou CSP frame-ancestors); nesse caso o quadro fica em branco.
 // Sem resposta do site, assume que pode (o navegador decide).
@@ -16,8 +28,7 @@ export async function permiteIncorporar(url: string, cache: RequestCache | { rev
     const xfo = r.headers.get("x-frame-options")?.toLowerCase() ?? ""
     if (xfo.includes("deny") || xfo.includes("sameorigin")) return false
     const ancestrais = /frame-ancestors([^;]*)/i.exec(r.headers.get("content-security-policy") ?? "")?.[1].trim()
-    if (ancestrais && !/(^|\s)(\*|https:)(\s|$)/.test(ancestrais)) return false
-    return true
+    return !ancestrais || ancestraisPermitem(ancestrais)
   } catch {
     return true
   }

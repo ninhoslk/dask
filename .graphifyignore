@@ -5,3 +5,5 @@ referencia/
 site/node_modules/
 site/.next/
 site/.taste-skill/
+# exportação do Panoee (código minificado de terceiros)
+tour/

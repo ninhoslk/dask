@@ -10,7 +10,7 @@ notícias, as fotos e o futuro tour 360°, sem mexer em código.
 | **Editor visual** (`/admin`) | Prévia ao vivo da home (computador, tablet, celular). Clique numa seção na prévia (ou na lista) para editar textos, títulos, fotos e listas; arraste as seções para mudar a ordem; olho para ocultar/mostrar; setas ↑ ↓ e "Ocultar" também na barra que aparece sobre a seção na prévia. Itens de listas (tópicos do SAS, linha do tempo, conquistas, fotos) se arrastam, somam e removem. Desfazer/refazer (Ctrl+Z / Ctrl+Y), "Original" volta um campo ao texto de fábrica, rascunho salvo sozinho, botão **Publicar**, histórico de publicações para voltar a uma versão. |
 | **Notícias** | Criar, editar, despublicar e apagar notícias (as 265 do blog antigo já vêm importadas). |
 | **Mídia** | Enviar fotos (JPG/PNG/WebP/AVIF/GIF, até 8 MB), copiar o endereço, apagar. |
-| **Tour 360°** | Reservado para o tour virtual: cole o endereço de incorporação (Matterport, Kuula…) e ative. A página pública é `/tour-360`. |
+| **Tour 360°** | Endereço do tour (ou o código `<iframe>`) e ativar. Hoje aponta para https://colegio-dask-tour.vercel.app (exportação do Panoee, ver [`tour/README.md`](../tour/README.md)). A página pública `/tour-360` só carrega o tour quando o visitante clica; se o site do tour proibir ser incorporado, mostra um botão para abrir em outra aba. |
 
 O que o editor **não** faz (diferenças honestas em relação ao Elementor): não
 cria seções novas do zero nem muda o layout interno de cada seção; edita

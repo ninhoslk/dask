@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { TourAoClicar } from "@/components/tour-ao-clicar"
 import { clientePublico } from "@/lib/supabase/publico"
 import { permiteIncorporar } from "@/lib/tour"
 
@@ -35,18 +36,7 @@ export default async function Tour360() {
         <p className="lead mt-6 max-w-[46ch] text-muted-foreground">{data?.descricao || padrao.descricao}</p>
         {url ? (
           <>
-            {incorporavel && (
-              <div className="media mt-12 aspect-video">
-                <iframe
-                  src={url}
-                  title={data?.titulo || padrao.titulo}
-                  className="size-full border-0"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"
-                  allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
-                  loading="lazy"
-                />
-              </div>
-            )}
+            {incorporavel && <TourAoClicar url={url} titulo={data?.titulo || padrao.titulo} />}
             <a href={url} target="_blank" rel="noopener noreferrer" className={`btn-action inline-flex ${incorporavel ? "mt-6" : "mt-12"}`}>
               {incorporavel ? "Abrir o tour em tela cheia" : "Abrir o tour"}
             </a>
