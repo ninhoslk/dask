@@ -35,12 +35,13 @@ export default async function Tour360() {
         <h1 className="head mt-20 md:mt-28">{data?.titulo || padrao.titulo}</h1>
         <p className="lead mt-6 max-w-[46ch] text-muted-foreground">{data?.descricao || padrao.descricao}</p>
         {url ? (
-          <>
-            {incorporavel && <TourAoClicar url={url} titulo={data?.titulo || padrao.titulo} />}
-            <a href={url} target="_blank" rel="noopener noreferrer" className={`btn-action inline-flex ${incorporavel ? "mt-6" : "mt-12"}`}>
-              {incorporavel ? "Abrir o tour em tela cheia" : "Abrir o tour"}
+          incorporavel ? (
+            <TourAoClicar url={url} titulo={data?.titulo || padrao.titulo} />
+          ) : (
+            <a href={url} target="_blank" rel="noopener noreferrer" className="btn-action mt-12 inline-flex">
+              Abrir o tour
             </a>
-          </>
+          )
         ) : (
           <p className="mt-12 inline-block rounded-full bg-tint px-5 py-3 font-semibold">Tour em preparação</p>
         )}

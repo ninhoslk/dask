@@ -1,17 +1,17 @@
 # Graph Report - Dask  (2026-11-04)
 
 ## Corpus Check
-- 114 files · ~82,267 words
+- 114 files · ~82,517 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
 ## Summary
-- 663 nodes · 1612 edges · 35 communities (26 shown, 9 thin omitted)
+- 663 nodes · 1613 edges · 35 communities (26 shown, 9 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `96775d90`
+- Built from commit: `05a44655`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -53,8 +53,8 @@
 3. `Button()` - 27 edges
 4. `FormNoticia()` - 24 edges
 5. `SiteHeader()` - 24 edges
-6. `txt()` - 21 edges
-7. `lucide-react` - 21 edges
+6. `lucide-react` - 22 edges
+7. `txt()` - 21 edges
 8. `cn` - 19 edges
 9. `Ensino()` - 17 edges
 10. `normalizar()` - 17 edges
@@ -187,7 +187,7 @@ Nodes (4): react-dom, tw-animate-css, react-dom@19.3.1, tw-animate-css@^1.4.0
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `react` connect `react` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `package.json`, `ensino.tsx`, `previa-ao-vivo.tsx`, `dependencies`?**
-  _High betweenness centrality (0.140) - this node is a cross-community bridge._
+  _High betweenness centrality (0.139) - this node is a cross-community bridge._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.11594202898550725 - nodes in this community are weakly interconnected._
 - **Why does `next` connect `next` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `package.json`, `react`, `ensino.tsx`, `previa-ao-vivo.tsx`, `dependencies`?**

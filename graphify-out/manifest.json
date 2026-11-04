@@ -132,10 +132,10 @@
     "semantic_hash": ""
   },
   "site/components/site-header.tsx": {
-    "mtime": 1793309665.8173223,
-    "seen": 1793381565.825072,
-    "ast_hash": "7109079a441ab66ad092132a14fe7466",
-    "semantic_hash": "7109079a441ab66ad092132a14fe7466"
+    "mtime": 1793824745.3591244,
+    "seen": 1793824818.967496,
+    "ast_hash": "2fd451c6e57793500cb3bec88ad5ff35",
+    "semantic_hash": ""
   },
   "site/components/ui/button.tsx": {
     "mtime": 1793149356.8125005,
@@ -199,9 +199,9 @@
     "ast_empty": true
   },
   "site/lib/site.ts": {
-    "mtime": 1793383902.614162,
-    "seen": 1793385611.0889153,
-    "ast_hash": "1e22907cf4b17b54ed769417999667be",
+    "mtime": 1793824570.5471177,
+    "seen": 1793824818.9769092,
+    "ast_hash": "4b6fd44c86537733b8188f5c28e680ee",
     "semantic_hash": ""
   },
   "site/lib/utils.ts": {
@@ -403,9 +403,9 @@
     "semantic_hash": ""
   },
   "site/app/tour-360/page.tsx": {
-    "mtime": 1793823681.3710701,
-    "seen": 1793823933.1131725,
-    "ast_hash": "771ef59df987a527e991bb8f23b6875a",
+    "mtime": 1793824593.0178106,
+    "seen": 1793824818.9571917,
+    "ast_hash": "41125afb2e6e97590bffd7c5dab668ab",
     "semantic_hash": ""
   },
   "site/components/admin/biblioteca-midia.tsx": {
@@ -667,9 +667,9 @@
     "semantic_hash": ""
   },
   "site/components/tour-ao-clicar.tsx": {
-    "mtime": 1793823678.1888478,
-    "seen": 1793823933.124088,
-    "ast_hash": "4b781adccccec281ab8448a7fd4d497a",
+    "mtime": 1793824657.5305142,
+    "seen": 1793824818.9674995,
+    "ast_hash": "39b9ba50db9f796f87edc3dd48b15dbf",
     "semantic_hash": ""
   },
   "site/package-lock.json": {

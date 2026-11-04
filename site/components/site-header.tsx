@@ -45,7 +45,7 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
         />
       </Link>
 
-      <nav aria-label="Principal" className="hidden items-center gap-7 font-semibold lg:flex">
+      <nav aria-label="Principal" className="hidden items-center gap-6 font-semibold whitespace-nowrap xl:flex 2xl:gap-7">
         {navegacao.map((item) => (
           <Link key={item.href} href={item.href} className="decoration-2 underline-offset-[0.25em] hover:underline">
             {item.label}
@@ -82,7 +82,7 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
       </nav>
 
       <Sheet>
-        <SheetTrigger className="inline-flex items-center gap-2 rounded-full px-1 py-2 font-semibold lg:hidden">
+        <SheetTrigger className="inline-flex items-center gap-2 rounded-full px-1 py-2 font-semibold xl:hidden">
           <MenuIcon aria-hidden className="size-5" />
           Menu
         </SheetTrigger>

@@ -164,4 +164,5 @@ export const navegacao = [
   { href: "/#ensino", label: "Ensino" },
   { href: "/#vida", label: "Vida no Dask" },
   { href: "/noticias", label: "Notícias" },
+  { href: "/tour-360", label: "Tour 360°" },
 ]
