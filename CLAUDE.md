@@ -82,6 +82,7 @@ estrutura. Antes de escrever código de Next, leia o guia relevante em
 | `site/app/admin/`, `site/components/admin/` | **Painel** (editor visual, notícias, mídia, tour 360°). Ver [docs/PAINEL.md](docs/PAINEL.md) |
 | `site/lib/conteudo/` | Esquema do conteúdo editável da home, validação e leitura do banco |
 | `site/lib/supabase/`, `site/proxy.ts`, `supabase/migrations/` | Supabase: clientes, sessão do painel, tabelas e RLS |
+| `site/lib/seo.tsx`, `site/app/sitemap.ts`, `site/app/robots.ts` | SEO; o domínio vem só de `NEXT_PUBLIC_SITE_URL` |
 | `site/lib/hero-cinematico.ts` | Configuração da abertura cinematográfica (frames, altura, textos) |
 | `site/public/` | Fotos, logos, frames do vídeo (`hero/`), imagens das notícias |
 
@@ -89,7 +90,7 @@ Arquitetura completa: [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 
 ## Regras de conteúdo (importante)
 
-1. **Nada inventado.** Texto, número, nome e foto vêm dos sites reais (colegiodask.com.br, SAS Educação, Árvore). Sem depoimentos, estatísticas ou prêmios que não existam. Os números usados: fundado em 1996 (início do ensino médio) e "mais de 700 alunos". Atenção: o site da escola dá os 700 alunos como marco de **2021**; o novo site os apresenta como "hoje" e isso precisa ser confirmado com a escola (ver pendências).
+1. **Nada inventado.** Texto, número, nome e foto vêm dos sites reais (colegiodask.com.br, SAS Educação, Árvore). Sem depoimentos, estatísticas ou prêmios que não existam. Os números usados: fundado em 1996 (início do ensino médio) e "mais de 700 alunos" (confirmado pelo cliente como número atual em 04/11/2026).
 2. **Sem imagens criadas ou geradas.** Só fotos reais já baixadas. Se faltar uma foto, avise em vez de gerar.
 3. **Logos de parceiros** (SAS Educação e Árvore) sempre dentro do componente `.logo-chip` (fundo branco), sem alterar cores ou proporções.
 4. **SAS e Árvore aparecem integrados** na seção Método, **não** em uma aba ou página própria. Não existe mais menção à Geekie One (era do site antigo; a escola agora é SAS).
@@ -149,6 +150,7 @@ não só o `dev`: o bundler pode mudar o que vai ao ar.
 - No Windows, o painel de pré-visualização pode pausar animações quando oculto; ao testar scroll, use um Chrome headless (`scripts/cine-test.mjs`) em vez de confiar em capturas de uma aba escondida.
 - `referencia/fotos/` (≈490 MB) **não** está no Git. Para recriar: `scripts/download.ps1`.
 - Excerpts do WordPress chegam cortados no meio da frase; `components/sections/noticias.tsx` já corta na última frase completa.
+- No Windows, se o caminho da pasta tiver parênteses (ex.: `Nova pasta (15)`), os atalhos de `node_modules/.bin` (e portanto `npm run …`) falham com "não é reconhecido como um comando". Rode direto (`node node_modules/next/dist/bin/next build`) ou use uma pasta sem parênteses.
 - O vídeo-fonte da abertura (MP4, 19 MB) **não** está no repositório; só os frames em `public/hero/`. Como regerar: `site/public/hero/README.md`.
 
 ## Fluxo de trabalho com Git

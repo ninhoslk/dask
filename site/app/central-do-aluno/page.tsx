@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { contato, documentos, psicologa, segmentos } from "@/lib/site"
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/central-do-aluno" },
   title: "Central do aluno · Colégio Dask",
   description:
     "Diário do Aluno, Prof. Web, listas de material, normas e contatos da coordenação do Colégio Dask.",

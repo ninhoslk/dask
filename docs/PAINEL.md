@@ -94,7 +94,8 @@ Recomendado no painel do Supabase: desligar cadastro público (*Auth → Sign In
 vazadas e MFA.
 
 Existe uma conta de teste `admin.teste@dask.test` (senha só no arquivo local
-`.login-teste.local.txt`, fora do Git). Apague antes de entregar à escola:
+`.login-teste.local.txt`, fora do Git). Por decisão do cliente (04/11/2026), ela
+**continua ativa**; para apagá-la um dia:
 `delete from auth.users where email = 'admin.teste@dask.test';`
 
 ## Testes de segurança (30/10/2026)

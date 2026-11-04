@@ -19,7 +19,8 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 | Linha do tempo (1995–2022) | `site/lib/site.ts` → `linhaDoTempo` |
 | Frase "Nossos alunos estiveram…" | `site/lib/site.ts` → `conquistas` (cada item já leva a preposição: "na Olimpíada…", "no Torneio…") |
 | Links de documentos (listas de material, normas) | `site/lib/site.ts` → `documentos`; documentos "Em breve" ficam em `docsPorSegmento` no `central-do-aluno/page.tsx` |
-| Notícias | `site/lib/noticias.json` + imagens em `site/public/noticias/` |
+| Notícias | Painel `/admin/noticias` (banco); sem banco, `site/lib/noticias-todas.json` (265, de `scripts/importar-noticias.mjs`) |
+| SEO (domínio, imagem de compartilhamento, dados estruturados) | `site/lib/seo.tsx` + variável `NEXT_PUBLIC_SITE_URL` |
 | Textos de cada seção da home | no próprio arquivo de `site/components/sections/` |
 | Textos e tempos da abertura em vídeo | `site/components/sections/hero-cinematico.tsx` e `site/lib/hero-cinematico.ts` |
 | Menu principal | `site/lib/site.ts` → `navegacao` |
@@ -34,7 +35,7 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 - Mantenedora: Associação Dracenense de Ensino e Cultura (ACED), CNPJ 48.778.307/0001-44
 - Razão: Escola de Ensino Fundamental e Médio Profª Liliana Gonzaga – Colégio Dask
 
-> **Endereço:** o site atual da escola mostra dois: "R. Aristides Zanoni, s/n" (CEP 17911-262 e também 17900-000) e "R. Venezuela, 220". O novo site usa **R. Aristides Zanoni, s/n – Jardim América, CEP 17911-262**. Confirmar com a escola.
+> **Endereço (confirmado em 04/11/2026):** R. Venezuela, 220 – Jardim América, Dracena-SP, CEP 17900-000. O site antigo também mostra "R. Aristides Zanoni, s/n"; esse nome só continua na linha do tempo (sede inaugurada em 2001), por ser fato histórico.
 
 ## Fotos
 
@@ -57,18 +58,17 @@ Regra do projeto: **nenhuma imagem foi criada ou gerada**. Se precisar de outra
 foto, escolha entre as de `referencia/fotos/` (rode `scripts/download.ps1` para
 baixá-las) e use `scripts/pick.ps1` como modelo para redimensionar.
 
-> **Direitos de uso:** as fotos do SAS e da Árvore são material de divulgação
-> deles. O logo e o conteúdo são exibidos para destacar a parceria, mas convém a
-> escola confirmar com cada empresa antes de publicar em definitivo.
+> **Direitos de uso:** confirmado em 04/11/2026 que há autorização de uso das
+> imagens (Dask, SAS e Árvore).
 
 ## Notícias: como atualizar
 
-O arquivo `site/lib/noticias.json` foi gerado assim (PowerShell, ver o trecho em
-[HISTORICO.md](HISTORICO.md#como-foram-gerados-os-dados)): lista os 9 posts mais
-recentes que têm imagem de destaque, baixa a imagem para `public/noticias/` e
-grava `slug`, `title`, `date`, `category`, `excerpt`, `image` e `url`.
-O `url` aponta para o post no site da escola; o link abre em nova aba.
+As notícias ficam no banco e são editadas no painel (`/admin/noticias`). O
+arquivo `site/lib/noticias-todas.json` (todas as 265 do WordPress do colégio) é o
+fallback quando o banco não responde; para regenerá-lo, rode dentro de `site/`:
+`node ../scripts/importar-noticias.mjs`. Para copiar de novo para o banco:
+`scripts/semear-noticias.mjs` (ver [PAINEL.md](PAINEL.md)). As capas continuam
+hospedadas em colegiodask.com.br.
 
-O campo `excerpt` vem cortado do WordPress. `noticias.tsx` mostra só até a última
-frase completa. O primeiro item usa uma foto alternativa (`outraFoto`) porque a
-capa original já aparece na seção de robótica.
+O resumo vem cortado do WordPress; `resumoInteiro()` (em `lib/noticias-tipos.ts`)
+mostra só até a última frase completa.

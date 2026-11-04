@@ -1,9 +1,20 @@
 # Arquitetura
 
 Projeto Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4 e shadcn/ui
-(estilo `radix-nova`, base Radix, ícones `lucide`). Site 100% estático: as duas
-rotas são pré-renderizadas no build (`○ /` e `○ /central-do-aluno`), sem backend,
-sem banco, sem formulário que envie dados.
+(estilo `radix-nova`, base Radix, ícones `lucide`). As páginas públicas são
+pré-renderizadas no build. O conteúdo editável da home, as notícias e o tour 360°
+vêm do **Supabase** (ver [PAINEL.md](PAINEL.md)); sem banco, o site usa os textos
+padrão e `lib/noticias-todas.json`.
+
+## SEO
+
+Tudo parte de `NEXT_PUBLIC_SITE_URL` (`lib/seo.tsx`): `metadataBase`, URLs
+canônicas, `app/sitemap.ts`, `app/robots.ts` e os dados estruturados. **Ao trocar o
+domínio, basta mudar essa variável na Vercel e publicar de novo.**
+
+- Open Graph e Twitter: `public/og.jpg` (recorte 1200×630 da foto aérea real da fachada); notícias usam a própria capa.
+- JSON-LD: `School` na home e `NewsArticle` em cada notícia.
+- `robots.txt` bloqueia `/admin`.
 
 ## Mapa de arquivos de `site/`
 

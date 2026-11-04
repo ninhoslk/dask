@@ -54,6 +54,8 @@ Comandos ffmpeg exatos: `site/public/hero/README.md`.
 
 - Ao montar, escolhe a sequência pela largura (`larguraMobile = 768`).
 - Carrega os frames por **proximidade ao frame atual** (`proximoParaCarregar`): primeiro o frame do ponto em que a pessoa está, depois os vizinhos, alternando para frente e para trás; até `carregamentoParalelo` (6) em voo.
+- **Memória:** só fica decodificada uma **janela** de frames ao redor do atual (`janelaFrames`: 30 de cada lado no desktop, 16 no celular). Cada frame vira um `ImageBitmap` (com `HTMLImageElement` como reserva); os que saem da janela são liberados com `close()` e, se a pessoa voltar, baixados de novo do cache HTTP. Antes ficavam todos: ≈ 890 MB decodificados no desktop e ≈ 350 MB no celular; agora no máximo ≈ 285 MB e ≈ 120 MB.
+- O poster some no primeiro frame que chegar (qualquer um), para quem abre a página já no meio da abertura.
 - Se o frame exato ainda não chegou, desenha o **mais próximo já carregado** (`melhorDisponivel`), então nunca fica em branco.
 - Se um frame falha, ele é marcado como erro e pulado. Se nenhum carregar, o poster continua e os textos continuam animando.
 - Ao redimensionar, troca de sequência se cruzar 768 px e reajusta o canvas.

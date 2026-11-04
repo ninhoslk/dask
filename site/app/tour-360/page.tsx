@@ -7,6 +7,7 @@ import { clientePublico } from "@/lib/supabase/publico"
 import { permiteIncorporar } from "@/lib/tour"
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tour-360" },
   title: "Tour 360° · Colégio Dask",
   description: "Conheça os espaços do Colégio Dask em um tour virtual 360°.",
 }

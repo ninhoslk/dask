@@ -5,6 +5,7 @@ import "./globals.css"
 import { BotoesFlutuantes } from "@/components/botoes-flutuantes"
 import { Motion } from "@/components/motion"
 import { RolagemSuave } from "@/components/rolagem-suave"
+import { imagemCompartilhar, urlDoSite } from "@/lib/seo"
 
 const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -13,11 +14,25 @@ const schibsted = Schibsted_Grotesk({
   display: "swap",
 })
 
+const descricao =
+  "Escola feita de professores para alunos desde 1996. Ensino Fundamental I, Fundamental II e Ensino Médio em Dracena-SP, com o sistema de ensino SAS."
+
+// metadataBase vem de NEXT_PUBLIC_SITE_URL (ver lib/seo.tsx): trocar o domínio
+// é só trocar a variável.
 export const metadata: Metadata = {
+  metadataBase: urlDoSite,
   title: "Colégio Dask · Dracena-SP · Fundamental I ao Ensino Médio",
-  description:
-    "Escola feita de professores para alunos desde 1996. Ensino Fundamental I, Fundamental II e Ensino Médio em Dracena-SP, com o sistema de ensino SAS.",
+  description: descricao,
   icons: { icon: "/favicon.png" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Colégio Dask",
+    title: "Colégio Dask · Dracena-SP",
+    description: descricao,
+    images: [imagemCompartilhar],
+  },
+  twitter: { card: "summary_large_image", images: [imagemCompartilhar.url] },
 }
 
 export const viewport: Viewport = {

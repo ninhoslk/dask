@@ -7,7 +7,7 @@ da Vercel). A regra do projeto é: **toda mudança vira commit e push**.
 
 - `git push` na **`main`** → deploy de **produção**.
 - Push em qualquer outra branch / PR → **URL de preview**.
-- A Vercel precisa estar com **Root Directory = `site`** (o projeto Next.js não está na raiz do repositório). Framework: Next.js (detectado). Build: `npm run build` (padrão). Sem variáveis de ambiente.
+- A Vercel precisa estar com **Root Directory = `site`** (o projeto Next.js não está na raiz do repositório). Framework: Next.js (detectado). Build: `npm run build` (padrão). Variáveis de ambiente: ver "Cuidados".
 - Antes do push, rode `typecheck`, `lint` e `build` em `site/`: se o build local falha, o deploy da Vercel também falha.
 
 ```bash
@@ -70,11 +70,15 @@ Duas opções:
 
 ## Domínio
 
-Nenhum domínio próprio está configurado. Se a escola aprovar, o domínio
+Nenhum domínio próprio está configurado. Quando configurar, atualize `NEXT_PUBLIC_SITE_URL` (ver "Cuidados"). Se a escola aprovar, o domínio
 (`colegiodask.com.br`) deve ser apontado só depois de a escola autorizar a troca do site.
 
 ## Cuidados
 
 - O site tem **17 MB + 5,6 MB** de frames em `public/hero/` e ≈ 18 MB de fotos e capas de notícias; o upload leva alguns minutos.
-- Não há variáveis de ambiente necessárias para rodar ou publicar o site.
+- Variáveis de ambiente (Vercel → Settings → Environment Variables, e `site/.env.local` para rodar localmente):
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` e `NEXT_PUBLIC_SITE_URL`.
+  Sem as do Supabase o site funciona com os textos padrão e as notícias do arquivo, mas o painel não.
+- **Trocar de domínio:** mude `NEXT_PUBLIC_SITE_URL` na Vercel e publique de novo. Sitemap, robots, URLs canônicas,
+  Open Graph e dados estruturados acompanham sozinhos (`site/lib/seo.tsx`).
 - Não commite `site/.env.local`: ele contém um token temporário da Vercel.

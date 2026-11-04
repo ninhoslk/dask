@@ -8,6 +8,7 @@ import { listarNoticias } from "@/lib/noticias"
 import { paraCartao } from "@/lib/noticias-tipos"
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/noticias" },
   title: "Notícias · Colégio Dask",
   description: "Tudo o que acontece no Colégio Dask: ensino, eventos, olimpíadas, robótica e a vida na escola.",
 }

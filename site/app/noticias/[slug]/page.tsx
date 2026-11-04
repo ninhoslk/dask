@@ -10,8 +10,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { htmlSeguro, listarNoticias, obterNoticia } from "@/lib/noticias"
 import { formatoData, resumoInteiro } from "@/lib/noticias-tipos"
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://colegio-dask.vercel.app"
+import { JsonLd, absoluta, dadosDaNoticia } from "@/lib/seo"
 
 export async function generateStaticParams() {
   return (await listarNoticias()).map((n) => ({ slug: n.slug }))
@@ -25,7 +24,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${n.titulo} · Colégio Dask`,
     description: resumoInteiro(n.resumo),
-    openGraph: { title: n.titulo, description: resumoInteiro(n.resumo), images: n.imagem ? [n.imagem] : undefined, type: "article" },
+    alternates: { canonical: `/noticias/${n.slug}` },
+    openGraph: {
+      title: n.titulo,
+      description: resumoInteiro(n.resumo),
+      url: `/noticias/${n.slug}`,
+      images: n.imagem ? [n.imagem] : undefined,
+      type: "article",
+      publishedTime: n.data,
+    },
   }
 }
 
@@ -36,7 +43,7 @@ export default async function PaginaNoticia({ params }: Props) {
 
   const todas = await listarNoticias()
   const relacionadas = todas.filter((x) => x.slug !== n.slug && x.categoria === n.categoria).slice(0, 3)
-  const url = `${siteUrl}/noticias/${n.slug}`
+  const url = absoluta(`/noticias/${n.slug}`)
 
   return (
     <>
@@ -49,6 +56,7 @@ export default async function PaginaNoticia({ params }: Props) {
           Todas as notícias
         </Link>
 
+        <JsonLd dados={dadosDaNoticia({ ...n, resumo: resumoInteiro(n.resumo) })} />
         <article className="mt-8">
           <header className="max-w-5xl">
             <p className="small font-semibold text-sky">{n.categoria}</p>

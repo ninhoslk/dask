@@ -1,9 +1,11 @@
 import "server-only"
 
+import { urlDoSite } from "@/lib/seo"
+
 // frame-ancestors aceita "*", "https:" ou origens (com curinga no início do
 // host). Vale se alguma delas cobre o endereço deste site.
 function ancestraisPermitem(lista: string) {
-  const site = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://colegio-dask.vercel.app")
+  const site = urlDoSite
   return lista.split(/\s+/).some((fonte) => {
     if (fonte === "*" || fonte === "https:") return true
     const m = /^(https?):\/\/(\*\.)?([^/:]+)/i.exec(fonte)

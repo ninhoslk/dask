@@ -22,6 +22,8 @@ SAS, **sem criar foto nova**.
 10. **Toda mudança vira commit e push**, porque a Vercel publica a partir do GitHub.
 11. Terceira revisão (30/out/2026): botão flutuante do WhatsApp sempre no canto inferior direito, com Instagram e "voltar ao topo"; mapa do Google com a foto aérea da fachada (enviada pelo cliente); página própria de notícias com **todas** as 265 do blog e compartilhamento no Facebook, LinkedIn, Pinterest e WhatsApp (o site oficial só tem perfis no Instagram e no Facebook; não há LinkedIn nem Pinterest da escola); menos vazio na seção SAS/Árvore, com logo e "Ver mais" levando ao site de cada parceiro; legenda da robótica removida e "com pódio." afastado da foto; fotos de "Vida no Dask" afastadas do título; Diário do Aluno e Prof. Web estavam invertidos (eduxego é o app do aluno; Eduxe Class é o do professor); ícone do WhatsApp nos telefones das coordenações; frase de conquistas com o efeito de leitura e a rolagem suave (Lenis, lerp 0,085) da onform.studio; **painel administrativo** com Supabase (ver [PAINEL.md](PAINEL.md)) e aba reservada para o tour 360°.
 
+12. Quarta revisão (04/11/2026), confirmações do cliente: o endereço correto é **R. Venezuela, 220, Jardim América**; "mais de 700 alunos" está **correto hoje**; há **autorização** de uso das imagens e dos documentos; a conta de teste do painel **fica** (não apagar). Trabalho em branch com preview da Vercel antes de ir para a `main`.
+
 ## O que foi feito
 
 ### Levantamento
@@ -55,30 +57,29 @@ SAS, **sem criar foto nova**.
 | Inspetor taste-skill **completo** | **não foi repetido** depois da abertura cinematográfica e dos últimos ajustes. A última execução completa (antes da abertura) tinha **1 FAIL** (trechos vazios em 3 pontos) e 3 avisos (18 tamanhos de fonte; uma "declaração" de 5 linhas; sem vídeo, hoje resolvido pela abertura). Depois disso foram encurtadas as seções fixas e o bloco de notícias, mas sem nova medição |
 | Dispositivos reais (iPhone/Android) | **não testado** |
 
-## Pendências e confirmações com a escola
+## Quarta revisão (04/11/2026)
+
+- Endereço trocado para R. Venezuela, 220 (CEP 17900-000) em `lib/site.ts`, mapa incluído.
+- Títulos da abertura em **2 linhas** no celular (antes 2 deles quebravam em 3): o tamanho só diminui quando a linha não cabe; desktop igual.
+- Abertura com **janela de frames** (`ImageBitmap`), reduzindo a memória decodificada (ver [ANIMACOES.md](ANIMACOES.md)).
+- **SEO**: sitemap, robots, canonical, Open Graph com foto real, JSON-LD `School` e `NewsArticle`; domínio só por `NEXT_PUBLIC_SITE_URL`.
+- Por decisão do cliente, a página de matrícula, a galeria e os testes automatizados feitos nesta revisão **não** entraram.
+- Verificado: typecheck, lint e build passam; `cine-test` desktop, celular e movimento reduzido sem erros.
+
+## Pendências
 
 **Conteúdo**
-1. **Endereço:** o site atual mostra "R. Aristides Zanoni, s/n" e "R. Venezuela, 220", com CEPs diferentes. O novo usa Aristides Zanoni, CEP 17911-262.
-2. **"Mais de 700 alunos":** no site da escola é um marco de **2021**; o novo site o apresenta como número de hoje (Apresentação, Escola). Confirmar o número atual.
-3. **Documentos "Em breve"** (calendário 2026, horários, datas de provas…) ainda não têm link, igual ao site atual.
-4. **Uso de imagens e marcas do SAS e da Árvore:** confirmar com cada empresa. As fotos do SAS vêm do site deles; os logos são os oficiais.
-5. Fotos de alunos vêm do blog da própria escola; a escola deve confirmar autorização de uso de imagem.
-6. **Sem depoimentos de famílias**: não foram encontrados reais do Dask e nada foi inventado.
-
-**Itens aceitos no questionário inicial e ainda não construídos**
-7. Página dedicada de **Matrícula / Agende uma visita** (hoje o CTA é WhatsApp).
-8. **Galeria** de fotos.
-9. **Depoimentos** (dependem de depoimentos reais).
-10. Blog "Acontece no Dask" com **filtros** Ensino/Eventos (hoje: 1 destaque + 4 notícias e link para o blog completo no site da escola).
+1. **Documentos "Em breve"** (calendário 2026, horários, datas de provas…): o uso está autorizado, mas faltam os arquivos ou links. Quando a escola enviar, entram em `docsPorSegmento` (`central-do-aluno/page.tsx`).
+2. **Depoimentos de famílias**: não há depoimentos reais publicados; nada foi inventado.
+3. Página dedicada de **matrícula** e **galeria** de fotos: não construídas.
 
 **Técnico**
-11. **Memória na abertura em vídeo:** os frames carregados ficam como `HTMLImageElement`. Em celulares com pouca memória (principalmente Safari do iOS) a decodificação de 95 imagens de 720×1278 pode pesar bastante; no desktop são até 190 imagens de 1440×810. O navegador pode descartar dados decodificados, mas **isso não foi medido em dispositivos reais**. Mitigações possíveis: manter só uma janela de frames ao redor do atual, usar `ImageBitmap`, reduzir resolução ou quantidade de frames.
-12. O título da abertura quebra em **3 linhas** no celular (regra de design é ≤ 2) e a abertura **não foi medida** pelo inspetor.
-13. Notícias são um JSON estático: não atualizam sozinhas. Opção: buscar a API do WordPress no build com revalidação (`revalidate`).
-14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
-15. Sem analytics, sem domínio próprio, sem integração Git→Vercel, sem testes automatizados (unitários/E2E) no repositório.
-16. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
-17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
+4. A memória da abertura caiu, mas **não foi medida em aparelho real** (iPhone/Android).
+5. Sem analytics (precisa de uma conta escolhida pela escola) e sem domínio próprio (ao configurar, trocar `NEXT_PUBLIC_SITE_URL`).
+6. Sem testes automatizados (unitários/E2E) nem CI no GitHub.
+7. O inspetor completo da taste-skill não foi repetido nesta revisão.
+8. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
+9. A conta de teste `admin.teste@dask.test` continua ativa por decisão do cliente.
 
 ## Como foram gerados os dados
 
