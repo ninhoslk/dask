@@ -685,6 +685,106 @@ html.js-motion [data-reveal] {
   }
 }
 
+/* ---------- "Nossa história": a rolagem conta a linha do tempo ----------
+   A seção fica fixa (pin do GSAP ScrollTrigger) e cada rolada avança um ano.
+   Só transform, opacity, cor e text-shadow animam; tudo fica empilhado na
+   mesma célula da grade, então nada muda de tamanho ao trocar de ano. */
+.historia {
+  background: var(--field);
+  color: var(--field-foreground);
+}
+.historia-palco {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-content: center;
+  gap: clamp(24px, 4vh, 56px);
+  padding-block: clamp(72px, 10vh, 120px) clamp(40px, 7vh, 88px);
+}
+.historia-cena {
+  display: grid;
+  align-items: center;
+}
+.historia-fato {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: clamp(8px, 1.6vh, 20px);
+  max-width: 26ch;
+  will-change: transform, opacity;
+}
+/* antes do GSAP assumir, só o primeiro fato aparece (sem sobreposição) */
+.historia-fato:not(:first-child) {
+  opacity: 0;
+  visibility: hidden;
+}
+.historia-fato-ano {
+  font-size: clamp(64px, 14vw, 200px);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--brand);
+}
+.historia-fato-texto {
+  font-size: clamp(22px, 2.6vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+/* celular: a trilha sobe para baixo do título, longe dos botões flutuantes */
+@media (max-width: 639px) {
+  .historia-palco {
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+  }
+  .historia-trilha {
+    order: 2;
+  }
+  .historia-cena {
+    order: 3;
+  }
+}
+.historia-fato[data-final] .historia-fato-texto {
+  font-weight: 600;
+}
+.historia-trilha {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+}
+.historia-linha {
+  position: absolute;
+  inset-inline: 0;
+  top: 5px;
+  height: 2px;
+  background: color-mix(in srgb, var(--field-foreground) 18%, transparent);
+}
+.historia-fill {
+  height: 100%;
+  background: var(--brand);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.historia-marco {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+.historia-ponto {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--brand);
+  outline: 4px solid var(--field);
+}
+.historia-ano {
+  display: inline-block;
+  font-size: clamp(14px, 1.6vw, 24px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  transform-origin: center top;
+  opacity: 0.38;
+}
+
 /* ---------- editor preview: hidden sections stay visible, faded ---------- */
 [data-oculta] > * {
   opacity: 0.35;

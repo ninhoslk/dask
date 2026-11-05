@@ -128,6 +128,24 @@ registra elementos adicionados depois. O estado escondido só existe sob
 | Seletor de série | O texto de resultado entra com `animate-in fade-in slide-in-from-bottom-2` | `ensino.tsx` |
 | Dica de scroll da abertura | Linha verde correndo | `.cine-dica` |
 
+## 6. "Nossa história" contada pela rolagem (`historia-cinematica.tsx`)
+
+Única animação feita com **GSAP + ScrollTrigger** (pacote `gsap`). Ao chegar à
+faixa azul de "Nossa história", ela fica fixa na tela (`pin`) por cerca de
+0,9 altura de tela por ano (0,75 no celular) e cada trecho da rolagem troca o ano:
+
+- o fato do ano entra com opacidade, deslocamento e escala; o anterior sai para cima;
+- a trilha turquesa (`.historia-fill`, `scaleX`) enche até o ano ativo;
+- o ano ativo fica turquesa, maior (1,3×; 1,18× no celular) e com brilho discreto (`text-shadow`); os outros ficam a 38%;
+- no último marco a trilha fecha, o fato cresce um pouco e há uma pausa antes de soltar a página.
+
+`scrub: true` liga tudo à posição da rolagem (vai e volta). A rolagem suave do Lenis
+continua valendo. Os fatos ficam empilhados na mesma célula da grade, então nada muda
+de tamanho. No celular a trilha fica logo abaixo do título, longe dos botões flutuantes.
+Leitores de tela recebem a lista completa (`ol.sr-only`); a cena visual é `aria-hidden`.
+**Sem JavaScript ou com movimento reduzido**, aparece a lista estática de sempre.
+Os anos e textos continuam vindo do conteúdo editável (`historia` em `lib/conteudo/esquema.ts`).
+
 ## Testando animações
 
 - `scripts/cine-test.mjs` abre um Chrome headless real, rola a abertura até 0, 15, 30, 45, 60, 80 e 100% e volta a 45% e 0, grava capturas e informa opacidade dos blocos, frames carregados, bytes e erros de console. Modos: `desktop`, `phone`, e `desktop reduzido`.

@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import { img, imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
+import { HistoriaCinematica } from "@/components/historia-cinematica"
 import { contato } from "@/lib/site"
 
 export function Escola({ c }: { c: Conteudo }) {
@@ -90,25 +91,7 @@ export function Escola({ c }: { c: Conteudo }) {
       </div>
 
       <div className="bg-field text-field-foreground">
-        <div className="frame grid12 gap-y-8" style={{ paddingBlock: "clamp(64px, 7vw, 112px)" }}>
-          <h3 className="col-span-12 text-[clamp(32px,3.6vw,56px)] font-extrabold leading-none tracking-[-0.045em] lg:col-span-3" data-reveal>
-            {txt(c, "tituloHistoria")}
-          </h3>
-          <ol className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-9 lg:grid-cols-7">
-            {historia.map((item, i) => (
-              <li
-                key={i}
-                data-reveal
-                style={{ "--d": `${i * 70}ms` } as React.CSSProperties}
-              >
-                <span className="block text-4xl font-extrabold tracking-[-0.05em] text-brand tabular-nums">
-                  {item.titulo}
-                </span>
-                <span className="small mt-2 block opacity-90">{item.texto}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <HistoriaCinematica titulo={txt(c, "tituloHistoria")} marcos={historia} />
       </div>
     </section>
   )
