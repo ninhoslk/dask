@@ -164,6 +164,11 @@ A demonstração atual está na Vercel (`colegio-dask`), publicada pela CLI a pa
 `site/`. Passo a passo e ressalvas em [docs/PUBLICACAO.md](docs/PUBLICACAO.md).
 Se conectar o repositório à Vercel, defina **Root Directory = `site`**.
 
+## Colaboradores
+
+Quem vai ajudar no projeto começa por [docs/COLABORACAO.md](docs/COLABORACAO.md):
+acessos, como rodar, fluxo de PR (sem push direto na `main`) e pendências.
+
 ## Onde está cada decisão
 
 [docs/HISTORICO.md](docs/HISTORICO.md) lista o que foi feito, as decisões do
