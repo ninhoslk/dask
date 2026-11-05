@@ -18,20 +18,7 @@ export function RolagemSuave() {
     let lenis: Lenis | undefined
     let frame = 0
 
-    // Dentro de uma área [data-rolagem-direta] (a abertura em frames) a rolagem
-    // para assim que a roda para: sem inércia. O Lenis amortece pelo tempo
-    // (1 - e^(-lerp·60·dt)), então lerp 1 ainda desliza; 1000 é instantâneo.
     const tick = (t: number) => {
-      if (lenis) {
-        const direta = document.querySelector<HTMLElement>("[data-rolagem-direta]")
-        let dentro = false
-        if (direta) {
-          const topo = direta.getBoundingClientRect().top + lenis.animatedScroll
-          const fim = topo + direta.offsetHeight - window.innerHeight
-          dentro = lenis.animatedScroll >= topo - 1 && lenis.animatedScroll < fim
-        }
-        lenis.options.lerp = dentro ? 1000 : 0.085
-      }
       lenis?.raf(t)
       frame = requestAnimationFrame(tick)
     }

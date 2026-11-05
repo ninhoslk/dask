@@ -218,7 +218,6 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
       aria-labelledby="hero-title"
       className="cine"
       data-modo={modo}
-      data-rolagem-direta
     >
       <div className="cine-palco">
         {/* poster: aparece até o primeiro frame e é o fallback */}
