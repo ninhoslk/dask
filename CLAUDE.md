@@ -33,6 +33,10 @@ O repositório está conectado à Vercel: **cada `git push` na `main` publica o 
 (e cada branch/PR ganha uma URL de preview). Por isso, **toda vez que algo mudar,
 faça commit e push**; não deixe alteração só no computador.
 
+Isso vale para o dono do projeto. **Quem só colabora** (ver
+[docs/COLABORACAO.md](docs/COLABORACAO.md)) **não dá push na `main`**: cria uma
+branch (`feat/…` ou `fix/…`), faz commit nela e abre um PR para o dono revisar.
+
 ```bash
 cd site && npm run typecheck && npm run lint && npm run build   # tem que passar
 cd .. && graphify update .                                        # atualiza o grafo

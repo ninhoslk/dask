@@ -33,6 +33,22 @@ O Next.js desta versão (16) tem mudanças em relação ao que a maioria conhece
 Antes de mexer em rotas, cache ou `proxy.ts`, leia o guia correspondente em
 `site/node_modules/next/dist/docs/`.
 
+## Trabalhando com o Claude Code
+
+Funciona assim: baixar o repositório, abrir a pasta no Claude Code e pedir.
+
+1. Instale o Git, o Node.js (versão LTS) e o Claude Code, com a conta dele.
+2. Faça o `git clone` e abra o Claude Code na **pasta raiz** do repositório
+   (`dask/`, não `dask/site/`). Ele lê o `CLAUDE.md` sozinho e já conhece as
+   regras do projeto; não é preciso ensinar nada.
+3. Peça as mudanças normalmente. Para enviar, peça: "crie uma branch, faça
+   commit e abra um PR". Não peça push na `main`.
+4. O commit sai com a identidade do Git dele. Configure o nome e o e-mail
+   `noreply` do próprio GitHub (`git config user.name` / `user.email`), não o
+   e-mail pessoal.
+5. O `graphify` é uma ferramenta à parte (instalação em [GRAFO.md](GRAFO.md)).
+   Sem ela o Claude funciona do mesmo jeito, só gasta mais para ler o código.
+
 ## Como enviar uma mudança
 
 1. Crie uma branch curta: `git switch -c feat/o-que-voce-faz`.
