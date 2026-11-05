@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-04)
 
 ## Corpus Check
-- 115 files · ~83,408 words
+- 115 files · ~83,414 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4f552b35`
+- Built from commit: `d9488f22`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -62,14 +62,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/site.ts
-- `Como funciona` --references--> `resolver()`  [INFERRED]
-  docs/PAINEL.md → site/lib/conteudo/documento.ts
 - `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/site-footer.tsx
+- `Como funciona` --references--> `resolver()`  [INFERRED]
+  docs/PAINEL.md → site/lib/conteudo/documento.ts
+- `Regras de design` --references--> `Button()`  [INFERRED]
+  CLAUDE.md → site/components/ui/button.tsx
 - `Como funciona` --references--> `normalizar()`  [INFERRED]
   docs/PAINEL.md → site/lib/conteudo/documento.ts
-- `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
-  docs/ARQUITETURA.md → site/components/sections/ensino.tsx
 
 ## Import Cycles
 - None detected.
@@ -138,7 +138,7 @@ Nodes (8): Cores (tokens em `site/app/globals.css`), Design, Espaço, Ideia, Ima
 
 ### Community 23 - "hero-cinematico.tsx"
 Cohesion: 0.12
-Nodes (16): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, 6. "Nossa história" contada pela rolagem (`historia-cinematica.tsx`), Animações, Carregamento (+8 more)
+Nodes (16): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, 6. "Nossa história": a linha percorre os anos (`historia-cinematica.tsx`), Animações, Carregamento (+8 more)
 
 ### Community 24 - "Publicação (Vercel)"
 Cohesion: 0.25

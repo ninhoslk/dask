@@ -128,23 +128,26 @@ registra elementos adicionados depois. O estado escondido só existe sob
 | Seletor de série | O texto de resultado entra com `animate-in fade-in slide-in-from-bottom-2` | `ensino.tsx` |
 | Dica de scroll da abertura | Linha verde correndo | `.cine-dica` |
 
-## 6. "Nossa história" contada pela rolagem (`historia-cinematica.tsx`)
+## 6. "Nossa história": a linha percorre os anos (`historia-cinematica.tsx`)
 
-Única animação feita com **GSAP + ScrollTrigger** (pacote `gsap`). Ao chegar à
-faixa azul de "Nossa história", ela fica fixa na tela (`pin`) por cerca de
-0,9 altura de tela por ano (0,75 no celular) e cada trecho da rolagem troca o ano:
+Única animação feita com **GSAP + ScrollTrigger** (pacote `gsap`). Mantém a composição
+da lista original: título à esquerda e os sete anos numa faixa horizontal à direita
+(no celular, título em cima e a faixa embaixo). No início aparecem **só os anos**.
 
-- o fato do ano entra com opacidade, deslocamento e escala; o anterior sai para cima;
-- a trilha turquesa (`.historia-fill`, `scaleX`) enche até o ano ativo;
-- o ano ativo fica turquesa, maior (1,3×; 1,18× no celular) e com brilho discreto (`text-shadow`); os outros ficam a 38%;
-- no último marco a trilha fecha, o fato cresce um pouco e há uma pausa antes de soltar a página.
+Ao chegar à faixa azul, ela fica fixa na tela (`pin`, cerca de 0,8 altura de tela por
+ano; 0,7 no celular) e:
 
-`scrub: true` liga tudo à posição da rolagem (vai e volta). A rolagem suave do Lenis
-continua valendo. Os fatos ficam empilhados na mesma célula da grade, então nada muda
-de tamanho. No celular a trilha fica logo abaixo do título, longe dos botões flutuantes.
+- uma linha turquesa (`.historia-fill`, `scaleX`, brilho suave) avança da esquerda para a direita junto com a rolagem, sem saltos;
+- ao alcançar cada ano, ele fica turquesa e um pouco maior (1,15×), o ponto acende e surge abaixo da faixa um bloco com o fato (fundo um pouco mais claro, borda turquesa fina, cantos arredondados), alinhado ao ano e preso às bordas da faixa;
+- o bloco anterior sai antes; só um fica visível. Anos já percorridos ficam a 75%, os ainda não alcançados a 35%;
+- depois de 2022 há uma pausa curta e a página segue.
+
+`scrub: true` liga tudo à posição da rolagem: subir faz a linha recuar e os blocos
+anteriores voltarem. A rolagem suave do Lenis continua valendo. Os blocos ficam numa área
+de altura fixa, então nada muda de tamanho. Sem vidro/blur, por causa da regra de design.
 Leitores de tela recebem a lista completa (`ol.sr-only`); a cena visual é `aria-hidden`.
-**Sem JavaScript ou com movimento reduzido**, aparece a lista estática de sempre.
-Os anos e textos continuam vindo do conteúdo editável (`historia` em `lib/conteudo/esquema.ts`).
+**Sem JavaScript ou com movimento reduzido**, aparece a lista original.
+Os anos e textos vêm do conteúdo editável (`historia` em `lib/conteudo/esquema.ts`).
 
 ## Testando animações
 

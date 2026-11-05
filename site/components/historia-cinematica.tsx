@@ -16,10 +16,10 @@ const assinar = (aviso: () => void) => {
 const comMovimento = () => !window.matchMedia(consulta).matches
 const noServidor = () => false
 
-// "Nossa história" contada pela rolagem: a seção fica fixa na tela e cada
-// rolada avança um ano. A trilha turquesa enche até o ano ativo; o último
-// marco (Colégio Dask) segura um instante antes de liberar a página.
-// Com movimento reduzido, fica a lista de sempre.
+// "Nossa história" contada pela rolagem: a seção fica fixa na tela e uma linha
+// turquesa percorre a faixa dos anos; ao alcançar cada ano, aparece o bloco
+// com o fato daquele ano. Reversível (scrub). Com movimento reduzido ou sem
+// JavaScript, fica a lista original.
 export function HistoriaCinematica({ titulo, marcos }: { titulo: string; marcos: Marco[] }) {
   const animar = useSyncExternalStore(assinar, comMovimento, noServidor)
 
@@ -62,51 +62,51 @@ function Cinematica({ titulo, marcos }: { titulo: string; marcos: Marco[] }) {
     mm.add({ celular: "(max-width: 639px)", maior: "(min-width: 640px)" }, (ctx) => {
       const celular = Boolean(ctx.conditions?.celular)
       const anos = gsap.utils.toArray<HTMLElement>(".historia-ano", raiz)
-      const fatos = gsap.utils.toArray<HTMLElement>(".historia-fato", raiz)
-      const pontos = gsap.utils.toArray<HTMLElement>(".historia-ponto", raiz)
+      const luzes = gsap.utils.toArray<HTMLElement>(".historia-ponto-luz", raiz)
+      const blocos = gsap.utils.toArray<HTMLElement>(".historia-bloco", raiz)
       const fill = raiz.querySelector<HTMLElement>(".historia-fill")
-      const escalaAtiva = celular ? 1.18 : 1.3
-      const brilho = "0 0 22px color-mix(in srgb, var(--brand) 55%, transparent)"
-      const semBrilho = "0 0 0px color-mix(in srgb, var(--brand) 0%, transparent)"
+      const ampliado = celular ? 1.12 : 1.15
+      const futuro = { opacity: 0.35, scale: 1, color: "var(--field-foreground)" }
+      const ativo = { opacity: 1, scale: ampliado, color: "var(--brand)" }
+      const percorrido = { opacity: 0.75, scale: 1, color: "var(--field-foreground)" }
 
-      // estado inicial: primeiro ano ativo, primeiro fato à vista
-      gsap.set(anos, { opacity: 0.38, scale: 1, color: "var(--field-foreground)", textShadow: semBrilho })
-      gsap.set(anos[0], { opacity: 1, scale: escalaAtiva, color: "var(--brand)", textShadow: brilho })
-      gsap.set(pontos, { scale: 0.6, opacity: 0.5 })
-      gsap.set(pontos[0], { scale: 1, opacity: 1 })
-      gsap.set(fatos, { autoAlpha: 0, y: 40, scale: 0.96 })
-      gsap.set(fatos[0], { autoAlpha: 1, y: 0, scale: 1 })
-      gsap.set(fill, { scaleX: 0.5 / n })
+      // início: só os anos; linha vazia, nenhum bloco
+      gsap.set(anos, futuro)
+      gsap.set(luzes, { opacity: 0, scale: 0.4 })
+      gsap.set(blocos, { autoAlpha: 0, y: 24 })
+      gsap.set(fill, { scaleX: 0 })
 
+      // a linha começa na borda esquerda e termina no último ano; os anos ficam
+      // a meio passo da borda, então ela chega ao ano i no tempo 0,5 + i
+      const inicio = 0.5
       const tl = gsap.timeline({
-        defaults: { ease: "power2.out", duration: 0.5 },
+        defaults: { duration: 0.35, ease: "power2.out" },
         scrollTrigger: {
           trigger: raiz,
           start: "top top",
-          end: () => `+=${window.innerHeight * (celular ? 0.75 : 0.9) * n}`,
+          end: () => `+=${window.innerHeight * (celular ? 0.7 : 0.8) * (n + 1)}`,
           pin: true,
           scrub: true,
           invalidateOnRefresh: true,
         },
       })
 
-      // trilha: enche do centro do primeiro ano ao centro do último
-      tl.to(fill, { scaleX: (n - 0.5) / n, ease: "none", duration: n - 1 }, 0)
+      // linha: avança junto com a rolagem, sem saltos
+      tl.to(fill, { scaleX: 1, duration: n - inicio, ease: "none" }, 0)
 
-      for (let i = 1; i < n; i++) {
-        const t = i - 0.5
-        tl.to(fatos[i - 1], { autoAlpha: 0, y: -40, scale: 0.98, duration: 0.35, ease: "power2.in" }, t - 0.2)
-          .to(fatos[i], { autoAlpha: 1, y: 0, scale: 1 }, t + 0.1)
-          .to(anos[i - 1], { opacity: 0.38, scale: 1, color: "var(--field-foreground)", textShadow: semBrilho }, t - 0.1)
-          .to(anos[i], { opacity: 1, scale: escalaAtiva, color: "var(--brand)", textShadow: brilho }, t)
-          .to(pontos[i - 1], { scale: 0.6, opacity: 0.5 }, t - 0.1)
-          .to(pontos[i], { scale: 1, opacity: 1 }, t)
+      for (let i = 0; i < n; i++) {
+        const t = inicio + i
+        if (i > 0) {
+          tl.to(anos[i - 1], percorrido, t - 0.05)
+            .to(blocos[i - 1], { autoAlpha: 0, y: -16, duration: 0.25, ease: "power2.in" }, t - 0.15)
+        }
+        tl.to(anos[i], ativo, t)
+          .to(luzes[i], { opacity: 1, scale: 1 }, t)
+          .to(blocos[i], { autoAlpha: 1, y: 0 }, t + 0.1)
       }
 
-      // último marco: a trilha fecha e o fato final cresce um pouco; segura antes de soltar
-      tl.to(fill, { scaleX: 1, ease: "none", duration: 0.4 }, n - 1)
-        .to(fatos[n - 1], { scale: 1.04, duration: 0.4 }, n - 1)
-        .to({}, { duration: 0.6 })
+      // depois do último fato, uma pausa curta e a página segue
+      tl.to({}, { duration: 0.7 })
     })
 
     // outras seções mudam de altura ao carregar imagens; recalcula o pin
@@ -120,8 +120,8 @@ function Cinematica({ titulo, marcos }: { titulo: string; marcos: Marco[] }) {
 
   return (
     <div ref={raizRef} className="historia">
-      <div className="historia-palco frame">
-        <h3 className="text-[clamp(32px,3.6vw,56px)] font-extrabold leading-none tracking-[-0.045em]">
+      <div className="historia-palco frame grid12">
+        <h3 className="col-span-12 self-start text-[clamp(32px,3.6vw,56px)] font-extrabold leading-none tracking-[-0.045em] lg:col-span-3">
           {titulo}
         </h3>
 
@@ -134,25 +134,33 @@ function Cinematica({ titulo, marcos }: { titulo: string; marcos: Marco[] }) {
           ))}
         </ol>
 
-        <div className="historia-cena" aria-hidden="true">
-          {marcos.map((m, i) => (
-            <p key={i} className="historia-fato" data-final={i === n - 1 || undefined}>
-              <span className="historia-fato-ano tabular-nums">{m.titulo}</span>
-              <span className="historia-fato-texto">{m.texto}</span>
-            </p>
-          ))}
-        </div>
-
-        <div className="historia-trilha" aria-hidden="true" style={{ "--n": n } as React.CSSProperties}>
-          <div className="historia-linha">
-            <div className="historia-fill" />
-          </div>
-          {marcos.map((m, i) => (
-            <div key={i} className="historia-marco">
-              <span className="historia-ponto" />
-              <span className="historia-ano tabular-nums">{m.titulo}</span>
+        <div
+          className="historia-conteudo col-span-12 self-start lg:col-span-9"
+          aria-hidden="true"
+          style={{ "--n": n } as React.CSSProperties}
+        >
+          <div className="historia-trilha">
+            <div className="historia-linha">
+              <div className="historia-fill" />
             </div>
-          ))}
+            {marcos.map((m, i) => (
+              <div key={i} className="historia-marco">
+                <span className="historia-ano tabular-nums">{m.titulo}</span>
+                <span className="historia-ponto">
+                  <span className="historia-ponto-luz" />
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="historia-blocos">
+            {marcos.map((m, i) => (
+              <div key={i} className="historia-bloco" style={{ "--i": i } as React.CSSProperties}>
+                <span className="historia-bloco-ano tabular-nums">{m.titulo}</span>
+                <span className="historia-bloco-texto">{m.texto}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

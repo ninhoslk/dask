@@ -685,104 +685,117 @@ html.js-motion [data-reveal] {
   }
 }
 
-/* ---------- "Nossa história": a rolagem conta a linha do tempo ----------
-   A seção fica fixa (pin do GSAP ScrollTrigger) e cada rolada avança um ano.
-   Só transform, opacity, cor e text-shadow animam; tudo fica empilhado na
-   mesma célula da grade, então nada muda de tamanho ao trocar de ano. */
+/* ---------- "Nossa história": a linha percorre os anos pela rolagem ----------
+   Mesma composição da lista original (título à esquerda, anos em faixa à
+   direita). A seção fica fixa (pin do GSAP ScrollTrigger); a linha turquesa
+   avança com a rolagem e, ao alcançar cada ano, mostra o bloco do fato.
+   Os blocos ficam empilhados numa área de altura fixa: nada muda de tamanho. */
 .historia {
   background: var(--field);
   color: var(--field-foreground);
 }
 .historia-palco {
   min-height: 100svh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
   align-content: center;
-  gap: clamp(24px, 4vh, 56px);
-  padding-block: clamp(72px, 10vh, 120px) clamp(40px, 7vh, 88px);
+  row-gap: clamp(28px, 5vh, 56px);
+  padding-block: clamp(64px, 9vh, 112px);
 }
-.historia-cena {
+.historia-conteudo {
   display: grid;
-  align-items: center;
-}
-.historia-fato {
-  grid-area: 1 / 1;
-  display: grid;
-  gap: clamp(8px, 1.6vh, 20px);
-  max-width: 26ch;
-  will-change: transform, opacity;
-}
-/* antes do GSAP assumir, só o primeiro fato aparece (sem sobreposição) */
-.historia-fato:not(:first-child) {
-  opacity: 0;
-  visibility: hidden;
-}
-.historia-fato-ano {
-  font-size: clamp(64px, 14vw, 200px);
-  font-weight: 800;
-  line-height: 0.85;
-  letter-spacing: -0.06em;
-  color: var(--brand);
-}
-.historia-fato-texto {
-  font-size: clamp(22px, 2.6vw, 40px);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-/* celular: a trilha sobe para baixo do título, longe dos botões flutuantes */
-@media (max-width: 639px) {
-  .historia-palco {
-    grid-template-rows: auto auto 1fr;
-    align-content: start;
-  }
-  .historia-trilha {
-    order: 2;
-  }
-  .historia-cena {
-    order: 3;
-  }
-}
-.historia-fato[data-final] .historia-fato-texto {
-  font-weight: 600;
+  gap: clamp(28px, 5vh, 48px);
+  align-content: center;
 }
 .historia-trilha {
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  padding-bottom: 22px;
 }
 .historia-linha {
   position: absolute;
-  inset-inline: 0;
-  top: 5px;
+  bottom: 5px;
+  left: 0;
+  right: calc(50% / var(--n));
   height: 2px;
-  background: color-mix(in srgb, var(--field-foreground) 18%, transparent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--field-foreground) 16%, transparent);
 }
 .historia-fill {
   height: 100%;
+  border-radius: inherit;
   background: var(--brand);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--brand) 60%, transparent);
   transform-origin: left center;
   transform: scaleX(0);
 }
 .historia-marco {
+  position: relative;
   display: grid;
   justify-items: center;
-  gap: 14px;
-}
-.historia-ponto {
-  position: relative;
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: var(--brand);
-  outline: 4px solid var(--field);
+  padding-bottom: 6px;
 }
 .historia-ano {
   display: inline-block;
-  font-size: clamp(14px, 1.6vw, 24px);
+  font-size: clamp(15px, 2.6vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  transform-origin: center bottom;
+  opacity: 0.35;
+}
+.historia-ponto {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 999px;
+  background: var(--field);
+  border: 2px solid color-mix(in srgb, var(--field-foreground) 35%, transparent);
+}
+.historia-ponto-luz {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--brand);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--brand) 70%, transparent);
+  opacity: 0;
+  transform: scale(0.4);
+}
+.historia-blocos {
+  position: relative;
+  min-height: clamp(120px, 16vh, 160px);
+}
+.historia-bloco {
+  --largura: min(440px, 100%);
+  position: absolute;
+  top: 0;
+  width: var(--largura);
+  left: clamp(0px, calc((var(--i) + 0.5) / var(--n) * 100% - var(--largura) / 2), calc(100% - var(--largura)));
+  display: grid;
+  gap: 6px;
+  padding: clamp(16px, 2vw, 24px) clamp(18px, 2.2vw, 28px);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--field-foreground) 7%, var(--field));
+  border: 1px solid color-mix(in srgb, var(--brand) 55%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+.historia-bloco-ano {
   font-weight: 800;
   letter-spacing: -0.03em;
-  transform-origin: center top;
-  opacity: 0.38;
+  color: var(--brand);
+}
+.historia-bloco-texto {
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 639px) {
+  .historia-bloco {
+    --largura: 100%;
+  }
 }
 
 /* ---------- editor preview: hidden sections stay visible, faded ---------- */

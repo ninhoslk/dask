@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793842964.9348223,
-    "seen": 1793842972.3017833,
-    "ast_hash": "776f1e6c70b3d5569e68ea531bdfb37f",
+    "mtime": 1793844621.0833018,
+    "seen": 1793844628.209257,
+    "ast_hash": "f952d1dfe84f31a5b87992bdec354734",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
@@ -672,9 +672,9 @@
     "semantic_hash": ""
   },
   "site/components/historia-cinematica.tsx": {
-    "mtime": 1793842444.9392521,
-    "seen": 1793842972.3017833,
-    "ast_hash": "7adf9c8a58b3be72fde55dfe2c505fa6",
+    "mtime": 1793844381.9890835,
+    "seen": 1793844628.1965039,
+    "ast_hash": "28f3b5f56b60834d13a41318d49e545c",
     "semantic_hash": ""
   },
   "site/package-lock.json": {
