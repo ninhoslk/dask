@@ -2,11 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
 import { txt, type Conteudo } from "@/lib/conteudo/documento"
 import { IconeWhatsApp } from "@/components/icones-redes"
+import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectContent,
@@ -68,6 +70,10 @@ export function Ensino({ c }: { c: Conteudo }) {
     // a série escolhida só continua valendo se for do cartão em foco
     if (atual && atual.id !== id) setSerie(undefined)
   }
+
+  // setas embaixo dos cartões: passam para o segmento vizinho
+  const anterior = segmentos[indice - 1]
+  const proximo = segmentos[indice + 1]
 
   return (
     <section
@@ -189,7 +195,35 @@ export function Ensino({ c }: { c: Conteudo }) {
         </ul>
       </div>
 
-      <div className="frame mt-12 flex flex-col gap-3 md:mt-16 md:flex-row md:items-baseline md:justify-between md:gap-10">
+      {/* no celular as duas setas ficam juntas à esquerda e o nome depois delas,
+          longe dos botões flutuantes do canto direito */}
+      <div className="frame mt-8 flex items-center justify-start gap-3 md:mt-10 md:justify-center md:gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          className="size-12 rounded-full"
+          disabled={!anterior}
+          aria-label={anterior ? `Ver ${anterior.nome}` : "Ensino Fundamental I é o primeiro"}
+          onClick={() => anterior && focarCartao(anterior.id)}
+        >
+          <ChevronLeftIcon aria-hidden className="size-6" />
+        </Button>
+        <p aria-live="polite" className="font-semibold max-md:order-last max-md:ml-1 md:min-w-[13ch] md:text-center">
+          {segmentos[indice].nome}
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          className="size-12 rounded-full"
+          disabled={!proximo}
+          aria-label={proximo ? `Ver ${proximo.nome}` : "Ensino Médio é o último"}
+          onClick={() => proximo && focarCartao(proximo.id)}
+        >
+          <ChevronRightIcon aria-hidden className="size-6" />
+        </Button>
+      </div>
+
+      <div className="frame mt-10 flex flex-col gap-3 md:mt-14 md:flex-row md:items-baseline md:justify-between md:gap-10">
         <p>
           <strong className="font-semibold">Psicologia escolar:</strong> {psicologa.nome},{" "}
           {psicologa.horario}, com agendamento pela secretaria.
