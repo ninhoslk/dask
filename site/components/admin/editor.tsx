@@ -194,7 +194,8 @@ export function Editor({ rascunho, publicado }: { rascunho: Documento; publicado
       if (r.ok) {
         setNoAr(doc)
         setEstado("salvo")
-        toast.success("Publicado. O site já mostra as mudanças.")
+        if (r.aviso) toast.warning(r.aviso)
+        else toast.success("Publicado. O site já mostra as mudanças.")
       } else toast.error(r.erro)
     })
 
