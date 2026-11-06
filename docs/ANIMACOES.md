@@ -53,7 +53,9 @@ Comandos ffmpeg exatos: `site/public/hero/README.md`.
 ### Carregamento
 
 - Ao montar, escolhe a sequência pela largura (`larguraMobile = 768`).
-- Carrega os frames por **proximidade ao frame atual** (`proximoParaCarregar`): primeiro o frame do ponto em que a pessoa está, depois os vizinhos, alternando para frente e para trás; até `carregamentoParalelo` (6) em voo.
+- Carrega os frames por **proximidade ao frame atual** (`proximoParaCarregar`): primeiro o frame do ponto em que a pessoa está, depois os vizinhos, alternando para frente e para trás; até `carregamentoParalelo` (6) em voo. Só carrega dentro da **janela de memória** (`janelaFrames`: 24 frames de cada lado no celular, 48 no desktop).
+- **Memória limitada:** a cada atualização, `soltarDistantes` solta os frames a mais de `janela + folga` (8) do atual (tira o `src` e a referência), exceto o que está desenhado. Se a pessoa voltar, eles vêm de novo do cache HTTP. No pior caso ficam ≈175 MB decodificados no celular (antes ≈350 MB com as 95 imagens) e ≈450 MB no desktop (antes ≈890 MB). Os números são estimativa (largura × altura × 4 bytes), **não medidos em aparelho real**.
+- O poster some no primeiro frame carregado, qualquer que seja (se a página abrir já rolada, o frame 0 pode estar fora da janela).
 - Se o frame exato ainda não chegou, desenha o **mais próximo já carregado** (`melhorDisponivel`), então nunca fica em branco.
 - Se um frame falha, ele é marcado como erro e pulado. Se nenhum carregar, o poster continua e os textos continuam animando.
 - Ao redimensionar, troca de sequência se cruzar 768 px e reajusta o canvas.
@@ -76,6 +78,7 @@ apoio e o botão de visita. Os outros dois textos ficam ocultos.
 | outro vídeo | regerar `public/hero/*` e atualizar `quantidade` |
 | outros textos | JSX em `hero-cinematico.tsx` (três blocos, na mesma ordem de `blocos`) |
 | mais/menos carregamento simultâneo | `carregamentoParalelo` |
+| mais/menos frames na memória | `janelaFrames` (`mobile`, `desktop`, `folga`) |
 
 Intervalos atuais: abertura 0–0,20 · "Uma escola feita de professores para alunos." 0,32–0,54 · "A porta está aberta." (com botões) 0,70–1.
 
@@ -121,12 +124,15 @@ registra elementos adicionados depois. O estado escondido só existe sob
 
 | Onde | O quê | Classe/arquivo |
 | --- | --- | --- |
-| Faixa de fotos (Apresentação e Contato) | Corre sozinha 60 s por volta; pausa no hover; no Contato corre ao contrário | `.faixa*`, `faixa-fotos.tsx` |
-| Vida no Dask | Fotos inclinadas ficam retas e crescem 3% no hover | `.print` (usa as propriedades `rotate` e `scale`) |
+| Faixa de fotos (Apresentação e Contato) | Corre sozinha 60 s por volta; no Contato corre ao contrário. Pausa com o mouse em cima, com o foco do teclado e com um toque ou Enter (que alterna), exigência da WCAG 2.2.2 | `.faixa*`, `faixa-fotos.tsx`, `faixa-pausavel.tsx` |
+| Cabeçalho que volta | Depois que o cabeçalho da página sai da tela, o mesmo cabeçalho reaparece preso no topo quando a pessoa rola para cima e some quando ela desce (só `transform`/`opacity`; escondido fica `visibility: hidden` + `inert`) | `.cabecalho-fixo`, `cabecalho-fixo.tsx` |
+| Toque | Links de texto, chips, itens do menu e cartões de notícia escurecem na hora em que são pressionados (`:active`); no toque, links ganham área clicável de ~44 px sem mudar o desenho (`.link::after`, `.alvo-toque`) | `globals.css` |
+| Encaixe depois da abertura | No computador, só depois que a rolagem para de vez (inércia incluída), vindo de cima, e parada até 30% de uma tela antes ou 10% depois do começo da Apresentação, ela desliza 0,5 s e para exatamente nele. Quem rola direto passa sem ser puxado; subir nunca é interrompido; um novo giro da roda cancela o encaixe. Sem rolagem suave (movimento reduzido), não age | `encaixe-apresentacao.tsx` |
+| Cartões do Ensino | Ao escolher a série (ou clicar num cartão apagado), a faixa desliza (`transform`, 700 ms) até o cartão daquele segmento ficar no centro; os outros ficam a 35% de opacidade e 94% do tamanho. Com movimento reduzido, a troca é instantânea | `.cartoes-ensino*`, `.cartao-ensino`, `ensino.tsx` |
 | Foto do Contato | Deriva lenta (zoom e deslocamento, 14 s, vai e volta) | `.drift` |
 | Botões de ação | Press (`scale(.97)`) e hover | `.btn-action` |
 | Seletor de série | O texto de resultado entra com `animate-in fade-in slide-in-from-bottom-2` | `ensino.tsx` |
-| Dica de scroll da abertura | Linha verde correndo | `.cine-dica` |
+| Dica de scroll da abertura | Linha verde correndo; fica acima dos botões flutuantes (Instagram/WhatsApp/topo), a 196 px da base, para não ser coberta | `.cine-dica` |
 
 ## Testando animações
 

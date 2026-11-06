@@ -16,6 +16,12 @@ export const contato = {
   facebook: "https://www.facebook.com/colegiodask",
   // eduxego é o app de alunos e famílias; eduxe (Eduxe Class) é o diário de classe do professor.
   diarioDoAluno: "https://colegiodask.eduxego.com.br/",
+  // os recados da escola para as famílias chegam pelo ClassApp, não pelo Diário do Aluno
+  classApp: "https://classapp.com.br/auth",
+  // tour 360 (exportação do Panoee, projeto próprio na Vercel; ver tour/README.md).
+  // O painel pode trocar o endereço ou desligar o tour; este é o padrão quando o
+  // banco não está configurado (ex.: no computador, sem site/.env.local).
+  tour360: "https://colegio-dask-tour.vercel.app",
   profWeb: "https://colegiodask.eduxe.com.br",
   trabalheConosco:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQ6YoWv4TvpOwl0vIMFd1TU18r5CuRGAYDBWLNZPlFWw2rHQ/viewform?usp=header",
@@ -162,7 +168,6 @@ export const documentos = {
 export const navegacao = [
   { href: "/#escola", label: "A escola" },
   { href: "/#ensino", label: "Ensino" },
-  { href: "/#vida", label: "Vida no Dask" },
   { href: "/noticias", label: "Notícias" },
   { href: "/tour-360", label: "Tour 360°" },
 ]

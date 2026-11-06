@@ -7,7 +7,6 @@ import { HeroCinematico } from "@/components/sections/hero-cinematico"
 import { Metodo } from "@/components/sections/metodo"
 import { Noticias } from "@/components/sections/noticias"
 import { Showcase } from "@/components/sections/showcase"
-import { Vida } from "@/components/sections/vida"
 import type { SecaoResolvida } from "@/lib/conteudo/documento"
 import type { IdSecao } from "@/lib/conteudo/esquema"
 import type { NoticiaCartao } from "@/lib/noticias-tipos"
@@ -31,7 +30,6 @@ export function PaginaInicial({
     ensino: (s) => <Ensino c={s.c} />,
     metodo: (s) => <Metodo c={s.c} />,
     robotica: (s) => <Showcase c={s.c} />,
-    vida: (s) => <Vida c={s.c} />,
     conquistas: (s) => <Conquistas c={s.c} />,
     noticias: (s) => <Noticias c={s.c} noticias={noticias} />,
     contato: (s) => <Contato c={s.c} />,

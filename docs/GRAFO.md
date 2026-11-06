@@ -35,7 +35,7 @@ Arquivos em `graphify-out/` (versionados, exceto `cache/`, as cópias datadas e 
 ### O que NÃO está no grafo (de propósito)
 
 - **O conteúdo semântico dos `.md`, imagens e vídeo:** exigiria uma etapa com modelo de IA, que **gasta tokens** (`/graphify --update` no assistente, ou uma chave de API). Não foi feita. Dos `.md` entra só a **estrutura de títulos**, sem custo: uma consulta como `graphify query "regras de animação"` devolve a seção certa do `CLAUDE.md` com o número da linha.
-- **CSS** (`globals.css`) e **JSON de dados** (`noticias.json`): o Graphify não extrai símbolos deles. Para CSS e dados, use `grep` ou leia o arquivo.
+- **CSS** (`globals.css`) e **JSON de dados** (`noticias-todas.json`): o Graphify não extrai símbolos deles. Para CSS e dados, use `grep` ou leia o arquivo.
 - `site/public/` e `referencia/` estão no `.graphifyignore` (mídia e material bruto).
 - Arquivos de código que a ferramenta avisou que não têm símbolos: `scripts/crawl.ps1`, `pick.ps1`, `sheet.ps1`, `site/lib/utils.ts`.
 

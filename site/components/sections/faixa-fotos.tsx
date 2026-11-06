@@ -1,16 +1,17 @@
 import Image from "next/image"
 
+import { FaixaPausavel } from "@/components/sections/faixa-pausavel"
 import { conteudoPadrao, imgs } from "@/lib/conteudo/documento"
 import type { Imagem } from "@/lib/conteudo/esquema"
 
-// A strip of real school photos that drifts sideways. CSS only; it stops
-// under reduced motion and pauses on hover.
+// A strip of real school photos that drifts sideways (CSS). It stops under
+// reduced motion and pauses on hover, on keyboard focus or with a tap.
 const padrao = imgs(conteudoPadrao("apresentacao"), "faixa")
 
 export function FaixaFotos({ reverso = false, fotos = padrao }: { reverso?: boolean; fotos?: Imagem[] }) {
   const lista = reverso ? [...fotos].reverse() : fotos
   return (
-    <div className="faixa" aria-label="Fotos do dia a dia no Colégio Dask" role="region">
+    <FaixaPausavel>
       <ul className="faixa-trilho" data-reverso={reverso || undefined}>
         {[...lista, ...lista].map((f, i) => (
           <li key={`${f.src}-${i}`} aria-hidden={i >= lista.length || undefined}>
@@ -18,6 +19,6 @@ export function FaixaFotos({ reverso = false, fotos = padrao }: { reverso?: bool
           </li>
         ))}
       </ul>
-    </div>
+    </FaixaPausavel>
   )
 }

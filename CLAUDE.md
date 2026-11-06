@@ -150,6 +150,8 @@ não só o `dev`: o bundler pode mudar o que vai ao ar.
 - Os componentes de `components/ui/*` gerados pelo shadcn importam `cn` do **pacote npm `cn`** (está no `package.json`), enquanto `lib/utils.ts` também exporta um `cn`. Funciona; só não "corrija" sem testar.
 - `.env.local` e `.vercel/` são criados pela CLI da Vercel e estão no `.gitignore`. **Nunca versione**: contêm tokens.
 - `next-env.d.ts` e `*.tsbuildinfo` são ignorados; o Next recria.
+- Se o `npm run build` cair com "build worker exited" (pouca memória livre no computador), rode `NEXT_BUILD_CPUS=2 npm run build`: limita os processos do build (`experimental.cpus` em `next.config.ts`). Sem a variável, nada muda (a Vercel usa o padrão).
+- Se o Windows estiver com "efeitos de animação" desligados, o navegador informa `prefers-reduced-motion: reduce` e a abertura fica **estática** (sem canvas). Não é bug. `scripts/cine-test.mjs` força "sem preferência" quando o modo `reduzido` não é pedido.
 - No Windows, o painel de pré-visualização pode pausar animações quando oculto; ao testar scroll, use um Chrome headless (`scripts/cine-test.mjs`) em vez de confiar em capturas de uma aba escondida.
 - `referencia/fotos/` (≈490 MB) **não** está no Git. Para recriar: `scripts/download.ps1`.
 - Excerpts do WordPress chegam cortados no meio da frase; `components/sections/noticias.tsx` já corta na última frase completa.

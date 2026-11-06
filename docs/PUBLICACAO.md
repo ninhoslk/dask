@@ -7,7 +7,7 @@ da Vercel). A regra do projeto é: **toda mudança vira commit e push**.
 
 - `git push` na **`main`** → deploy de **produção**.
 - Push em qualquer outra branch / PR → **URL de preview**.
-- A Vercel precisa estar com **Root Directory = `site`** (o projeto Next.js não está na raiz do repositório). Framework: Next.js (detectado). Build: `npm run build` (padrão). Sem variáveis de ambiente.
+- A Vercel precisa estar com **Root Directory = `site`** (o projeto Next.js não está na raiz do repositório). Framework: Next.js (detectado). Build: `npm run build` (padrão). Variáveis do Supabase (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`) para o painel e o conteúdo editável; ver [PAINEL.md](PAINEL.md).
 - Antes do push, rode `typecheck`, `lint` e `build` em `site/`: se o build local falha, o deploy da Vercel também falha.
 
 ```bash
@@ -76,5 +76,5 @@ Nenhum domínio próprio está configurado. Se a escola aprovar, o domínio
 ## Cuidados
 
 - O site tem **17 MB + 5,6 MB** de frames em `public/hero/` e ≈ 18 MB de fotos e capas de notícias; o upload leva alguns minutos.
-- Não há variáveis de ambiente necessárias para rodar ou publicar o site.
+- O site roda e publica **sem** variáveis de ambiente (usa os textos padrão e as notícias de `noticias-todas.json`), mas o painel e o conteúdo editado só aparecem com as variáveis do Supabase configuradas na Vercel ([PAINEL.md](PAINEL.md)).
 - Não commite `site/.env.local`: ele contém um token temporário da Vercel.

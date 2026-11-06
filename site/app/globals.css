@@ -163,6 +163,26 @@
 .link:hover {
   text-decoration-color: currentColor;
 }
+/* resposta no toque, na hora (sem esperar o clique terminar) */
+.link:active {
+  text-decoration-color: currentColor;
+  opacity: 0.7;
+  transition-duration: 0ms;
+}
+/* no toque, a área clicável dos links de texto chega a ~44px de altura sem
+   mudar o desenho: uma camada invisível maior que o texto */
+@media (pointer: coarse) {
+  .link,
+  .alvo-toque {
+    position: relative;
+  }
+  .link::after,
+  .alvo-toque::after {
+    content: "";
+    position: absolute;
+    inset: -12px -6px;
+  }
+}
 .media {
   border-radius: var(--radius);
   overflow: hidden;
@@ -172,6 +192,53 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* ---------- ensino: cartões dos segmentos ---------- */
+/* A faixa ocupa a largura da tela. --i é o cartão em foco; o trilho desliza
+   até o centro dele ficar no centro da faixa (50cqw). Os outros ficam
+   apagados e um pouco menores nas laterais. Só transform e opacity animam. */
+.cartoes-ensino {
+  container-type: inline-size;
+}
+.cartoes-ensino-trilho {
+  --w: min(78cqw, 520px);
+  --g: 16px;
+  gap: var(--g);
+  transform: translate3d(calc(50cqw - var(--i) * (var(--w) + var(--g)) - var(--w) / 2), 0, 0);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 768px) {
+  .cartoes-ensino-trilho {
+    --w: min(56cqw, 600px);
+    --g: 24px;
+  }
+}
+@media (min-width: 1024px) {
+  .cartoes-ensino-trilho {
+    --w: min(40cqw, 640px);
+  }
+}
+.cartao-ensino {
+  width: var(--w);
+  transition:
+    opacity 400ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cartao-ensino[data-apagado] {
+  opacity: 0.35;
+  transform: scale(0.94);
+}
+@media (hover: hover) {
+  .cartao-ensino[data-apagado]:hover {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cartoes-ensino-trilho,
+  .cartao-ensino {
+    transition: none;
+  }
 }
 
 /* ---------- about: portrait as drop cap ---------- */
@@ -242,38 +309,6 @@
     opacity: 1 !important;
     transform: none !important;
   }
-}
-
-/* ---------- gallery: prints dropped on the headline ---------- */
-.prints {
-  position: relative;
-  min-height: 100svh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-}
-.print {
-  position: absolute;
-  border: 8px solid var(--background);
-  border-radius: 4px;
-  overflow: hidden;
-  transition:
-    rotate 220ms var(--ease-out),
-    scale 220ms var(--ease-out),
-    opacity 700ms ease,
-    transform 800ms var(--ease-out);
-  transition-delay: 0ms, 0ms, var(--d, 0ms), var(--d, 0ms);
-  z-index: 2;
-}
-.print img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.print:hover {
-  rotate: 0deg;
-  scale: 1.03;
-  z-index: 5;
 }
 
 /* ---------- proof: the sentence is read line by line (after onform.studio) ---------- */
@@ -402,7 +437,9 @@ html.lenis {
   position: absolute;
   z-index: 10;
   right: var(--margin);
-  bottom: clamp(56px, 9svh, 112px);
+  /* acima da coluna de botões flutuantes (WhatsApp, Instagram e topo, ~166px),
+     que fica no mesmo canto */
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 196px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -469,6 +506,10 @@ html.lenis {
 .faixa-trilho[data-reverso] {
   animation-direction: reverse;
 }
+/* pausa com o mouse em cima, com foco do teclado ou com um toque (que
+   alterna); movimento que dura mais de 5 s precisa poder parar (WCAG 2.2.2) */
+.faixa:focus-visible .faixa-trilho,
+.faixa[data-pausada] .faixa-trilho,
 .faixa:hover .faixa-trilho {
   animation-play-state: paused;
 }
@@ -546,6 +587,33 @@ html.js-motion [data-reveal] {
   transform: scale(0.97);
 }
 
+/* ---------- cabeçalho que volta ao rolar para cima (cabecalho-fixo.tsx) ----------
+   Mesmo cabeçalho da página, sobre o fundo "papel". Escondido = fora da tela,
+   invisível e inerte; só transform e opacity animam. */
+.cabecalho-fixo {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 45;
+  background: var(--background);
+  padding-block: 12px;
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 200ms ease,
+    visibility 0s linear 260ms;
+}
+.cabecalho-fixo[data-visivel] {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 200ms ease,
+    visibility 0s;
+}
+
 /* ---------- news: share chips, filters and article text ---------- */
 .rede {
   display: inline-flex;
@@ -557,6 +625,12 @@ html.js-motion [data-reveal] {
   background: var(--tint);
   font-weight: 600;
   transition: background-color 160ms ease;
+}
+/* resposta no toque para chips, menu e cartões de notícia */
+.rede:active,
+.nav-item:active,
+a.group:active {
+  opacity: 0.7;
 }
 .rede:hover {
   background: color-mix(in srgb, var(--brand) 45%, var(--tint));

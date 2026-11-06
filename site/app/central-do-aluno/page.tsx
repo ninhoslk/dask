@@ -10,7 +10,7 @@ import { contato, documentos, psicologa, segmentos } from "@/lib/site"
 export const metadata: Metadata = {
   title: "Central do aluno · Colégio Dask",
   description:
-    "Diário do Aluno, Prof. Web, listas de material, normas e contatos da coordenação do Colégio Dask.",
+    "Diário do Aluno, ClassApp, Prof. Web, listas de material, normas e contatos da coordenação do Colégio Dask.",
 }
 
 type Doc = { nome: string; url?: string }
@@ -67,8 +67,9 @@ export default function CentralDoAluno() {
           coordenação.
         </p>
 
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
-          <Acesso href={contato.diarioDoAluno} titulo="Diário do Aluno" texto="Notas, frequência e recados da escola." />
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Acesso href={contato.diarioDoAluno} titulo="Diário do Aluno" texto="Notas do aluno." />
+          <Acesso href={contato.classApp} titulo="ClassApp" texto="Recados da escola para as famílias." />
           <Acesso href={contato.profWeb} titulo="Prof. Web" texto="Acesso dos professores." />
           <Acesso href={contato.trabalheConosco} titulo="Trabalhe conosco" texto="Envie seu currículo para o Dask." />
         </div>

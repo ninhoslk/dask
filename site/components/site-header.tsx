@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ChevronDownIcon, MenuIcon } from "lucide-react"
 
 import {
@@ -25,16 +26,24 @@ import { contato, mensagemVisita, navegacao, whatsappLink } from "@/lib/site"
 
 const acessos = [
   { label: "Diário do Aluno", href: contato.diarioDoAluno, externo: true },
+  { label: "ClassApp", href: contato.classApp, externo: true },
   { label: "Prof. Web", href: contato.profWeb, externo: true },
   { label: "Central do aluno", href: "/central-do-aluno", externo: false },
 ]
 
+// a página em que a pessoa está, para o menu responder "onde estou?"
+function atual(pathname: string | null, href: string) {
+  if (!pathname || href.includes("#")) return false
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 // tom "claro": texto branco e logo branco, para usar sobre foto ou vídeo
 export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
   const claro = tom === "claro"
+  const pathname = usePathname()
   return (
     <header className={cn("flex items-center justify-between gap-6", claro && "text-white")}>
-      <Link href="/" aria-label="Colégio Dask, página inicial" className="shrink-0">
+      <Link href="/" aria-label="Colégio Dask, página inicial" className="alvo-toque shrink-0">
         <Image
           src={claro ? "/logo-dask-branco.png" : "/logo-dask.png"}
           alt="Colégio Dask"
@@ -47,7 +56,12 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
 
       <nav aria-label="Principal" className="hidden items-center gap-6 font-semibold whitespace-nowrap xl:flex 2xl:gap-7">
         {navegacao.map((item) => (
-          <Link key={item.href} href={item.href} className="decoration-2 underline-offset-[0.25em] hover:underline">
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={atual(pathname, item.href) ? "page" : undefined}
+            className="nav-item alvo-toque decoration-2 underline-offset-[0.25em] hover:underline aria-[current=page]:underline"
+          >
             {item.label}
           </Link>
         ))}
@@ -94,7 +108,13 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
           <nav aria-label="Menu" className="mt-8 flex flex-col gap-4 text-2xl font-extrabold tracking-tight">
             {navegacao.map((item) => (
               <SheetClose asChild key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
+                <Link
+                  href={item.href}
+                  aria-current={atual(pathname, item.href) ? "page" : undefined}
+                  className="nav-item decoration-2 underline-offset-[0.2em] aria-[current=page]:underline"
+                >
+                  {item.label}
+                </Link>
               </SheetClose>
             ))}
           </nav>

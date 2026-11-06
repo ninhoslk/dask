@@ -29,7 +29,7 @@ azul-marinho `#183E6D`.
 | `--foreground` (tinta) | `#0e2944` | texto e títulos (azul-marinho profundo) |
 | `--muted-foreground` | `#344d68` | texto secundário (contraste ≥ 7:1 sobre o fundo) |
 | `--card` | `#e7efef` | superfícies discretas |
-| `--brand` | `#54d4bf` | teal do logo: botão de ação, destaques, seção Vida |
+| `--brand` | `#54d4bf` | teal do logo: botão de ação, destaques |
 | `--field` | `#183e6d` | campo azul-marinho: Método, Conquistas, linha do tempo, rodapé |
 | `--tint` | `#dcf3ee` | verde-água claro: Apresentação, Ensino, Contato |
 | `--sky` | `#196ca0` | azul para números de destaque |
@@ -49,7 +49,7 @@ Uma família só: **Schibsted Grotesk** (400 texto, 600 funcional, 800 títulos)
 
 | Classe | Uso | Regra |
 | --- | --- | --- |
-| `.display` | frases enormes (abertura, Vida, Robótica, rodapé) | 800 · tracking −0,05em · entrelinha 0,9 |
+| `.display` | frases enormes (abertura, Robótica, rodapé) | 800 · tracking −0,05em · entrelinha 0,9 |
 | `.head` | título de seção | 800 · −0,045em · 0,98 · `text-wrap: balance` · `--step-head` (2,25–4,5 rem) |
 | `.lead` | frase de apoio | `--step-lead` (1,25–1,625 rem) · entrelinha 1,3 |
 | corpo | parágrafos | `--step-body` (1,0625–1,1875 rem) · entrelinha 1,5 |
@@ -93,8 +93,7 @@ recursos (ex.: cartões com ícone em 1% deles contra 28% dos fracos; gradientes
 ## Responsivo
 
 Três larguras de verificação: 1440, 768 e 390 px. No celular: o título da abertura
-quebra em três linhas (isso foge da regra de duas linhas e ainda não foi medido
-pelo inspetor; ver pendências), cabeçalho vira botão "Menu" com painel lateral, tabelas
+fica em duas linhas (tamanho próprio abaixo de 640 px), cabeçalho vira botão "Menu" com painel lateral, tabelas
 empilham, colagens passam a coluna única, algumas fotos extras (`hidden md:block`)
 somem para não competir com o título. A única animação simplificada no celular é
 a da robótica (não fixa); a abertura em vídeo usa uma sequência menor.
@@ -107,3 +106,6 @@ a da robótica (não fixa); a abertura em vídeo usa uma sequência menor.
 - `aria-live="polite"` no resultado do seletor de série.
 - Menu móvel com `SheetTitle` e `SheetDescription` (exigência do shadcn).
 - Elementos animados e escondidos recebem `inert`/`visibility: hidden`.
+- No toque, links e itens de menu têm área clicável de pelo menos ~44 px (camada invisível, sem mudar o desenho) e respondem na hora em que são pressionados.
+- A faixa de fotos que corre pode ser pausada com um toque, um clique ou o teclado.
+- O menu marca a página atual (`aria-current`).

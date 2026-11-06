@@ -8,16 +8,18 @@ import { parceiros } from "@/lib/site"
 
 function Lista({ itens }: { itens: { titulo: string; texto: string }[] }) {
   return (
-    <dl className="mt-8 flex flex-col gap-5">
+    <dl className="mt-8 flex max-w-[52ch] flex-col gap-7">
       {itens.map((p, i) => (
         <div
           key={p.titulo}
           data-reveal
           style={{ "--d": `${120 + i * 70}ms` } as React.CSSProperties}
-          className="grid gap-1 sm:grid-cols-[minmax(0,14ch)_1fr] sm:gap-8"
+          className="flex flex-col gap-1.5"
         >
-          <dt className="font-semibold text-brand">{p.titulo}</dt>
-          <dd>{p.texto}</dd>
+          {/* título em cima e texto embaixo: o espaço entre itens (gap-7) é bem
+              maior que o de dentro (gap-1.5), então cada par se lê como um bloco */}
+          <dt className="text-lg font-semibold leading-snug text-brand">{p.titulo}</dt>
+          <dd className="leading-relaxed opacity-90">{p.texto}</dd>
         </div>
       ))}
     </dl>
@@ -53,8 +55,9 @@ function Parceiro({
   className?: string
 }) {
   const [grande, ...pequenas] = fotos
+  // no computador cada parceiro ocupa uma tela inteira, com o conteúdo centrado
   return (
-    <div className={cn("grid12 items-center gap-y-10", className)}>
+    <div className={cn("grid12 items-center gap-y-10 lg:min-h-svh lg:content-center", className)}>
       <div className={cn("col-span-12 lg:col-span-6", invertido && "lg:order-last")}>
         <a
           href={site}
@@ -116,12 +119,12 @@ export function Metodo({ c }: { c: Conteudo }) {
       className="frame bg-field text-field-foreground"
       style={{ paddingBlock: "var(--section-gap)" }}
     >
-      <div className="grid12 gap-y-6">
-        <h2 id="metodo-title" className="head col-span-12 lg:col-span-7" data-reveal>
+      <div className="flex flex-col gap-6">
+        <h2 id="metodo-title" className="head" data-reveal>
           {txt(c, "titulo")}
         </h2>
         <p
-          className="lead col-span-12 max-w-[42ch] lg:col-span-5 lg:self-end"
+          className="lead max-w-[64ch]"
           data-reveal
           style={{ "--d": "80ms" } as React.CSSProperties}
         >
@@ -137,7 +140,7 @@ export function Metodo({ c }: { c: Conteudo }) {
         titulo={txt(c, "sasTitulo")}
         itens={itens(c, "sasItens")}
         fotos={[sas1, sas2, sas3]}
-        className="mt-14 md:mt-20"
+        className="mt-14 md:mt-20 lg:mt-0"
       />
 
       <Parceiro
@@ -150,7 +153,7 @@ export function Metodo({ c }: { c: Conteudo }) {
         itens={itens(c, "arvoreItens")}
         fotos={[arv1, arv2, { ...arv3, className: arv3.src === "/fotos/arvore-leitura.jpg" ? "object-[70%_50%]" : undefined }]}
         invertido
-        className="mt-16 md:mt-24"
+        className="mt-16 md:mt-24 lg:mt-0"
       />
     </section>
   )

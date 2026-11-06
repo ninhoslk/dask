@@ -3,6 +3,7 @@ import { Schibsted_Grotesk } from "next/font/google"
 
 import "./globals.css"
 import { BotoesFlutuantes } from "@/components/botoes-flutuantes"
+import { CabecalhoFixo } from "@/components/cabecalho-fixo"
 import { Motion } from "@/components/motion"
 import { RolagemSuave } from "@/components/rolagem-suave"
 
@@ -38,6 +39,7 @@ export default function RootLayout({
         >
           Pular para o conteúdo
         </a>
+        <CabecalhoFixo />
         {children}
         <BotoesFlutuantes />
         <Motion />

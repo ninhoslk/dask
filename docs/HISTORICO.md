@@ -21,6 +21,7 @@ SAS, **sem criar foto nova**.
 9. Instalar o **Graphify**, gerar o grafo do código (`graphify-out/`) e deixar explícito no repositório que ele deve ser consultado antes de ler arquivos, para economizar tokens ([GRAFO.md](GRAFO.md)).
 10. **Toda mudança vira commit e push**, porque a Vercel publica a partir do GitHub.
 11. Terceira revisão (30/out/2026): botão flutuante do WhatsApp sempre no canto inferior direito, com Instagram e "voltar ao topo"; mapa do Google com a foto aérea da fachada (enviada pelo cliente); página própria de notícias com **todas** as 265 do blog e compartilhamento no Facebook, LinkedIn, Pinterest e WhatsApp (o site oficial só tem perfis no Instagram e no Facebook; não há LinkedIn nem Pinterest da escola); menos vazio na seção SAS/Árvore, com logo e "Ver mais" levando ao site de cada parceiro; legenda da robótica removida e "com pódio." afastado da foto; fotos de "Vida no Dask" afastadas do título; Diário do Aluno e Prof. Web estavam invertidos (eduxego é o app do aluno; Eduxe Class é o do professor); ícone do WhatsApp nos telefones das coordenações; frase de conquistas com o efeito de leitura e a rolagem suave (Lenis, lerp 0,085) da onform.studio; **painel administrativo** com Supabase (ver [PAINEL.md](PAINEL.md)) e aba reservada para o tour 360°.
+12. Quarta revisão (nov/2026): seção **"Vida no Dask" removida** (e o item do menu); "Nossa história" volta à lista estática da `main` (a versão animada com GSAP foi descartada e o pacote `gsap` removido); no Método, o texto "O professor orienta…" fica logo abaixo do título; a dica "Role para chegar à escola" subiu para não ficar atrás dos botões flutuantes. Depois: na Escola, "Agendar visita" e o link do Tour 360° ocupam o espaço sob Onde/Desde/Secretaria; o texto do Método cabe em duas linhas a partir do tablet; o título "Do primeiro ano ao vestibular." perdeu o recuo da primeira linha. Por fim, a Escola virou "revista aberta" (texto em duas colunas em cima, fotos numa faixa embaixo), porque a coluna de fotos crescia com a tela e deixava um vazio grande à esquerda. No computador (a partir de 1024 px), a Apresentação e cada parceiro do Método (SAS e Árvore) ocupam uma tela inteira (`min-h-svh`), sem mostrar o começo da parte seguinte. A pedido do cliente, o Ensino virou uma faixa de cartões (um por segmento) com "Selecionar série": o cartão do segmento escolhido vai ao centro e os outros ficam apagados; a foto do laboratório saiu da seção.
 
 ## O que foi feito
 
@@ -34,7 +35,7 @@ SAS, **sem criar foto nova**.
 ### Site
 - Projeto criado com `npx shadcn@latest init --template next --base radix --preset nova`.
 - Direção de arte e regras de design com a taste-skill (ver [DESIGN.md](DESIGN.md)).
-- Home com 10 seções + rodapé e a página Central do aluno (ver [ARQUITETURA.md](ARQUITETURA.md)).
+- Home com 9 seções + rodapé e a página Central do aluno (ver [ARQUITETURA.md](ARQUITETURA.md)).
 - Animações (ver [ANIMACOES.md](ANIMACOES.md)): abertura cinematográfica, robótica, conquistas, entradas, faixas de fotos.
 - SAS Educação e Árvore integrados à seção Método, cada um com logo oficial, texto e fotos.
 - Publicado na Vercel (ver [PUBLICACAO.md](PUBLICACAO.md)).
@@ -69,16 +70,17 @@ SAS, **sem criar foto nova**.
 7. Página dedicada de **Matrícula / Agende uma visita** (hoje o CTA é WhatsApp).
 8. **Galeria** de fotos.
 9. **Depoimentos** (dependem de depoimentos reais).
-10. Blog "Acontece no Dask" com **filtros** Ensino/Eventos (hoje: 1 destaque + 4 notícias e link para o blog completo no site da escola).
+10. ~~Blog "Acontece no Dask" com **filtros** Ensino/Eventos~~ feito: `/noticias` tem filtros por categoria e busca.
 
 **Técnico**
-11. **Memória na abertura em vídeo:** os frames carregados ficam como `HTMLImageElement`. Em celulares com pouca memória (principalmente Safari do iOS) a decodificação de 95 imagens de 720×1278 pode pesar bastante; no desktop são até 190 imagens de 1440×810. O navegador pode descartar dados decodificados, mas **isso não foi medido em dispositivos reais**. Mitigações possíveis: manter só uma janela de frames ao redor do atual, usar `ImageBitmap`, reduzir resolução ou quantidade de frames.
-12. O título da abertura quebra em **3 linhas** no celular (regra de design é ≤ 2) e a abertura **não foi medida** pelo inspetor.
-13. Notícias são um JSON estático: não atualizam sozinhas. Opção: buscar a API do WordPress no build com revalidação (`revalidate`).
+11. **Memória na abertura em vídeo:** ~~todos os frames ficavam decodificados~~. Desde nov/2026 só fica uma janela ao redor do frame atual (`janelaFrames` em `lib/hero-cinematico.ts`; ver [ANIMACOES.md](ANIMACOES.md#carregamento)), o que corta o pior caso pela metade no celular. **Ainda falta medir em aparelho real** (principalmente Safari do iOS) se a rolagem rápida continua sem quadros vazios; se pesar, os próximos passos são `ImageBitmap` ou frames menores.
+12. ~~O título da abertura quebra em 3 linhas no celular~~ corrigido em nov/2026: abaixo de 640 px o tamanho é `clamp(34px, 11vw, 52px)` e "Evoluir / para transformar." cabe em duas linhas de 320 a 640 px. Se o texto for trocado no painel por um mais longo, pode voltar a quebrar.
+13. Notícias novas são cadastradas pelo painel; as do blog antigo foram importadas uma vez. Se a escola continuar publicando no WordPress, é preciso rodar `scripts/importar-noticias.mjs` e `semear-noticias.mjs` de novo (não há sincronização automática).
 14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
-15. Sem analytics, sem domínio próprio, sem integração Git→Vercel, sem testes automatizados (unitários/E2E) no repositório.
+15. Sem analytics, sem domínio próprio, sem testes automatizados (unitários/E2E) no repositório.
 16. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
 17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
+18. O freio de tentativas de login do painel (`app/admin/login/acoes.ts`) fica na memória de cada instância do servidor; na Vercel cada instância conta separado. O limite por IP do próprio Supabase Auth continua valendo por trás. Para um freio único, seria preciso guardar as tentativas no banco (tabela + função), o que pede uma migração nova.
 
 ## Como foram gerados os dados
 
@@ -86,7 +88,7 @@ Os scripts de levantamento estão em [../scripts/](../scripts/README.md). Resumo
 que cada dado precisou:
 
 - **Páginas, posts e mídia do WordPress:** `GET https://colegiodask.com.br/wp-json/wp/v2/pages|posts|media?per_page=100&page=N`. Salvos em `referencia/dask/wp_content.json` e `media_catalog.json`.
-- **`site/lib/noticias.json`:** dos posts mais recentes com imagem de destaque, via `wp/v2/media/<id>`: baixa a imagem `large` para `site/public/noticias/<slug>.jpg` e grava `slug`, `title`, `date`, `category` (1=Geral, 7=Eventos, 8=Ensino), `excerpt` (HTML removido, cortado no fim), `image`, `url`.
+- **`site/lib/noticias-todas.json`:** `scripts/importar-noticias.mjs` lê todos os posts de `wp/v2/posts` (com `_embed` para a imagem) e grava `slug`, `title`, `date`, `category` (1=Geral, 7=Eventos, 8=Ensino), `excerpt`, `content`, `image`, `thumb` e `url`. O antigo `lib/noticias.json` (9 notícias com capa em `public/noticias/`) foi removido em nov/2026 por não ser mais usado; as capas continuam em `public/noticias/`.
 - **Cores e fontes da marca:** variáveis `--e-global-color-*` do CSS do Elementor do site antigo (`#196CA0`, `#54D4BF`, `#61CE70`, `#6EC1E4`, `#54595F`).
 - **Logo do SAS:** `https://www.saseducacao.com.br/themes/custom/sas_edu_theme/quark-storybook/packages/core/src/images/logo-md.png`.
 - **Logo da Árvore:** `https://assets-global.website-files.com/61155c49f7b752684a9f0584/6139298b482f344a8b3236be_logo-arvore-verde-completo.svg`.

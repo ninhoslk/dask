@@ -13,14 +13,14 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 
 | O quê | Arquivo |
 | --- | --- |
-| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
+| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno, ClassApp e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
 | Mensagem pré-escrita do WhatsApp | `site/lib/site.ts` → `mensagemVisita` e `whatsappLink()` |
 | Segmentos, séries, coordenações, horários de atendimento | `site/lib/site.ts` → `segmentos`, `psicologa` |
-| Linha do tempo (1995–2022) | `site/lib/site.ts` → `linhaDoTempo` |
-| Frase "Nossos alunos estiveram…" | `site/lib/site.ts` → `conquistas` (cada item já leva a preposição: "na Olimpíada…", "no Torneio…") |
+| Linha do tempo (1995–2022) | Painel (seção A escola); padrão em `site/lib/site.ts` → `linhaDoTempo` |
+| Frase "Nossos alunos estiveram…" | Painel (seção Conquistas); padrão em `site/lib/site.ts` → `conquistas` (cada item já leva a preposição: "na Olimpíada…", "no Torneio…") |
 | Links de documentos (listas de material, normas) | `site/lib/site.ts` → `documentos`; documentos "Em breve" ficam em `docsPorSegmento` no `central-do-aluno/page.tsx` |
-| Notícias | `site/lib/noticias.json` + imagens em `site/public/noticias/` |
-| Textos de cada seção da home | no próprio arquivo de `site/components/sections/` |
+| Notícias | Painel → aba **Notícias** (banco). Sem banco, `site/lib/noticias-todas.json` |
+| Textos e fotos de cada seção da home | Painel → **Editor visual**; os padrões ficam em `site/lib/conteudo/esquema.ts` |
 | Textos e tempos da abertura em vídeo | `site/components/sections/hero-cinematico.tsx` e `site/lib/hero-cinematico.ts` |
 | Menu principal | `site/lib/site.ts` → `navegacao` |
 
@@ -63,12 +63,14 @@ baixá-las) e use `scripts/pick.ps1` como modelo para redimensionar.
 
 ## Notícias: como atualizar
 
-O arquivo `site/lib/noticias.json` foi gerado assim (PowerShell, ver o trecho em
-[HISTORICO.md](HISTORICO.md#como-foram-gerados-os-dados)): lista os 9 posts mais
-recentes que têm imagem de destaque, baixa a imagem para `public/noticias/` e
-grava `slug`, `title`, `date`, `category`, `excerpt`, `image` e `url`.
-O `url` aponta para o post no site da escola; o link abre em nova aba.
+As notícias ficam na tabela `noticias` do Supabase e são editadas no painel
+(aba **Notícias**). As 265 do blog do colégio foram importadas do WordPress por
+`scripts/importar-noticias.mjs` (gera `site/lib/noticias-todas.json`) e copiadas
+para o banco por `scripts/semear-noticias.mjs`. O JSON continua no repositório
+como reserva: sem banco, o site mostra as notícias dele. As imagens das notícias
+antigas continuam no site do colégio (só o endereço é guardado).
 
-O campo `excerpt` vem cortado do WordPress. `noticias.tsx` mostra só até a última
-frase completa. O primeiro item usa uma foto alternativa (`outraFoto`) porque a
+O resumo vem cortado do WordPress; `resumoInteiro` (`lib/noticias-tipos.ts`)
+mostra só até a última frase completa. Na home, a notícia de destaque usa uma
+foto alternativa (`outraFoto` em `components/sections/noticias.tsx`) quando a
 capa original já aparece na seção de robótica.
