@@ -1,12 +1,16 @@
+"use client"
+
+import { useConfig } from "@/components/config-site"
 import { FaixaFotos } from "@/components/sections/faixa-fotos"
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
-import { mensagemVisita, whatsappLink } from "@/lib/site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 
 // Faixa logo depois da abertura cinematográfica: quem é o Dask em uma frase,
 // os números reais e as fotos do dia a dia.
 export function Apresentacao({ c }: { c: ConteudoDe<"apresentacao"> }) {
   const destaques = c.destaques.map((d) => ({ valor: d.titulo, texto: d.texto }))
+  const { whatsappVisita } = contatoDe(useConfig())
   // no computador ocupa uma tela inteira: a frase no meio do espaço livre e a
   // faixa de fotos encostada embaixo, sem mostrar o começo da próxima seção
   return (
@@ -19,16 +23,18 @@ export function Apresentacao({ c }: { c: ConteudoDe<"apresentacao"> }) {
           <p className="lead max-w-[38ch]">{c.texto}</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <a
-              href={whatsappLink(mensagemVisita)}
+              href={whatsappVisita}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-action text-lg"
             >
               {c.botao}
             </a>
-            <a href="#ensino" className="link font-semibold">
-              Ver séries e turnos
-            </a>
+            {c.link2Texto && c.link2 && (
+              <a href={c.link2} className="link font-semibold">
+                {c.link2Texto}
+              </a>
+            )}
           </div>
         </div>
         <dl className="col-span-12 grid grid-cols-3 gap-3 lg:col-span-5 lg:gap-4">

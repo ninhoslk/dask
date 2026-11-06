@@ -1,7 +1,18 @@
 import { describe, expect, it } from "vitest"
 
 import { documentoPadrao } from "@/lib/conteudo/documento"
-import { alternarSecao, moverSecao, mudarCampo, podeMover, reordenarSecao } from "@/lib/conteudo/operacoes"
+import {
+  acrescentarSecao,
+  alternarSecao,
+  duplicarSecao,
+  moverSecao,
+  mudarCampo,
+  podeDuplicar,
+  podeMover,
+  removerSecao,
+  reordenarSecao,
+  tiposDisponiveis,
+} from "@/lib/conteudo/operacoes"
 
 const doc = documentoPadrao()
 const ids = (d = doc) => d.secoes.map((s) => s.id)
@@ -68,5 +79,47 @@ describe("campos", () => {
   it("undefined volta o campo ao padrão (some do documento)", () => {
     const r = mudarCampo(mudarCampo(doc, "metodo", "titulo", "Novo"), "metodo", "titulo", undefined)
     expect("titulo" in r.secoes.find((s) => s.id === "metodo")!.campos).toBe(false)
+  })
+})
+
+describe("acrescentar, duplicar e remover", () => {
+  it("acrescenta uma seção extra no fim e devolve o id dela", () => {
+    const r = acrescentarSecao(doc, "bloco")
+    expect(r.id).toBe("bloco")
+    expect(r.doc.secoes.at(-1)).toMatchObject({ id: "bloco", tipo: "bloco", visivel: true })
+  })
+
+  it("não acrescenta uma seção única que já está na página, nem a abertura", () => {
+    expect(acrescentarSecao(doc, "metodo")).toEqual({ doc, id: null })
+    expect(acrescentarSecao(doc, "abertura")).toEqual({ doc, id: null })
+    expect(tiposDisponiveis(doc)).toEqual(["bloco", "chamada"])
+  })
+
+  it("depois de removida, a seção única volta a poder ser acrescentada", () => {
+    const sem = removerSecao(doc, "metodo")
+    expect(sem.secoes.some((s) => s.tipo === "metodo")).toBe(false)
+    expect(tiposDisponiveis(sem)).toContain("metodo")
+  })
+
+  it("a abertura não sai", () => {
+    expect(removerSecao(doc, "abertura")).toBe(doc)
+  })
+
+  it("duplica uma seção extra logo abaixo, com id novo e os mesmos campos", () => {
+    const com = mudarCampo(acrescentarSecao(doc, "chamada").doc, "chamada", "titulo", "Matrículas")
+    const dup = duplicarSecao(com, "chamada")
+    const i = dup.secoes.findIndex((s) => s.id === "chamada")
+    expect(dup.secoes[i + 1]).toMatchObject({ id: "chamada-2", tipo: "chamada", campos: { titulo: "Matrículas" } })
+  })
+
+  it("a cópia é independente da original", () => {
+    const com = mudarCampo(acrescentarSecao(doc, "chamada").doc, "chamada", "titulo", "A")
+    const dup = mudarCampo(duplicarSecao(com, "chamada"), "chamada-2", "titulo", "B")
+    expect(dup.secoes.find((s) => s.id === "chamada")?.campos.titulo).toBe("A")
+  })
+
+  it("seções únicas não se duplicam", () => {
+    expect(podeDuplicar(doc, "metodo")).toBe(false)
+    expect(duplicarSecao(doc, "metodo")).toBe(doc)
   })
 })

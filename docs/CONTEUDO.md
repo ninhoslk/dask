@@ -11,18 +11,25 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 
 ## Onde editar cada coisa
 
-| O quê | Arquivo |
+Tudo se edita **pelo painel** (`/admin`), sem mexer em código; os arquivos
+guardam só os valores de fábrica. Ver [PAINEL.md](PAINEL.md).
+
+| O quê | Onde no painel (padrão no código) |
 | --- | --- |
-| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno, ClassApp e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
-| Mensagem pré-escrita do WhatsApp | `site/lib/site.ts` → `mensagemVisita` e `whatsappLink()` |
-| Segmentos, séries, coordenações, horários de atendimento | `site/lib/site.ts` → `segmentos`, `psicologa` |
+| Telefone, WhatsApp, mensagem pronta, e-mail, horário de atendimento, mapa | Informações do site → Contatos e atendimento (`site/lib/site.ts` → `contato`) |
+| Nome, logos, endereço, bairro, CEP, CNPJ, mantenedora | Informações do site → Identidade e endereço |
+| Instagram, Facebook e outros perfis | Informações do site → Redes sociais |
+| Segmentos, séries, coordenações, horários de atendimento, psicóloga, documentos de cada segmento | Informações do site → Segmentos e coordenação (`site/lib/site.ts` → `segmentos`, `psicologa`, `documentos`) |
+| Cartões e textos da Central do aluno, link das normas | Informações do site → Central do aluno |
+| Links e créditos do rodapé | Informações do site → Rodapé |
+| Título e descrição no Google, textos da página de notícias | Informações do site → Páginas e buscadores |
+| Cores e cantos arredondados | Informações do site → Cores e aparência |
 | Linha do tempo (1995–2022) | Painel (seção A escola); padrão em `site/lib/site.ts` → `linhaDoTempo` |
 | Frase "Nossos alunos estiveram…" | Painel (seção Conquistas); padrão em `site/lib/site.ts` → `conquistas` (cada item já leva a preposição: "na Olimpíada…", "no Torneio…") |
-| Links de documentos (listas de material, normas) | `site/lib/site.ts` → `documentos`; documentos "Em breve" ficam em `docsPorSegmento` no `central-do-aluno/page.tsx` |
 | Notícias | Painel → aba **Notícias** (banco). Sem banco, `site/lib/noticias-todas.json` |
 | Textos e fotos de cada seção da home | Painel → **Editor visual**; os padrões ficam em `site/lib/conteudo/esquema.ts` |
 | Textos e tempos da abertura em vídeo | `site/components/sections/hero-cinematico.tsx` e `site/lib/hero-cinematico.ts` |
-| Menu principal | `site/lib/site.ts` → `navegacao` |
+| Menu principal (abas, Área do aluno, botão de visita; inclui Trabalhe conosco) | Informações do site → Menu do topo |
 
 ## Contatos usados (do site da escola)
 

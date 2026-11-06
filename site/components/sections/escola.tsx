@@ -1,11 +1,15 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
-import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 import { juntarCurtas } from "@/lib/utils"
 
 export function Escola({ c }: { c: ConteudoDe<"escola"> }) {
+  const contato = contatoDe(useConfig())
   const retrato = c.retrato
   const [grande, foto2, foto3] = c.fotos
   const historia = c.historia
@@ -44,17 +48,18 @@ export function Escola({ c }: { c: ConteudoDe<"escola"> }) {
         <div className="grid12 mt-10 items-end gap-y-8 md:mt-14">
           <dl className="col-span-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:col-span-6">
             <div data-reveal className="col-span-2 sm:col-span-1">
-              <dt className="small text-muted-foreground">Onde</dt>
+              <dt className="small text-muted-foreground">{c.rotuloOnde}</dt>
               <dd className="font-semibold">
-                Jardim América, <span className="whitespace-nowrap">{contato.cidade}</span>
+                {contato.bairro && `${contato.bairro}, `}
+                <span className="whitespace-nowrap">{contato.cidade}</span>
               </dd>
             </div>
             <div data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
-              <dt className="small text-muted-foreground">Desde</dt>
+              <dt className="small text-muted-foreground">{c.rotuloDesde}</dt>
               <dd className="font-semibold">{c.desde}</dd>
             </div>
             <div data-reveal style={{ "--d": "160ms" } as React.CSSProperties}>
-              <dt className="small text-muted-foreground">Secretaria</dt>
+              <dt className="small text-muted-foreground">{c.rotuloSecretaria}</dt>
               <dd className="font-semibold">
                 <a href={contato.telefoneHref} className="link">
                   {contato.telefone}
@@ -67,12 +72,16 @@ export function Escola({ c }: { c: ConteudoDe<"escola"> }) {
             data-reveal
             style={{ "--d": "240ms" } as React.CSSProperties}
           >
-            <a href={whatsappLink(mensagemVisita)} target="_blank" rel="noopener noreferrer" className="btn-action">
-              Agendar visita
-            </a>
-            <Link href="/tour-360" className="link font-semibold">
-              Conheça a escola no Tour 360°
-            </Link>
+            {c.botao && contato.whatsappVisita && (
+              <a href={contato.whatsappVisita} target="_blank" rel="noopener noreferrer" className="btn-action">
+                {c.botao}
+              </a>
+            )}
+            {c.linkTour && (
+              <Link href="/tour-360" className="link font-semibold">
+                {c.linkTour}
+              </Link>
+            )}
           </div>
         </div>
 

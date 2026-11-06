@@ -101,17 +101,17 @@ Ordem das seções e o que cada uma faz:
 | — | `SiteFooter` | `bg-field` | Endereço, razão social, mantenedora, CNPJ, telefone da secretaria |
 
 Âncoras de navegação: `#escola`, `#ensino`, `#metodo`, `#noticias`, `#contato`
-(o menu, em `navegacao` de `lib/site.ts`, usa `/#escola` e `/#ensino` para
+(o menu, editável em Informações do site → Menu do topo, usa `/#escola` e `/#ensino` para
 funcionar a partir das outras páginas, e leva a `/noticias` e `/tour-360`).
 
 ## Cabeçalho (`site-header.tsx`)
 
 - Props: `tom?: "escuro" | "claro"`. `claro` troca o logo para o branco e o texto para branco (usado sobre o vídeo).
-- Desktop (`lg`): links, menu "Área do aluno" (Diário do Aluno, ClassApp, Prof. Web, Central do aluno) e botão "Agendar visita".
+- Desktop (`xl`, 1280px+): abas, menu "Área do aluno" (Diário do Aluno, ClassApp, Prof. Web, Central do aluno) e botão "Agendar visita", todos de Informações do site → Menu do topo.
 - Celular: botão "Menu" abre um `Sheet` com os mesmos itens e o botão do WhatsApp.
 - O item da página atual recebe `aria-current="page"` e fica sublinhado (como no hover).
 - `cabecalho-fixo.tsx` (montado no `layout.tsx`) repete este cabeçalho no topo da tela quando a pessoa rola para cima depois que o original saiu da tela. Fora do painel.
-- Botão "Agendar visita" abre o WhatsApp da secretaria com mensagem pronta (`whatsappLink(mensagemVisita)` em `lib/site.ts`).
+- Botão "Agendar visita" abre o WhatsApp da secretaria com a mensagem pronta (`contatoDe(useConfig()).whatsappVisita`).
 
 ## Seletor de série (`ensino.tsx`)
 
@@ -143,15 +143,14 @@ são reais.
 
 ## Tipos e dados
 
-`lib/site.ts` exporta tipos `Coordenacao` e `Segmento` e as constantes `contato`,
-`segmentos`, `psicologa`, `linhaDoTempo`, `conquistas`, `documentos`, `navegacao`,
-além das funções `whatsappLink(mensagem)` e da constante `mensagemVisita`.
-
-Textos e fotos das seções da home **não** ficam nos componentes: cada seção
-recebe `c: ConteudoDe<"id-da-seção">` (o conteúdo resolvido) e lê os campos
-direto (`c.sasTitulo`, `c.sasFotos`). O tipo de cada campo sai da declaração em
-`lib/conteudo/esquema.ts`, então um nome errado não compila. Os padrões também
-estão lá. O tipo `Noticia` está em `lib/noticias-tipos.ts`.
+Os componentes leem as informações do site por `useConfig()` (provedor
+`ConfigSite`, no layout; na prévia do painel, o mesmo provedor recebe o
+rascunho) e as leituras prontas de `lib/conteudo/dados.ts` (`contatoDe`,
+`menuDe`, `segmentosDe`, `redesDe`, `temaCss`…). As seções da home leem o
+conteúdo tipado (`ConteudoDe<"tipo">`). `lib/site.ts` só fornece os valores de
+fábrica. Os dois documentos editáveis ("home" e "site") passam pelo mesmo
+repositório (`lib/conteudo/repositorio.ts`), que salva o rascunho só sobre a
+versão conhecida (conflito em vez de sobrescrever).
 
 ## Testes
 

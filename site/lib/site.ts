@@ -1,4 +1,9 @@
 // Conteúdo institucional do Colégio Dask, levantado de colegiodask.com.br (out/2026).
+//
+// Daqui saem só os VALORES PADRÃO: o site lê tudo pelo painel
+// (lib/conteudo/config.ts e esquema.ts), e o que a equipe muda lá vale por cima.
+// Mudar um texto aqui muda o padrão; quem já editou o campo no painel continua
+// vendo a versão do painel.
 
 export const contato = {
   telefone: "(18) 3822-3018",
@@ -28,10 +33,6 @@ export const contato = {
   mantenedora: "Associação Dracenense de Ensino e Cultura",
   cnpj: "48.778.307/0001-44",
   razao: "Escola de Ensino Fundamental e Médio Profª Liliana Gonzaga – Colégio Dask",
-}
-
-export function whatsappLink(mensagem: string) {
-  return `https://wa.me/${contato.whatsappNumero}?text=${encodeURIComponent(mensagem)}`
 }
 
 export const mensagemVisita =
@@ -164,10 +165,3 @@ export const documentos = {
     { serie: "5º ano · alunos novos", url: "https://drive.google.com/file/d/1UflrX2Rt1o3uaJbKVU_7aTI3G9dWohJE/view?usp=sharing" },
   ],
 }
-
-export const navegacao = [
-  { href: "/#escola", label: "A escola" },
-  { href: "/#ensino", label: "Ensino" },
-  { href: "/noticias", label: "Notícias" },
-  { href: "/tour-360", label: "Tour 360°" },
-]

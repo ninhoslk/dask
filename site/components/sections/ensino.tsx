@@ -6,6 +6,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
+import { useConfig } from "@/components/config-site"
+import { contatoDe, psicologiaDe, segmentosDe, type Segmento } from "@/lib/conteudo/dados"
+import { preencher, txt } from "@/lib/conteudo/documento"
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { IconeWhatsApp } from "@/components/icones-redes"
 import { Button } from "@/components/ui/button"
@@ -18,17 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  documentos,
-  psicologa,
-  segmentos,
-  whatsappLink,
-  type Segmento,
-} from "@/lib/site"
-
-function segmentoDa(serie: string | undefined): Segmento | undefined {
-  return segmentos.find((s) => serie && s.series.includes(serie))
-}
 
 // "o 1º ano", mas "a 2ª série"
 const comArtigo = (serie: string, maiuscula = false) => {
@@ -37,7 +29,7 @@ const comArtigo = (serie: string, maiuscula = false) => {
 }
 
 // "Ensino Fundamental I": o numeral não fica sozinho na linha
-const nomeInteiro = (nome: string) => nome.replace(/ (I+)$/, " $1")
+const nomeInteiro = (nome: string) => nome.replace(/ (I+)$/, " $1")
 
 function Linha({ rotulo, children }: { rotulo: string; children: React.ReactNode }) {
   return (
@@ -48,13 +40,23 @@ function Linha({ rotulo, children }: { rotulo: string; children: React.ReactNode
   )
 }
 
-// Os três segmentos são cartões lado a lado numa faixa da largura da tela.
+// Os segmentos são cartões lado a lado numa faixa da largura da tela.
 // Escolher a série (ou clicar num cartão apagado) desliza a faixa até o cartão
 // daquele segmento ficar no centro; os outros ficam apagados nas laterais.
 // Só transform e opacity animam; com movimento reduzido, a troca é instantânea.
+// Segmentos, coordenação e psicologia vêm de Informações do site → Segmentos e
+// coordenação; os textos desta seção, dos campos dela.
 export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
+  const cfg = useConfig()
+  const segmentos = segmentosDe(cfg)
+  const psicologia = psicologiaDe(cfg)
+  const contato = contatoDe(cfg)
+  const normas = txt(cfg.central, "normas")
+  const segmentoDa = (serie: string | undefined): Segmento | undefined =>
+    segmentos.find((s) => serie && s.series.includes(serie))
+
   const [serie, setSerie] = useState<string>()
-  const [foco, setFoco] = useState<string>(segmentos[1].id)
+  const [foco, setFoco] = useState<string | undefined>(segmentos[Math.min(1, segmentos.length - 1)]?.id)
   const atual = segmentoDa(serie)
   const indice = Math.max(0, segmentos.findIndex((s) => s.id === foco))
 
@@ -94,14 +96,14 @@ export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
           </label>
           <Select value={serie} onValueChange={escolherSerie}>
             <SelectTrigger id="serie" className="w-full bg-background pl-4! text-base! data-[size=default]:h-12 sm:max-w-sm">
-              <SelectValue placeholder="Selecionar série" />
+              <SelectValue placeholder={c.placeholder} />
             </SelectTrigger>
             <SelectContent>
               {segmentos.map((s) => (
                 <SelectGroup key={s.id}>
                   <SelectLabel>{s.nome}</SelectLabel>
                   {s.series.map((x) => (
-                    <SelectItem key={x} value={x}>
+                    <SelectItem key={`${s.id}-${x}`} value={x}>
                       {x}
                     </SelectItem>
                   ))}
@@ -121,6 +123,9 @@ export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
           {segmentos.map((s) => {
             const ativo = s.id === foco
             const daSerie = ativo && atual?.id === s.id && serie
+            const mensagem = daSerie
+              ? preencher(c.mensagemSerie, { serie: comArtigo(serie) })
+              : preencher(c.mensagemSegmento, { segmento: s.nome })
             return (
               <li
                 key={s.id}
@@ -141,51 +146,49 @@ export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
                     </button>
                   )}
                 </h3>
-                <p className="mt-3 text-muted-foreground">{s.resumo}</p>
+                {s.resumo && <p className="mt-3 text-muted-foreground">{s.resumo}</p>}
                 <dl className="mt-6">
-                  <Linha rotulo="Séries">
+                  <Linha rotulo={c.rotuloSeries}>
                     <span className="font-semibold">{s.series.join(", ")}</span>
                   </Linha>
-                  <Linha rotulo="Coordenação">
-                    <span className="font-semibold">{s.coordenacao.nome}</span>
-                  </Linha>
-                  <Linha rotulo="Atendimento">
+                  {s.coordenador && (
+                    <Linha rotulo={c.rotuloCoordenacao}>
+                      <span className="font-semibold">{s.coordenador}</span>
+                    </Linha>
+                  )}
+                  {s.whatsapp && (
+                    <Linha rotulo={c.rotuloAtendimento}>
+                      <a
+                        href={s.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        tabIndex={ativo ? undefined : -1}
+                        className="link inline-flex items-center gap-2 font-semibold"
+                        aria-label={`WhatsApp da ${s.cargo.toLowerCase() || "coordenação"}: ${s.telefone}`}
+                      >
+                        <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
+                        {s.telefone}
+                      </a>
+                    </Linha>
+                  )}
+                  {s.horario && <Linha rotulo={c.rotuloHorario}>{s.horario}</Linha>}
+                </dl>
+                <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-8">
+                  {contato.whatsapp && (
                     <a
-                      href={`https://wa.me/${s.coordenacao.numero}`}
+                      className="btn-action"
                       target="_blank"
                       rel="noopener noreferrer"
                       tabIndex={ativo ? undefined : -1}
-                      className="link inline-flex items-center gap-2 font-semibold"
-                      aria-label={`WhatsApp da ${s.coordenacao.cargo.toLowerCase()}: ${s.coordenacao.telefone}`}
+                      href={contato.whatsappCom(mensagem)}
                     >
-                      <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
-                      {s.coordenacao.telefone}
+                      <IconeWhatsApp className="size-5" />
+                      {daSerie ? preencher(c.botaoSerie, { serie: comArtigo(serie) }) : c.botao}
                     </a>
-                  </Linha>
-                  <Linha rotulo="Horário">{s.coordenacao.horario}</Linha>
-                </dl>
-                <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-8">
-                  <a
-                    className="btn-action"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    tabIndex={ativo ? undefined : -1}
-                    href={whatsappLink(
-                      daSerie
-                        ? `Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar ${comArtigo(serie)}.`
-                        : `Olá! Gostaria de agendar uma visita ao Colégio Dask para conhecer o ${s.nome}.`
-                    )}
-                  >
-                    <IconeWhatsApp className="size-5" />
-                    {daSerie ? `Agendar visita para ${comArtigo(serie)}` : "Agendar visita"}
-                  </a>
-                  {s.id === "fund1" && (
-                    <Link
-                      href="/central-do-aluno"
-                      tabIndex={ativo ? undefined : -1}
-                      className="link small font-semibold"
-                    >
-                      Lista de materiais
+                  )}
+                  {s.atalhoTexto && s.atalhoLink && (
+                    <Link href={s.atalhoLink} tabIndex={ativo ? undefined : -1} className="link small font-semibold">
+                      {s.atalhoTexto}
                     </Link>
                   )}
                 </div>
@@ -197,46 +200,53 @@ export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
 
       {/* no celular as duas setas ficam juntas à esquerda e o nome depois delas,
           longe dos botões flutuantes do canto direito */}
-      <div className="frame mt-8 flex items-center justify-start gap-3 md:mt-10 md:justify-center md:gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          className="size-12 rounded-full"
-          disabled={!anterior}
-          aria-label={anterior ? `Ver ${anterior.nome}` : "Ensino Fundamental I é o primeiro"}
-          onClick={() => anterior && focarCartao(anterior.id)}
-        >
-          <ChevronLeftIcon aria-hidden className="size-6" />
-        </Button>
-        <p aria-live="polite" className="font-semibold max-md:order-last max-md:ml-1 md:min-w-[13ch] md:text-center">
-          {segmentos[indice].nome}
-        </p>
-        <Button
-          type="button"
-          variant="outline"
-          className="size-12 rounded-full"
-          disabled={!proximo}
-          aria-label={proximo ? `Ver ${proximo.nome}` : "Ensino Médio é o último"}
-          onClick={() => proximo && focarCartao(proximo.id)}
-        >
-          <ChevronRightIcon aria-hidden className="size-6" />
-        </Button>
-      </div>
+      {segmentos.length > 1 && (
+        <div className="frame mt-8 flex items-center justify-start gap-3 md:mt-10 md:justify-center md:gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            className="size-12 rounded-full"
+            disabled={!anterior}
+            aria-label={anterior ? `Ver ${anterior.nome}` : `${segmentos[0].nome} é o primeiro`}
+            onClick={() => anterior && focarCartao(anterior.id)}
+          >
+            <ChevronLeftIcon aria-hidden className="size-6" />
+          </Button>
+          <p aria-live="polite" className="font-semibold max-md:order-last max-md:ml-1 md:min-w-[13ch] md:text-center">
+            {segmentos[indice]?.nome}
+          </p>
+          <Button
+            type="button"
+            variant="outline"
+            className="size-12 rounded-full"
+            disabled={!proximo}
+            aria-label={proximo ? `Ver ${proximo.nome}` : `${segmentos[segmentos.length - 1].nome} é o último`}
+            onClick={() => proximo && focarCartao(proximo.id)}
+          >
+            <ChevronRightIcon aria-hidden className="size-6" />
+          </Button>
+        </div>
+      )}
 
       <div className="frame mt-10 flex flex-col gap-3 md:mt-14 md:flex-row md:items-baseline md:justify-between md:gap-10">
-        <p>
-          <strong className="font-semibold">Psicologia escolar:</strong> {psicologa.nome},{" "}
-          {psicologa.horario}, com agendamento pela secretaria.
-        </p>
+        {psicologia.nome && (
+          <p>
+            <strong className="font-semibold">{psicologia.titulo}:</strong> {psicologia.nome}
+            {psicologia.horario && `, ${psicologia.horario}`}
+            {psicologia.nota && `, ${psicologia.nota}`}.
+          </p>
+        )}
         <p className="small text-muted-foreground">
-          Normas, listas de material e documentos de cada segmento ficam na{" "}
+          {c.nota}{" "}
           <Link href="/central-do-aluno" className="link font-semibold text-foreground">
-            Central do aluno
+            {c.notaLink}
           </Link>
           .{" "}
-          <a href={documentos.normas} target="_blank" rel="noopener noreferrer" className="link">
-            Normas disciplinares
-          </a>
+          {normas && (
+            <a href={normas} target="_blank" rel="noopener noreferrer" className="link">
+              {c.normasTexto}
+            </a>
+          )}
         </p>
       </div>
     </section>

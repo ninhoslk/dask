@@ -1,11 +1,16 @@
+"use client"
+
 import Image from "next/image"
 import { MapPinIcon } from "lucide-react"
 
 import { FaixaFotos } from "@/components/sections/faixa-fotos"
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
-import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 export function Contato({ c }: { c: ConteudoDe<"contato"> }) {
+  const contato = contatoDe(useConfig())
+  const [usuario, dominio] = contato.email.split("@")
   const foto = c.foto
   const fachada = c.fachada
   return (
@@ -45,20 +50,25 @@ export function Contato({ c }: { c: ConteudoDe<"contato"> }) {
             data-reveal
             style={{ "--d": "90ms" } as React.CSSProperties}
           >
-            <p className="text-lg font-semibold">Como prefere falar com a gente?</p>
-            <a
-              href={whatsappLink(mensagemVisita)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link text-lg"
-            >
-              WhatsApp {contato.whatsapp}
-            </a>
+            <p className="text-lg font-semibold">{c.pergunta}</p>
+            {contato.whatsappVisita && (
+              <a href={contato.whatsappVisita} target="_blank" rel="noopener noreferrer" className="link text-lg">
+                {c.rotuloWhatsapp} {contato.whatsapp}
+              </a>
+            )}
             {/* se não couber, quebra só depois do @ ("secretaria@" / "colegiodask.com.br") */}
-            <a href={`mailto:${contato.email}`} className="link text-lg">
-              {contato.email.split("@")[0]}@<wbr />
-              {contato.email.split("@")[1]}
-            </a>
+            {contato.email && (
+              <a href={`mailto:${contato.email}`} className="link text-lg">
+                {usuario}
+                {dominio && (
+                  <>
+                    @<wbr />
+                    {dominio}
+                  </>
+                )}
+              </a>
+            )}
+            {contato.horario && <p className="whitespace-pre-line">{contato.horario}</p>}
             <p className="small text-muted-foreground">
               {contato.endereco}, {contato.cidade}
             </p>
@@ -89,20 +99,24 @@ export function Contato({ c }: { c: ConteudoDe<"contato"> }) {
           data-reveal
           style={{ "--d": "90ms" } as React.CSSProperties}
         >
-          <div className="media aspect-[4/3] w-full">
-            <iframe
-              src={contato.mapaEmbed}
-              title="Mapa com a localização do Colégio Dask em Dracena-SP"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="size-full border-0"
-              data-lenis-prevent
-            />
-          </div>
-          <a href={contato.mapa} target="_blank" rel="noopener noreferrer" className="btn-action self-start">
-            <MapPinIcon aria-hidden className="size-4" />
-            Como chegar
-          </a>
+          {contato.mapaEmbed && (
+            <div className="media aspect-[4/3] w-full">
+              <iframe
+                src={contato.mapaEmbed}
+                title={`Mapa com a localização do ${contato.nome} em ${contato.cidade}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="size-full border-0"
+                data-lenis-prevent
+              />
+            </div>
+          )}
+          {contato.mapa && (
+            <a href={contato.mapa} target="_blank" rel="noopener noreferrer" className="btn-action self-start">
+              <MapPinIcon aria-hidden className="size-4" />
+              {c.botaoMapa}
+            </a>
+          )}
         </div>
       </section>
     </section>

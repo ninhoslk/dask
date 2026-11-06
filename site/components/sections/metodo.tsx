@@ -4,7 +4,6 @@ import { ArrowUpRightIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import type { Imagem } from "@/lib/conteudo/esquema"
-import { parceiros } from "@/lib/site"
 
 function Lista({ itens }: { itens: { titulo: string; texto: string }[] }) {
   return (
@@ -134,8 +133,8 @@ export function Metodo({ c }: { c: ConteudoDe<"metodo"> }) {
 
       <Parceiro
         nome="SAS Educação"
-        verMais="Ver mais sobre o SAS"
-        site={parceiros.sas}
+        verMais={c.sasBotao}
+        site={c.sasLink}
         logo={<Image src="/logos/sas.png" alt="SAS Educação" width={201} height={88} className="h-10 w-auto md:h-12" />}
         titulo={c.sasTitulo}
         itens={c.sasItens}
@@ -145,8 +144,8 @@ export function Metodo({ c }: { c: ConteudoDe<"metodo"> }) {
 
       <Parceiro
         nome="Árvore"
-        verMais="Ver mais sobre a Árvore"
-        site={parceiros.arvore}
+        verMais={c.arvoreBotao}
+        site={c.arvoreLink}
         logo={<Image src="/logos/arvore.svg" alt="Árvore" width={130} height={29} className="h-8 w-auto md:h-9" />}
         titulo={c.arvoreTitulo}
         texto={c.arvoreTexto}

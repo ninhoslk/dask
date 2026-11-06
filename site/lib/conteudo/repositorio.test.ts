@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest"
 
-import { documentoPadrao, normalizar, type Documento } from "@/lib/conteudo/documento"
+import { configDocPadrao, documentoPadrao, normalizar, normalizarConfig, type ConfigDoc, type Documento } from "@/lib/conteudo/documento"
 import { lojaMemoria } from "@/lib/conteudo/loja-memoria"
-import { ErroLeitura, repositorioPagina } from "@/lib/conteudo/repositorio"
+import { ErroLeitura, repositorioPagina, repositorioSite } from "@/lib/conteudo/repositorio"
 
 // Um documento com uma mudança visível: o título da Apresentação.
 function comTitulo(titulo: string): Documento {
@@ -59,15 +59,15 @@ describe("paraEditar (painel e prévia)", () => {
 describe("salvarRascunho", () => {
   it("grava só o rascunho, sem mexer no que está no ar", async () => {
     const m = lojaMemoria({ paginas: comTitulo("No ar") })
-    expect(await repositorioPagina(m.loja).salvarRascunho(comTitulo("Novo"), "u1")).toEqual({ ok: true })
-    expect(tituloDe(m.tabelas.rascunhos.get("home") as Documento)).toBe("Novo")
-    expect(tituloDe(m.tabelas.paginas.get("home") as Documento)).toBe("No ar")
+    expect(await repositorioPagina(m.loja).salvarRascunho(comTitulo("Novo"), "u1")).toMatchObject({ ok: true })
+    expect(tituloDe(m.conteudo("rascunhos") as Documento)).toBe("Novo")
+    expect(tituloDe(m.conteudo("paginas") as Documento)).toBe("No ar")
   })
 
   it("valida a entrada: o que não é documento vira o documento padrão", async () => {
     const m = lojaMemoria()
     await repositorioPagina(m.loja).salvarRascunho("lixo", "u1")
-    expect(m.tabelas.rascunhos.get("home")).toEqual(documentoPadrao())
+    expect(m.conteudo("rascunhos")).toEqual(documentoPadrao())
   })
 
   it("avisa quando não consegue gravar", async () => {
@@ -83,9 +83,9 @@ describe("salvarRascunho", () => {
 describe("publicar", () => {
   it("coloca no ar, iguala o rascunho, guarda a versão e registra quem publicou", async () => {
     const m = lojaMemoria()
-    expect(await repositorioPagina(m.loja).publicar(comTitulo("Lançado"), "u1")).toEqual({ ok: true })
-    expect(tituloDe(m.tabelas.paginas.get("home") as Documento)).toBe("Lançado")
-    expect(tituloDe(m.tabelas.rascunhos.get("home") as Documento)).toBe("Lançado")
+    expect(await repositorioPagina(m.loja).publicar(comTitulo("Lançado"), "u1")).toMatchObject({ ok: true })
+    expect(tituloDe(m.conteudo("paginas") as Documento)).toBe("Lançado")
+    expect(tituloDe(m.conteudo("rascunhos") as Documento)).toBe("Lançado")
     expect(m.versoes).toHaveLength(1)
     expect(m.auditoria).toEqual([{ acao: "publicar", alvo: "home", autor: "u1" }])
   })
@@ -110,7 +110,7 @@ describe("publicar", () => {
     expect(r.ok && r.aviso).toBe(
       "Publicado, mas não foi possível guardar a versão no histórico, registrar quem publicou. Publique de novo para completar."
     )
-    expect(tituloDe(m.tabelas.paginas.get("home") as Documento)).toBe("Lançado")
+    expect(tituloDe(m.conteudo("paginas") as Documento)).toBe("Lançado")
   })
 })
 
@@ -139,5 +139,66 @@ describe("versões", () => {
     const m = lojaMemoria()
     m.falhar.add("listarVersoes")
     expect(await repositorioPagina(m.loja).versoes()).toEqual({ ok: false, erro: "Não foi possível ler o histórico." })
+  })
+})
+
+describe("duas pessoas editando ao mesmo tempo", () => {
+  it("salva por cima da versão conhecida e devolve a versão nova", async () => {
+    const m = lojaMemoria({ rascunhos: comTitulo("Antes") })
+    const repo = repositorioPagina(m.loja)
+    const { versao } = await repo.paraEditar()
+    const r = await repo.salvarRascunho(comTitulo("Meu"), "u1", versao)
+    expect(r.ok && r.versao).toBeTruthy()
+    expect(r.ok && r.versao).not.toBe(versao)
+    expect(tituloDe(m.conteudo("rascunhos") as Documento)).toBe("Meu")
+  })
+
+  it("se outra pessoa salvou no meio do caminho, não sobrescreve e devolve o rascunho dela", async () => {
+    const m = lojaMemoria({ rascunhos: comTitulo("Antes") }, { u2: "Bia" })
+    const repo = repositorioPagina(m.loja)
+    const { versao } = await repo.paraEditar()
+    m.gravarPorFora("rascunhos", comTitulo("Da Bia"), "u2")
+    const r = await repo.salvarRascunho(comTitulo("Meu"), "u1", versao)
+    expect(r.ok).toBe(false)
+    expect(!r.ok && r.conflito?.autor).toBe("Bia")
+    expect(!r.ok && tituloDe(r.conflito!.doc)).toBe("Da Bia")
+    expect(tituloDe(m.conteudo("rascunhos") as Documento)).toBe("Da Bia")
+  })
+
+  it("depois de escolher manter a sua, salva sobre a versão nova", async () => {
+    const m = lojaMemoria({ rascunhos: comTitulo("Antes") })
+    const repo = repositorioPagina(m.loja)
+    const { versao } = await repo.paraEditar()
+    m.gravarPorFora("rascunhos", comTitulo("Outra"), "u2")
+    const r = await repo.salvarRascunho(comTitulo("Meu"), "u1", versao)
+    const nova = !r.ok ? r.conflito!.versao : null
+    expect((await repo.salvarRascunho(comTitulo("Meu"), "u1", nova)).ok).toBe(true)
+    expect(tituloDe(m.conteudo("rascunhos") as Documento)).toBe("Meu")
+  })
+})
+
+describe("informações do site (documento \"site\")", () => {
+  const comTelefone = (telefone: string): ConfigDoc => normalizarConfig({ grupos: { contato: { telefone } } })
+
+  it("sem banco mostra as informações padrão", async () => {
+    expect(await repositorioSite(null).publicado()).toEqual(configDocPadrao())
+  })
+
+  it("publica e lê de volta, validado", async () => {
+    const m = lojaMemoria({}, {}, "site")
+    const repo = repositorioSite(m.loja)
+    expect((await repo.publicar(comTelefone("(18) 0000-0000"), "u1")).ok).toBe(true)
+    expect((await repo.publicado()).grupos.contato?.telefone).toBe("(18) 0000-0000")
+  })
+
+  it("descarta campos que não existem e cores inválidas", async () => {
+    const doc = normalizarConfig({ grupos: { contato: { inventado: "x" }, tema: { brand: "red; background:url(x)" } } })
+    expect(doc).toEqual(configDocPadrao())
+  })
+
+  it("uma versão de uma página não abre na outra", async () => {
+    const m = lojaMemoria()
+    await repositorioPagina(m.loja).publicar(comTitulo("Home"), "u1")
+    expect((await repositorioSite(m.loja).versao(m.versoes[0].id)).ok).toBe(false)
   })
 })

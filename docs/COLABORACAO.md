@@ -64,7 +64,8 @@ Funciona assim: baixar o repositório, abrir a pasta no Claude Code e pedir.
 - **Nada inventado.** Texto, número, nome e foto vêm dos sites reais da escola,
   do SAS e da Árvore. Sem depoimentos ou estatísticas que não existam.
 - **Sem imagens geradas.** Só fotos reais. Se faltar uma, avise.
-- **Contatos, endereço e links** ficam só em `site/lib/site.ts`.
+- **Nada institucional fixo no código:** contatos, links e textos vêm do painel
+  (`useConfig()`, campos do esquema). Ver [PAINEL.md](PAINEL.md).
 - **Design:** [DESIGN.md](DESIGN.md). Títulos em no máximo duas linhas, sem
   gradientes, uma só fonte, cores pelos tokens de `globals.css`.
 - **Animação:** [ANIMACOES.md](ANIMACOES.md). Só `transform` e `opacity`, respeitar

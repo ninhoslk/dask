@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 const abas = [
-  { href: "/admin", rotulo: "Editor visual" },
+  { href: "/admin", rotulo: "Página inicial" },
+  { href: "/admin/site", rotulo: "Informações do site" },
   { href: "/admin/noticias", rotulo: "Notícias" },
   { href: "/admin/midia", rotulo: "Mídia" },
   { href: "/admin/tour-360", rotulo: "Tour 360°" },

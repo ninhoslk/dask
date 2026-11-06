@@ -16,7 +16,8 @@ import {
 import { Linhas } from "@/components/linhas"
 import { criarSequencia, type Sequencia } from "@/lib/sequencia-frames"
 import type { ConteudoDe } from "@/lib/conteudo/esquema"
-import { mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 // Abertura de tela cheia: o voo do drone até a porta do Dask avança e volta
 // conforme o scroll. A seção é alta e o palco fica preso (sticky) enquanto o
@@ -50,6 +51,7 @@ function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: 
 }
 
 export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
+  const { whatsappVisita, nome, cidade } = contatoDe(useConfig())
   const secaoRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
@@ -192,7 +194,7 @@ export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
           <source media={`(max-width: ${larguraMobile - 1}px)`} srcSet={sequencias.mobile.poster} />
           <img
             src={sequencias.desktop.poster}
-            alt="Vista aérea do prédio do Colégio Dask, em Dracena-SP"
+            alt={`Vista aérea do prédio do ${nome}, em ${cidade}`}
             fetchPriority="high"
           />
         </picture>
@@ -218,7 +220,7 @@ export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
             </p>
             {estatico && (
               <a
-                href={whatsappLink(mensagemVisita)}
+                href={whatsappVisita}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-action mt-8 text-lg"
@@ -258,7 +260,7 @@ export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
-                href={whatsappLink(mensagemVisita)}
+                href={whatsappVisita}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-action text-lg"

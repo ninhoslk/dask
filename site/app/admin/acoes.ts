@@ -3,46 +3,65 @@
 import { revalidatePath } from "next/cache"
 
 import { adminOuErro } from "@/lib/admin/sessao"
-import type { Documento } from "@/lib/conteudo/documento"
+import type { ConfigDoc, Documento } from "@/lib/conteudo/documento"
 import { lojaSupabase } from "@/lib/conteudo/loja-supabase"
-import { repositorioPagina, type Versao } from "@/lib/conteudo/repositorio"
+import { ehPagina, repositorioDa, type Estado, type Pagina, type ResultadoSalvar, type Versao } from "@/lib/conteudo/repositorio"
 import { htmlParaGravar, textoPuro } from "@/lib/noticias-html"
 import { falha, type Resultado } from "@/lib/resultado"
 import { permiteIncorporar } from "@/lib/tour"
 
-export type { Versao }
+export type { Pagina, Versao }
+export type DocDaPagina = Documento | ConfigDoc
+/** O rascunho como está no banco: documento, versão e quem mudou por último. */
+export type EstadoDoc = Estado<DocDaPagina>
 
 // Tudo o que o painel muda passa por aqui. Cada ação confere a sessão por
 // conta própria, valida a entrada e só então escreve, sempre com o token do
 // usuário: as políticas de RLS do banco são a última barreira.
 
-// ---------------------------------------------------------------- página
+// ---------------------------------------------------------------- páginas
+// "home": seções da página inicial. "site": informações do site inteiro.
 // A regra de onde o documento mora e do que fazer em cada falha fica no
 // repositório (lib/conteudo/repositorio.ts); aqui só a sessão e o cache.
-export async function salvarRascunho(bruto: unknown): Promise<Resultado> {
+const paginaInvalida = { ok: false, erro: "Página inválida." } as const
+
+/** O rascunho atual no banco (para recarregar depois da mudança de outra pessoa). */
+export async function lerRascunho(pagina: Pagina): Promise<Resultado<Estado<DocDaPagina>>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  return repositorioPagina(lojaSupabase(a.sb)).salvarRascunho(bruto, a.user.id)
+  if (!ehPagina(pagina)) return paginaInvalida
+  return repositorioDa(pagina, lojaSupabase(a.sb)).rascunho()
 }
 
-export async function publicar(bruto: unknown): Promise<Resultado> {
+/** Salva só sobre a versão `base`; se outra pessoa salvou antes, devolve o conflito. */
+export async function salvarRascunho(pagina: Pagina, bruto: unknown, base: string | null): Promise<ResultadoSalvar<DocDaPagina>> {
+  const a = await adminOuErro()
+  if ("erro" in a) return { ok: false, erro: a.erro! }
+  if (!ehPagina(pagina)) return paginaInvalida
+  return repositorioDa(pagina, lojaSupabase(a.sb)).salvarRascunho(bruto, a.user.id, base)
+}
+
+export async function publicar(pagina: Pagina, bruto: unknown): Promise<Resultado<{ versao: string | null }>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  const r = await repositorioPagina(lojaSupabase(a.sb)).publicar(bruto, a.user.id)
+  if (!ehPagina(pagina)) return paginaInvalida
+  const r = await repositorioDa(pagina, lojaSupabase(a.sb)).publicar(bruto, a.user.id)
   if (r.ok) revalidatePath("/", "layout")
   return r
 }
 
-export async function listarVersoes(): Promise<Resultado<Versao[]>> {
+export async function listarVersoes(pagina: Pagina): Promise<Resultado<Versao[]>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  return repositorioPagina(lojaSupabase(a.sb)).versoes()
+  if (!ehPagina(pagina)) return paginaInvalida
+  return repositorioDa(pagina, lojaSupabase(a.sb)).versoes()
 }
 
-export async function lerVersao(id: number): Promise<Resultado<Documento>> {
+export async function lerVersao(pagina: Pagina, id: number): Promise<Resultado<DocDaPagina>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  return repositorioPagina(lojaSupabase(a.sb)).versao(id)
+  if (!ehPagina(pagina)) return paginaInvalida
+  return repositorioDa(pagina, lojaSupabase(a.sb)).versao(id)
 }
 
 // ---------------------------------------------------------------- notícias
