@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "site/lib/site.ts": {
-    "mtime": 1793946462.8150983,
-    "seen": 1793946627.772742,
-    "ast_hash": "493939b5e73ca4ee65e12eb017d2107c",
+    "mtime": 1793947057.5753534,
+    "seen": 1793947270.7295804,
+    "ast_hash": "ef14e4902abae50046fdc32007257e46",
     "semantic_hash": ""
   },
   "site/lib/utils.ts": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1793943057.9947217,
-    "seen": 1793943063.3213778,
-    "ast_hash": "fab8637ad45c4d97f19d31da913df464",
+    "mtime": 1793947016.4205592,
+    "seen": 1793947270.7305796,
+    "ast_hash": "981d13ec17acad0f40ca629460718720",
     "semantic_hash": ""
   },
   "README.md": {
@@ -390,9 +390,9 @@
     "semantic_hash": ""
   },
   "site/app/tour-360/page.tsx": {
-    "mtime": 1793836068.3197863,
-    "seen": 1793842972.3017833,
-    "ast_hash": "41125afb2e6e97590bffd7c5dab668ab",
+    "mtime": 1793947057.5753534,
+    "seen": 1793947270.7179174,
+    "ast_hash": "52ebc52c6c48d6f9902dfdfd3289417b",
     "semantic_hash": ""
   },
   "site/components/admin/biblioteca-midia.tsx": {
@@ -675,6 +675,12 @@
     "mtime": 1793944990.9725153,
     "seen": 1793945148.1928675,
     "ast_hash": "e7c4b9adf813503c26aa25b6aa1b62c3",
+    "semantic_hash": ""
+  },
+  "docs/COLABORACAO.md": {
+    "mtime": 1793947016.4215567,
+    "seen": 1793947270.7315795,
+    "ast_hash": "ab3f77db16a2cc468048fd749bfb1a76",
     "semantic_hash": ""
   },
   "site/package-lock.json": {

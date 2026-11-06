@@ -18,6 +18,10 @@ export const contato = {
   diarioDoAluno: "https://colegiodask.eduxego.com.br/",
   // os recados da escola para as famílias chegam pelo ClassApp, não pelo Diário do Aluno
   classApp: "https://classapp.com.br/auth",
+  // tour 360 (exportação do Panoee, projeto próprio na Vercel; ver tour/README.md).
+  // O painel pode trocar o endereço ou desligar o tour; este é o padrão quando o
+  // banco não está configurado (ex.: no computador, sem site/.env.local).
+  tour360: "https://colegio-dask-tour.vercel.app",
   profWeb: "https://colegiodask.eduxe.com.br",
   trabalheConosco:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQ6YoWv4TvpOwl0vIMFd1TU18r5CuRGAYDBWLNZPlFWw2rHQ/viewform?usp=header",

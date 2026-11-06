@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TourAoClicar } from "@/components/tour-ao-clicar"
 import { clientePublico } from "@/lib/supabase/publico"
 import { permiteIncorporar } from "@/lib/tour"
+import { contato } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Tour 360° · Colégio Dask",
@@ -21,7 +22,12 @@ export default async function Tour360() {
   const { data } = sb
     ? await sb.from("tour360").select("ativo,titulo,descricao,url_embed").eq("id", 1).maybeSingle()
     : { data: null }
-  const url = data?.ativo && data.url_embed?.startsWith("https://") ? data.url_embed : null
+  // sem resposta do banco vale o tour padrão; se o painel desligou o tour, nada aparece
+  const url = data
+    ? data.ativo && data.url_embed?.startsWith("https://")
+      ? data.url_embed
+      : null
+    : contato.tour360
   // Se o site do tour proíbe ser incorporado, um quadro em branco seria pior
   // que um botão: o visitante abre o tour direto, em outra aba.
   const incorporavel = url ? await permiteIncorporar(url, { revalidate: 3600 }) : false
