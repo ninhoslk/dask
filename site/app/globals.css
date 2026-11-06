@@ -361,8 +361,9 @@
     padding-bottom: 90px;
   }
   .leitura {
-    font-size: clamp(29px, 7.2vw, 42px);
-    line-height: 1.1;
+    /* a frase lista todas as conquistas; menor no celular para não passar de ~13 linhas */
+    font-size: clamp(20px, 5.4vw, 32px);
+    line-height: 1.12;
     letter-spacing: -0.045em;
   }
 }

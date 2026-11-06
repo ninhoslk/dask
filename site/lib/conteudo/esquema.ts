@@ -130,7 +130,7 @@ export const secoes: TipoSecao[] = [
     nome: "Ensino e coordenação",
     descricao: "Seletor de série e cartões dos segmentos com as coordenações.",
     campos: [
-      { chave: "titulo", rotulo: "Título", tipo: "textarea", padrao: "Do primeiro ano\nao vestibular.", ajuda: quebra },
+      { chave: "titulo", rotulo: "Título", tipo: "textarea", padrao: "Séries, horários\ne coordenação.", ajuda: quebra },
       { chave: "pergunta", rotulo: "Pergunta do seletor", tipo: "texto", padrao: "Em que série seu filho vai estudar?" },
     ],
   },

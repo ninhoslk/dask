@@ -7,7 +7,7 @@ export function SiteFooter() {
   return (
     <footer
       aria-label="Rodapé"
-      className="frame flex min-h-[90svh] flex-col bg-field pt-10 pb-8 text-field-foreground"
+      className="frame flex flex-col bg-field pt-10 pb-8 text-field-foreground"
     >
       <div className="grid12 gap-y-6">
         <div className="col-span-12 flex flex-col gap-5 text-[15px] sm:flex-row sm:gap-10 md:col-span-9">

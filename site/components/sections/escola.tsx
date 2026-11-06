@@ -20,7 +20,7 @@ export function Escola({ c }: { c: Conteudo }) {
           não sobra vazio em nenhuma largura. */}
       <div className="frame" style={{ paddingBlock: "var(--section-gap)" }}>
         <div className="grid12 gap-y-[1.2em] text-[22px] leading-[1.25] tracking-[-0.02em] md:text-[clamp(24px,2.5vw,36px)] md:leading-[1.2]">
-          <p data-reveal className="col-span-12 lg:col-span-6">
+          <p data-reveal className="col-span-12 text-pretty lg:col-span-6">
             <span className="dropcap-portrait">
               <Image
                 src={retrato.src}
@@ -35,7 +35,7 @@ export function Escola({ c }: { c: Conteudo }) {
           <p
             data-reveal
             style={{ "--d": "90ms" } as React.CSSProperties}
-            className="col-span-12 text-muted-foreground lg:col-span-6"
+            className="col-span-12 text-pretty text-muted-foreground lg:col-span-6"
           >
             {juntarCurtas(txt(c, "paragrafo2"))}
           </p>
