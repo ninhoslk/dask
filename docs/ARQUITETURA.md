@@ -56,8 +56,14 @@ site/
 │   └── ui/                         shadcn: alert-dialog, badge, button, dialog, dropdown-menu, field, input, label, select, separator, sheet, sonner, switch, tabs, textarea, toggle, toggle-group
 ├── lib/
 │   ├── site.ts                     dados institucionais (ver CONTEUDO.md)
-│   ├── conteudo/                   esquema editável, validação (documento.ts) e leitura do banco
-│   ├── noticias.ts                 notícias do banco, com fallback em noticias-todas.json (265)
+│   ├── conteudo/                   esquema editável (esquema.ts), validação (documento.ts), operações do
+│   │                               editor (operacoes.ts) e repositório da página (repositorio.ts, com
+│   │                               adaptadores loja-supabase.ts e loja-memoria.ts para os testes)
+│   ├── noticias.ts                 cartões, notícia por slug e relacionadas; fallback em noticias-todas.json (265)
+│   ├── noticias-html.ts            regra única de HTML das notícias (gravar e mostrar)
+│   ├── encaixe.ts                  regra do encaixe automático das seções (função pura)
+│   ├── sequencia-frames.ts         cache de quadros da abertura (o que baixar, soltar e desenhar)
+│   ├── resultado.ts                tipo Resultado das operações do painel
 │   ├── noticias-tipos.ts           tipos e formatação válidos no servidor e no navegador
 │   ├── supabase/, admin/sessao.ts  clientes do Supabase e verificação da equipe
 │   ├── hero-cinematico.ts          configuração da abertura (frames, janela de memória, textos)
@@ -142,6 +148,15 @@ são reais.
 além das funções `whatsappLink(mensagem)` e da constante `mensagemVisita`.
 
 Textos e fotos das seções da home **não** ficam nos componentes: cada seção
-recebe `c` (o conteúdo resolvido) e lê com `txt(c, "chave")`, `img`, `imgs`,
-`lst` e `itens` (`lib/conteudo/documento.ts`). Os padrões estão em
-`lib/conteudo/esquema.ts`. O tipo `Noticia` está em `lib/noticias-tipos.ts`.
+recebe `c: ConteudoDe<"id-da-seção">` (o conteúdo resolvido) e lê os campos
+direto (`c.sasTitulo`, `c.sasFotos`). O tipo de cada campo sai da declaração em
+`lib/conteudo/esquema.ts`, então um nome errado não compila. Os padrões também
+estão lá. O tipo `Noticia` está em `lib/noticias-tipos.ts`.
+
+## Testes
+
+`npm test` (Vitest, `vitest.config.mts`) roda os testes de lógica pura, sem
+navegador: `lib/**/*.test.ts`. Cobrem o repositório da página (com a loja em
+memória), o documento e o esquema, as operações do editor, a regra do encaixe,
+o HTML das notícias e o cache de quadros da abertura (com imagens falsas).
+Animação e layout continuam sendo conferidos num Chrome real (ver CLAUDE.md).

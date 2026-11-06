@@ -77,7 +77,7 @@ SAS, **sem criar foto nova**.
 12. ~~O título da abertura quebra em 3 linhas no celular~~ corrigido em nov/2026: abaixo de 640 px o tamanho é `clamp(34px, 11vw, 52px)` e "Evoluir / para transformar." cabe em duas linhas de 320 a 640 px. Se o texto for trocado no painel por um mais longo, pode voltar a quebrar.
 13. Notícias novas são cadastradas pelo painel; as do blog antigo foram importadas uma vez. Se a escola continuar publicando no WordPress, é preciso rodar `scripts/importar-noticias.mjs` e `semear-noticias.mjs` de novo (não há sincronização automática).
 14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
-15. Sem analytics, sem domínio próprio, sem testes automatizados (unitários/E2E) no repositório.
+15. Sem analytics, sem domínio próprio, sem testes E2E. Desde nov/2026 há testes de lógica pura com Vitest (`npm test`, 64 testes); animação e layout ainda são conferidos à mão num Chrome real.
 16. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
 17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
 18. O freio de tentativas de login do painel (`app/admin/login/acoes.ts`) fica na memória de cada instância do servidor; na Vercel cada instância conta separado. O limite por IP do próprio Supabase Auth continua valendo por trás. Para um freio único, seria preciso guardar as tentativas no banco (tabela + função), o que pede uma migração nova.
