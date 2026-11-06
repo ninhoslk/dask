@@ -100,7 +100,7 @@ em nenhuma delas. Em ordem de prioridade:
 6. ~~Rodapé com um vazio de ~415 px~~ corrigido: o rodapé não ocupa mais 90% da tela; o telefone vem logo depois do endereço.
 7. ~~Método com vazio entre SAS e Árvore~~ corrigido: cada parceiro deixou de ocupar uma tela inteira no desktop; os blocos ficam a um espaço fixo um do outro.
 8. ~~"aluno." sozinha na última linha~~ corrigido com `text-wrap: pretty` nos dois parágrafos da Escola, só abaixo de 768 px (no computador fica como era, a pedido).
-9. ~~Conquistas com 18 linhas no celular~~ reduzido para 12: abaixo de 600 px a frase usa `clamp(20px, 5.4vw, 32px)`. O texto não mudou.
+9. **Conquistas:** o parágrafo de leitura tem 18 linhas no celular (9 no desktop). Testada uma letra menor no celular (12 linhas), mas a pedido ficou como era.
 
 **Tipografia**
 10. **Escala com muitos tamanhos:** a home no desktop usa 16 tamanhos de fonte diferentes (14, 15, 16, 18, 19, 26, 34, 35, 36, 37, 49, 52, 58, 72, 107, 130 px). Dá para juntar os vizinhos (34–37, 49–52, 18–19) em uma escala de 7 ou 8 degraus.
