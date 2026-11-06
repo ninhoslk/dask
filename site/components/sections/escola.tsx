@@ -45,7 +45,7 @@ export function Escola({ c }: { c: Conteudo }) {
             </div>
             <div data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
               <dt className="text-muted-foreground">Desde</dt>
-              <dd className="font-semibold">1996</dd>
+              <dd className="font-semibold">{txt(c, "desde")}</dd>
             </div>
             <div data-reveal style={{ "--d": "160ms" } as React.CSSProperties}>
               <dt className="text-muted-foreground">Secretaria</dt>

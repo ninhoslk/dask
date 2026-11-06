@@ -103,6 +103,7 @@ export const secoes: TipoSecao[] = [
       { chave: "destaque", rotulo: "Início em negrito", tipo: "texto", padrao: "O Colégio Dask" },
       { chave: "paragrafo1", rotulo: "Primeiro parágrafo", tipo: "textarea", padrao: "nasceu da ideia de um grupo de professores de Dracena. Ensinar, para nós, é revelar o talento de cada aluno." },
       { chave: "paragrafo2", rotulo: "Segundo parágrafo", tipo: "textarea", padrao: "Hoje são mais de 700 alunos, do Fundamental I ao Médio. O nome mudou em 2022; a ideia continua: evoluir para transformar." },
+      { chave: "desde", rotulo: "Ano de fundação (“Desde”)", tipo: "texto", padrao: "1996" },
       { chave: "retrato", rotulo: "Foto no início do texto", tipo: "imagem", padrao: { src: "/fotos/professoras.jpg", alt: "Duas professoras do Colégio Dask com a camiseta da escola" } },
       {
         chave: "fotos",

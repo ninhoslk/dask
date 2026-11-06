@@ -34,6 +34,16 @@ export const alturaSecao = { desktop: 420, mobile: 320 }
 /** frames carregados em paralelo */
 export const carregamentoParalelo = 6
 
+/**
+ * Janela de memória: quantos frames de cada lado do atual ficam decodificados.
+ * Os de fora são soltos (voltam do cache HTTP se a pessoa rolar de volta).
+ * `folga` evita soltar e recarregar sem parar na borda da janela.
+ * Celular: 2 × 24 frames de 720×1280 ≈ 175 MB decodificados no pior caso,
+ * contra ≈ 350 MB com as 95 imagens; desktop: 2 × 48 de 1440×810 ≈ 450 MB
+ * contra ≈ 890 MB com as 190.
+ */
+export const janelaFrames = { desktop: 48, mobile: 24, folga: 8 }
+
 /** quanto do progresso (0 a 1) cada texto leva para entrar ou sair */
 export const duracaoTransicao = 0.06
 

@@ -53,7 +53,9 @@ Comandos ffmpeg exatos: `site/public/hero/README.md`.
 ### Carregamento
 
 - Ao montar, escolhe a sequência pela largura (`larguraMobile = 768`).
-- Carrega os frames por **proximidade ao frame atual** (`proximoParaCarregar`): primeiro o frame do ponto em que a pessoa está, depois os vizinhos, alternando para frente e para trás; até `carregamentoParalelo` (6) em voo.
+- Carrega os frames por **proximidade ao frame atual** (`proximoParaCarregar`): primeiro o frame do ponto em que a pessoa está, depois os vizinhos, alternando para frente e para trás; até `carregamentoParalelo` (6) em voo. Só carrega dentro da **janela de memória** (`janelaFrames`: 24 frames de cada lado no celular, 48 no desktop).
+- **Memória limitada:** a cada atualização, `soltarDistantes` solta os frames a mais de `janela + folga` (8) do atual (tira o `src` e a referência), exceto o que está desenhado. Se a pessoa voltar, eles vêm de novo do cache HTTP. No pior caso ficam ≈175 MB decodificados no celular (antes ≈350 MB com as 95 imagens) e ≈450 MB no desktop (antes ≈890 MB). Os números são estimativa (largura × altura × 4 bytes), **não medidos em aparelho real**.
+- O poster some no primeiro frame carregado, qualquer que seja (se a página abrir já rolada, o frame 0 pode estar fora da janela).
 - Se o frame exato ainda não chegou, desenha o **mais próximo já carregado** (`melhorDisponivel`), então nunca fica em branco.
 - Se um frame falha, ele é marcado como erro e pulado. Se nenhum carregar, o poster continua e os textos continuam animando.
 - Ao redimensionar, troca de sequência se cruzar 768 px e reajusta o canvas.
@@ -76,6 +78,7 @@ apoio e o botão de visita. Os outros dois textos ficam ocultos.
 | outro vídeo | regerar `public/hero/*` e atualizar `quantidade` |
 | outros textos | JSX em `hero-cinematico.tsx` (três blocos, na mesma ordem de `blocos`) |
 | mais/menos carregamento simultâneo | `carregamentoParalelo` |
+| mais/menos frames na memória | `janelaFrames` (`mobile`, `desktop`, `folga`) |
 
 Intervalos atuais: abertura 0–0,20 · "Uma escola feita de professores para alunos." 0,32–0,54 · "A porta está aberta." (com botões) 0,70–1.
 

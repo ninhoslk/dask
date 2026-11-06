@@ -64,7 +64,7 @@ npx shadcn@latest add <componente> # adiciona (ex.: dialog, accordion)
 npx shadcn@latest docs <componente>
 ```
 
-Componentes já adicionados: `button`, `dropdown-menu`, `select`, `sheet`, `tabs`, `toggle`, `toggle-group`.
+Componentes já adicionados: `alert-dialog`, `badge`, `button`, `dialog`, `dropdown-menu`, `field`, `input`, `label`, `select`, `separator`, `sheet`, `sonner`, `switch`, `tabs`, `textarea`, `toggle`, `toggle-group`.
 
 ## Navegador de teste
 

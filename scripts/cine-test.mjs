@@ -37,7 +37,11 @@ const phone = mode === "phone"
 await send("Emulation.setDeviceMetricsOverride", phone
   ? { width: 390, height: 844, deviceScaleFactor: 2, mobile: true }
   : { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false })
-if (reduced) await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] })
+// always set it: otherwise Chrome inherits the OS setting (Windows with
+// animation effects off reports "reduce" and the opening stays static)
+await send("Emulation.setEmulatedMedia", {
+  features: [{ name: "prefers-reduced-motion", value: reduced ? "reduce" : "no-preference" }],
+})
 await send("Page.enable")
 await send("Runtime.enable")
 const errors = []

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
@@ -94,9 +95,9 @@ export function Ensino({ c }: { c: Conteudo }) {
                       Agendar visita para o {serie}
                     </a>
                     {atual.id === "fund1" && (
-                      <a href="/central-do-aluno" className="link small font-semibold">
+                      <Link href="/central-do-aluno" className="link small font-semibold">
                         Lista de materiais
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -219,9 +220,9 @@ export function Ensino({ c }: { c: Conteudo }) {
           </table>
           <p className="small mt-10 text-muted-foreground">
             Normas, listas de material e documentos de cada segmento ficam na{" "}
-            <a href="/central-do-aluno" className="link font-semibold text-foreground">
+            <Link href="/central-do-aluno" className="link font-semibold text-foreground">
               Central do aluno
-            </a>
+            </Link>
             . <a href={documentos.normas} target="_blank" rel="noopener noreferrer" className="link">
               Normas disciplinares
             </a>

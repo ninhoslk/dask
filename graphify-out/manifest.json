@@ -1,9 +1,9 @@
 {
   "scripts/cine-test.mjs": {
-    "mtime": 1793825309.8155942,
-    "seen": 1793842972.3017833,
-    "ast_hash": "e7b9fb50b7463b77feb681ce3490e273",
-    "semantic_hash": "e7b9fb50b7463b77feb681ce3490e273"
+    "mtime": 1793938099.6674714,
+    "seen": 1793938111.9606254,
+    "ast_hash": "57b1fddac58e51999342a24cbe1b9e6c",
+    "semantic_hash": ""
   },
   "scripts/crawl.ps1": {
     "mtime": 1793825309.8392808,
@@ -72,15 +72,15 @@
     "semantic_hash": ""
   },
   "site/components/sections/ensino.tsx": {
-    "mtime": 1793825310.5795417,
-    "seen": 1793842972.3017833,
-    "ast_hash": "0131710d64c2deb3b1936e1e6b42f0d4",
+    "mtime": 1793937734.9455092,
+    "seen": 1793937890.7844696,
+    "ast_hash": "f0491c05f17f8c694605afce0e8ba13a",
     "semantic_hash": ""
   },
   "site/components/sections/escola.tsx": {
-    "mtime": 1793842453.0086493,
-    "seen": 1793842972.3017833,
-    "ast_hash": "2ecfcd4d63791ff61a23d0bd00cac061",
+    "mtime": 1793937744.6634433,
+    "seen": 1793937890.7844696,
+    "ast_hash": "5f32fdbcfb6855dcca6da270367dffbf",
     "semantic_hash": ""
   },
   "site/components/sections/faixa-fotos.tsx": {
@@ -90,9 +90,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/hero-cinematico.tsx": {
-    "mtime": 1793841987.3015597,
-    "seen": 1793842972.3017833,
-    "ast_hash": "1fe18fdfb5af9638569decda6e788d60",
+    "mtime": 1793937727.5662274,
+    "seen": 1793937890.7844696,
+    "ast_hash": "965aa6442c1f4b48dae6ab5256cc55f7",
     "semantic_hash": ""
   },
   "site/components/sections/hero.tsx": {
@@ -186,15 +186,9 @@
     "semantic_hash": ""
   },
   "site/lib/hero-cinematico.ts": {
-    "mtime": 1793836068.3217876,
-    "seen": 1793842972.3017833,
-    "ast_hash": "267a76a7f4a7a5f94bceedc2bcd8b8bc",
-    "semantic_hash": "267a76a7f4a7a5f94bceedc2bcd8b8bc"
-  },
-  "site/lib/noticias.json": {
-    "mtime": 1793825310.7377567,
-    "seen": 1793842972.3017833,
-    "ast_hash": "a9a75b77b0cd2630897361dbf27fd3b8",
+    "mtime": 1793937695.4887693,
+    "seen": 1793937890.7885523,
+    "ast_hash": "e2b00bc4e73cdf04fcd26b52498d2fad",
     "semantic_hash": ""
   },
   "site/lib/site.ts": {
@@ -234,9 +228,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1793836068.3027809,
-    "seen": 1793842972.3017833,
-    "ast_hash": "c64dd1dcedf819af07db368631b2bec4",
+    "mtime": 1793938099.6700194,
+    "seen": 1793938111.9756377,
+    "ast_hash": "f064d7de797d81f98c40f7be199d36ed",
     "semantic_hash": ""
   },
   "README.md": {
@@ -246,21 +240,21 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793844621.0833018,
-    "seen": 1793844628.209257,
-    "ast_hash": "f952d1dfe84f31a5b87992bdec354734",
+    "mtime": 1793937847.117383,
+    "seen": 1793937890.79147,
+    "ast_hash": "b65a4b4e514e9e9fa32967034cd1b41c",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
-    "mtime": 1793836068.3047833,
-    "seen": 1793842972.3017833,
-    "ast_hash": "80c82039468eac9af2fa9e17612cd5fd",
+    "mtime": 1793937812.2920618,
+    "seen": 1793937890.79147,
+    "ast_hash": "46021de9d1822a15860db075caed64a7",
     "semantic_hash": ""
   },
   "docs/CONTEUDO.md": {
-    "mtime": 1793836068.3057835,
-    "seen": 1793842972.3017833,
-    "ast_hash": "4be047738f5c56de62a28ca2415830f5",
+    "mtime": 1793937832.0677838,
+    "seen": 1793937890.79147,
+    "ast_hash": "45ec19d7984d2f37458922980f606c2c",
     "semantic_hash": ""
   },
   "docs/DESIGN.md": {
@@ -270,27 +264,27 @@
     "semantic_hash": ""
   },
   "docs/FERRAMENTAS.md": {
-    "mtime": 1793825308.6765988,
-    "seen": 1793842972.3017833,
-    "ast_hash": "1a7d7c74dc5e7e0ebf22479159dfccac",
+    "mtime": 1793937812.3072512,
+    "seen": 1793937890.79147,
+    "ast_hash": "88cb5544604a49ecb1001e2447904c6c",
     "semantic_hash": ""
   },
   "docs/GRAFO.md": {
-    "mtime": 1793825308.6785972,
-    "seen": 1793842972.3017833,
-    "ast_hash": "f835fb3f7f95280c47bf1b89a1bce66a",
+    "mtime": 1793937812.3082542,
+    "seen": 1793937890.79147,
+    "ast_hash": "b523874ac4080916f070227fd44b820b",
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793836068.3057835,
-    "seen": 1793842972.3017833,
-    "ast_hash": "1386f5fb3e5b678dd6421acb84f4d07c",
+    "mtime": 1793937864.5057032,
+    "seen": 1793937890.79147,
+    "ast_hash": "8b1570ebbf661d3e701b9eebf5b287af",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {
-    "mtime": 1793836068.3077834,
-    "seen": 1793842972.3017833,
-    "ast_hash": "59f64e2689466a9678bdec532b913b76",
+    "mtime": 1793937812.3182652,
+    "seen": 1793937890.79147,
+    "ast_hash": "4ee820ea436d7474b241a3a4dca89818",
     "semantic_hash": ""
   },
   "scripts/README.md": {
@@ -582,9 +576,9 @@
     "semantic_hash": ""
   },
   "site/lib/conteudo/esquema.ts": {
-    "mtime": 1793825310.7317557,
-    "seen": 1793842972.3017833,
-    "ast_hash": "755cf4da300cd122b15b48d017d844fc",
+    "mtime": 1793937744.5694432,
+    "seen": 1793937890.7885523,
+    "ast_hash": "0e9a717113e4a26b9c15320d0350bc96",
     "semantic_hash": ""
   },
   "site/lib/conteudo/obter.ts": {

@@ -69,16 +69,17 @@ SAS, **sem criar foto nova**.
 7. Página dedicada de **Matrícula / Agende uma visita** (hoje o CTA é WhatsApp).
 8. **Galeria** de fotos.
 9. **Depoimentos** (dependem de depoimentos reais).
-10. Blog "Acontece no Dask" com **filtros** Ensino/Eventos (hoje: 1 destaque + 4 notícias e link para o blog completo no site da escola).
+10. ~~Blog "Acontece no Dask" com **filtros** Ensino/Eventos~~ feito: `/noticias` tem filtros por categoria e busca.
 
 **Técnico**
-11. **Memória na abertura em vídeo:** os frames carregados ficam como `HTMLImageElement`. Em celulares com pouca memória (principalmente Safari do iOS) a decodificação de 95 imagens de 720×1278 pode pesar bastante; no desktop são até 190 imagens de 1440×810. O navegador pode descartar dados decodificados, mas **isso não foi medido em dispositivos reais**. Mitigações possíveis: manter só uma janela de frames ao redor do atual, usar `ImageBitmap`, reduzir resolução ou quantidade de frames.
+11. **Memória na abertura em vídeo:** ~~todos os frames ficavam decodificados~~. Desde nov/2026 só fica uma janela ao redor do frame atual (`janelaFrames` em `lib/hero-cinematico.ts`; ver [ANIMACOES.md](ANIMACOES.md#carregamento)), o que corta o pior caso pela metade no celular. **Ainda falta medir em aparelho real** (principalmente Safari do iOS) se a rolagem rápida continua sem quadros vazios; se pesar, os próximos passos são `ImageBitmap` ou frames menores.
 12. O título da abertura quebra em **3 linhas** no celular (regra de design é ≤ 2) e a abertura **não foi medida** pelo inspetor.
-13. Notícias são um JSON estático: não atualizam sozinhas. Opção: buscar a API do WordPress no build com revalidação (`revalidate`).
+13. Notícias novas são cadastradas pelo painel; as do blog antigo foram importadas uma vez. Se a escola continuar publicando no WordPress, é preciso rodar `scripts/importar-noticias.mjs` e `semear-noticias.mjs` de novo (não há sincronização automática).
 14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
-15. Sem analytics, sem domínio próprio, sem integração Git→Vercel, sem testes automatizados (unitários/E2E) no repositório.
+15. Sem analytics, sem domínio próprio, sem testes automatizados (unitários/E2E) no repositório.
 16. Componentes shadcn importam `cn` do pacote npm `cn` (veja CLAUDE.md, "Armadilhas").
 17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
+18. O freio de tentativas de login do painel (`app/admin/login/acoes.ts`) fica na memória de cada instância do servidor; na Vercel cada instância conta separado. O limite por IP do próprio Supabase Auth continua valendo por trás. Para um freio único, seria preciso guardar as tentativas no banco (tabela + função), o que pede uma migração nova.
 
 ## Como foram gerados os dados
 
@@ -86,7 +87,7 @@ Os scripts de levantamento estão em [../scripts/](../scripts/README.md). Resumo
 que cada dado precisou:
 
 - **Páginas, posts e mídia do WordPress:** `GET https://colegiodask.com.br/wp-json/wp/v2/pages|posts|media?per_page=100&page=N`. Salvos em `referencia/dask/wp_content.json` e `media_catalog.json`.
-- **`site/lib/noticias.json`:** dos posts mais recentes com imagem de destaque, via `wp/v2/media/<id>`: baixa a imagem `large` para `site/public/noticias/<slug>.jpg` e grava `slug`, `title`, `date`, `category` (1=Geral, 7=Eventos, 8=Ensino), `excerpt` (HTML removido, cortado no fim), `image`, `url`.
+- **`site/lib/noticias-todas.json`:** `scripts/importar-noticias.mjs` lê todos os posts de `wp/v2/posts` (com `_embed` para a imagem) e grava `slug`, `title`, `date`, `category` (1=Geral, 7=Eventos, 8=Ensino), `excerpt`, `content`, `image`, `thumb` e `url`. O antigo `lib/noticias.json` (9 notícias com capa em `public/noticias/`) foi removido em nov/2026 por não ser mais usado; as capas continuam em `public/noticias/`.
 - **Cores e fontes da marca:** variáveis `--e-global-color-*` do CSS do Elementor do site antigo (`#196CA0`, `#54D4BF`, `#61CE70`, `#6EC1E4`, `#54595F`).
 - **Logo do SAS:** `https://www.saseducacao.com.br/themes/custom/sas_edu_theme/quark-storybook/packages/core/src/images/logo-md.png`.
 - **Logo da Árvore:** `https://assets-global.website-files.com/61155c49f7b752684a9f0584/6139298b482f344a8b3236be_logo-arvore-verde-completo.svg`.
