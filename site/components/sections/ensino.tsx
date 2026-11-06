@@ -1,12 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
-import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
+import { txt, type Conteudo } from "@/lib/conteudo/documento"
 import { IconeWhatsApp } from "@/components/icones-redes"
 import {
   Select,
@@ -29,205 +28,181 @@ function segmentoDa(serie: string | undefined): Segmento | undefined {
   return segmentos.find((s) => serie && s.series.includes(serie))
 }
 
+// "o 1º ano", mas "a 2ª série"
+const comArtigo = (serie: string, maiuscula = false) => {
+  const artigo = serie.includes("série") ? "a" : "o"
+  return `${maiuscula ? artigo.toUpperCase() : artigo} ${serie}`
+}
+
+// "Ensino Fundamental I": o numeral não fica sozinho na linha
+const nomeInteiro = (nome: string) => nome.replace(/ (I+)$/, " $1")
+
+function Linha({ rotulo, children }: { rotulo: string; children: React.ReactNode }) {
+  return (
+    <div className="grid gap-0.5 py-1.5 sm:grid-cols-[minmax(0,11ch)_1fr] sm:gap-4">
+      <dt className="text-muted-foreground max-sm:text-sm">{rotulo}</dt>
+      <dd>{children}</dd>
+    </div>
+  )
+}
+
+// Os três segmentos são cartões lado a lado numa faixa da largura da tela.
+// Escolher a série (ou clicar num cartão apagado) desliza a faixa até o cartão
+// daquele segmento ficar no centro; os outros ficam apagados nas laterais.
+// Só transform e opacity animam; com movimento reduzido, a troca é instantânea.
 export function Ensino({ c }: { c: Conteudo }) {
-  const foto = img(c, "foto")
   const [serie, setSerie] = useState<string>()
+  const [foco, setFoco] = useState<string>(segmentos[1].id)
   const atual = segmentoDa(serie)
+  const indice = Math.max(0, segmentos.findIndex((s) => s.id === foco))
+
+  const escolherSerie = (x: string) => {
+    if (!x) return
+    setSerie(x)
+    const seg = segmentoDa(x)
+    if (seg) setFoco(seg.id)
+  }
+
+  const focarCartao = (id: string) => {
+    setFoco(id)
+    // a série escolhida só continua valendo se for do cartão em foco
+    if (atual && atual.id !== id) setSerie(undefined)
+  }
 
   return (
     <section
       id="ensino"
       aria-labelledby="ensino-title"
-      className="frame bg-tint"
+      className="bg-tint"
       style={{ paddingBlock: "var(--section-gap)" }}
     >
-      <h2 id="ensino-title" className="head" data-reveal>
-        <Linhas texto={txt(c, "titulo")} />
-      </h2>
+      <div className="frame grid12 items-end gap-y-10">
+        <h2 id="ensino-title" className="head col-span-12 lg:col-span-6" data-reveal>
+          <Linhas texto={txt(c, "titulo")} />
+        </h2>
 
-      <div className="grid12 mt-16 gap-y-16 md:mt-24">
-        {/* the live thing: pick a grade, get the segment and the right contact */}
-        <div className="col-span-12 flex flex-col gap-10 md:col-span-5 lg:col-span-4">
-          <div
-            data-reveal
-            className="flex flex-col gap-4 rounded-[var(--radius)] bg-background p-6 md:p-7"
-          >
-            <label htmlFor="serie" className="lead font-semibold">
-              {txt(c, "pergunta")}
-            </label>
-            <Select value={serie} onValueChange={setSerie}>
-              <SelectTrigger id="serie" className="h-12 w-full bg-background text-base">
-                <SelectValue placeholder="Escolha a série…" />
-              </SelectTrigger>
-              <SelectContent>
-                {segmentos.map((s) => (
-                  <SelectGroup key={s.id}>
-                    <SelectLabel>{s.nome}</SelectLabel>
-                    {s.series.map((x) => (
-                      <SelectItem key={x} value={x}>
-                        {x}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <div aria-live="polite" className="min-h-[9.5rem]">
-              {atual && serie ? (
-                <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  <p>
-                    O {serie} faz parte do <strong>{atual.nome}</strong>.
-                    Quem acompanha a turma é {atual.coordenacao.nome}, que
-                    atende por ligação ou WhatsApp das{" "}
-                    {atual.coordenacao.horario}.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-                    <a
-                      className="btn-action"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={whatsappLink(
-                        `Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar o ${serie}.`
-                      )}
-                    >
-                      <IconeWhatsApp className="size-5" />
-                      Agendar visita para o {serie}
-                    </a>
-                    {atual.id === "fund1" && (
-                      <Link href="/central-do-aluno" className="link small font-semibold">
-                        Lista de materiais
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">
-                  Mostramos o segmento, quem coordena a turma e um atalho para
-                  agendar a visita já com a série preenchida.
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div
-            data-reveal
-            className="media hidden aspect-[4/5] w-[78%] md:block"
-          >
-            <Image
-              src={foto.src}
-              alt={foto.alt}
-              width={1920}
-              height={1440}
-              sizes="30vw"
-            />
-          </div>
+        <div className="col-span-12 flex flex-col gap-4 lg:col-span-6" data-reveal>
+          <label htmlFor="serie" className="lead font-semibold">
+            {txt(c, "pergunta")}
+          </label>
+          <Select value={serie} onValueChange={escolherSerie}>
+            <SelectTrigger id="serie" className="w-full bg-background pl-4! text-base! data-[size=default]:h-12 sm:max-w-sm">
+              <SelectValue placeholder="Selecionar série" />
+            </SelectTrigger>
+            <SelectContent>
+              {segmentos.map((s) => (
+                <SelectGroup key={s.id}>
+                  <SelectLabel>{s.nome}</SelectLabel>
+                  {s.series.map((x) => (
+                    <SelectItem key={x} value={x}>
+                      {x}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+          <p aria-live="polite" className="sr-only">
+            {atual && serie ? `${comArtigo(serie, true)} faz parte do ${atual.nome}.` : ""}
+          </p>
         </div>
+      </div>
 
-        {/* the table: segments, grades, coordination */}
-        <div className="col-span-12 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
-          <table className="w-full border-collapse text-left">
-            <caption className="sr-only">
-              Segmentos, séries e coordenação do Colégio Dask
-            </caption>
-            {segmentos.map((s, i) => (
-              <tbody
+      {/* faixa dos cartões: sangra até as bordas da tela */}
+      <div className="cartoes-ensino mt-14 overflow-hidden md:mt-20" data-reveal>
+        <ul className="cartoes-ensino-trilho flex" style={{ "--i": indice } as React.CSSProperties}>
+          {segmentos.map((s) => {
+            const ativo = s.id === foco
+            const daSerie = ativo && atual?.id === s.id && serie
+            return (
+              <li
                 key={s.id}
-                data-reveal
-                style={{ "--d": `${i * 90}ms` } as React.CSSProperties}
+                aria-current={ativo ? "true" : undefined}
+                data-apagado={!ativo || undefined}
+                onClick={ativo ? undefined : () => focarCartao(s.id)}
                 className={cn(
-                  "transition-opacity duration-300",
-                  atual && atual.id !== s.id && "opacity-35"
+                  "cartao-ensino flex shrink-0 flex-col rounded-[var(--radius)] bg-background p-7 md:p-9",
+                  !ativo && "cursor-pointer"
                 )}
               >
-                <tr>
-                  <th
-                    scope="rowgroup"
-                    colSpan={2}
-                    className={cn(
-                      "pb-2 text-[clamp(26px,2.4vw,36px)] font-extrabold tracking-[-0.04em]",
-                      i > 0 && "pt-14"
-                    )}
-                  >
-                    {s.nome}
-                  </th>
-                </tr>
-                <tr>
-                  <td colSpan={2} className="pb-5 text-muted-foreground">
-                    {s.resumo}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" className="w-[34%] py-2 align-top font-normal text-muted-foreground">
-                    Séries
-                  </th>
-                  <td className="py-2 font-semibold">{s.series.join(", ")}</td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Coordenação
-                  </th>
-                  <td className="py-2 font-semibold">{s.coordenacao.nome}</td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Atendimento
-                  </th>
-                  <td className="py-2">
+                <h3 className="text-[clamp(26px,2.4vw,36px)] font-extrabold leading-[1.05] tracking-[-0.04em]">
+                  {ativo ? (
+                    nomeInteiro(s.nome)
+                  ) : (
+                    <button type="button" className="text-left" onClick={() => focarCartao(s.id)}>
+                      {nomeInteiro(s.nome)}
+                    </button>
+                  )}
+                </h3>
+                <p className="mt-3 text-muted-foreground">{s.resumo}</p>
+                <dl className="mt-6">
+                  <Linha rotulo="Séries">
+                    <span className="font-semibold">{s.series.join(", ")}</span>
+                  </Linha>
+                  <Linha rotulo="Coordenação">
+                    <span className="font-semibold">{s.coordenacao.nome}</span>
+                  </Linha>
+                  <Linha rotulo="Atendimento">
                     <a
                       href={`https://wa.me/${s.coordenacao.numero}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      tabIndex={ativo ? undefined : -1}
                       className="link inline-flex items-center gap-2 font-semibold"
                       aria-label={`WhatsApp da ${s.coordenacao.cargo.toLowerCase()}: ${s.coordenacao.telefone}`}
                     >
                       <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
                       {s.coordenacao.telefone}
                     </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Horário
-                  </th>
-                  <td className="py-2">{s.coordenacao.horario}</td>
-                </tr>
-              </tbody>
-            ))}
-            <tbody data-reveal>
-              <tr>
-                <th
-                  scope="rowgroup"
-                  colSpan={2}
-                  className="pt-14 pb-2 text-[clamp(26px,2.4vw,36px)] font-extrabold tracking-[-0.04em]"
-                >
-                  Psicologia escolar
-                </th>
-              </tr>
-              <tr>
-                <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                  Psicóloga
-                </th>
-                <td className="py-2 font-semibold">{psicologa.nome}</td>
-              </tr>
-              <tr>
-                <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                  Horários
-                </th>
-                <td className="py-2">{psicologa.horario}, com agendamento pela secretaria</td>
-              </tr>
-            </tbody>
-          </table>
-          <p className="small mt-10 text-muted-foreground">
-            Normas, listas de material e documentos de cada segmento ficam na{" "}
-            <Link href="/central-do-aluno" className="link font-semibold text-foreground">
-              Central do aluno
-            </Link>
-            . <a href={documentos.normas} target="_blank" rel="noopener noreferrer" className="link">
-              Normas disciplinares
-            </a>
-          </p>
-        </div>
+                  </Linha>
+                  <Linha rotulo="Horário">{s.coordenacao.horario}</Linha>
+                </dl>
+                <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-8">
+                  <a
+                    className="btn-action"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={ativo ? undefined : -1}
+                    href={whatsappLink(
+                      daSerie
+                        ? `Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar ${comArtigo(serie)}.`
+                        : `Olá! Gostaria de agendar uma visita ao Colégio Dask para conhecer o ${s.nome}.`
+                    )}
+                  >
+                    <IconeWhatsApp className="size-5" />
+                    {daSerie ? `Agendar visita para ${comArtigo(serie)}` : "Agendar visita"}
+                  </a>
+                  {s.id === "fund1" && (
+                    <Link
+                      href="/central-do-aluno"
+                      tabIndex={ativo ? undefined : -1}
+                      className="link small font-semibold"
+                    >
+                      Lista de materiais
+                    </Link>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+      <div className="frame mt-12 flex flex-col gap-3 md:mt-16 md:flex-row md:items-baseline md:justify-between md:gap-10">
+        <p>
+          <strong className="font-semibold">Psicologia escolar:</strong> {psicologa.nome},{" "}
+          {psicologa.horario}, com agendamento pela secretaria.
+        </p>
+        <p className="small text-muted-foreground">
+          Normas, listas de material e documentos de cada segmento ficam na{" "}
+          <Link href="/central-do-aluno" className="link font-semibold text-foreground">
+            Central do aluno
+          </Link>
+          .{" "}
+          <a href={documentos.normas} target="_blank" rel="noopener noreferrer" className="link">
+            Normas disciplinares
+          </a>
+        </p>
       </div>
     </section>
   )

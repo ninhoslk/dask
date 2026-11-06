@@ -86,7 +86,7 @@ Ordem das seções e o que cada uma faz:
 | 1 | `HeroCinematico` | vídeo (canvas) sobre `--field` | Abertura em tela cheia. Três textos entram e saem conforme o scroll. |
 | 2 | `Apresentacao` | `bg-tint` (verde-água claro) | Frase, botão de visita, números (1996 / +700 / SAS) e faixa de fotos |
 | 3 | `Escola` | `--background`, faixa `bg-field` | Dois parágrafos lado a lado, dados (onde/desde/secretaria) com "Agendar visita" e Tour 360°, faixa de 3 fotos de mesma altura e linha do tempo 1995–2022 |
-| 4 | `Ensino` | `bg-tint` | Seletor "Em que série seu filho vai estudar?" e tabela dos 3 segmentos + psicologia |
+| 4 | `Ensino` | `bg-tint` | "Selecionar série" e três cartões de segmento numa faixa: o do segmento escolhido vai ao centro e os outros ficam apagados; psicologia e Central do aluno embaixo |
 | 5 | `Metodo` | `bg-field` (azul-marinho) | SAS Educação e Árvore, ambos integrados ao "aprender fazendo" |
 | 6 | `Showcase` | `--background` | Robótica: foto dos Makerníficos com zoom pelo scroll |
 | 7 | `Conquistas` | `bg-field` | Frase pinned; o nome atual acende em teal conforme o scroll |

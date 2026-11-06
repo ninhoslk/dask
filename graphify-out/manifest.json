@@ -72,9 +72,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/ensino.tsx": {
-    "mtime": 1793941268.0606167,
-    "seen": 1793941431.9826214,
-    "ast_hash": "4bc0222a2bb1467b070ce04966d56185",
+    "mtime": 1793946017.8584611,
+    "seen": 1793946166.6944864,
+    "ast_hash": "81fd33a67e0c73997f7ef43d5f3fd9b2",
     "semantic_hash": ""
   },
   "site/components/sections/escola.tsx": {
@@ -234,15 +234,15 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793945142.5430508,
-    "seen": 1793945148.202859,
-    "ast_hash": "412663c45a21b3f315d94210f53d2973",
+    "mtime": 1793946161.1440532,
+    "seen": 1793946166.702489,
+    "ast_hash": "ba88f33938c0e676879eb61ee4afd20e",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
-    "mtime": 1793943706.8721502,
-    "seen": 1793943712.7637818,
-    "ast_hash": "d191c8ed119ff4a17ff1ddf917277f6f",
+    "mtime": 1793946161.1390524,
+    "seen": 1793946166.702489,
+    "ast_hash": "9888b8ab4ac7d4d60a8e448bfc23e1f8",
     "semantic_hash": ""
   },
   "docs/CONTEUDO.md": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793944105.7425165,
-    "seen": 1793944110.9434016,
-    "ast_hash": "905f2c4a6e9eb086862fa9a6f5d95473",
+    "mtime": 1793946161.1480536,
+    "seen": 1793946166.7034883,
+    "ast_hash": "5962521808756732f8adcc2f15be0f8b",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {
@@ -570,9 +570,9 @@
     "semantic_hash": ""
   },
   "site/lib/conteudo/esquema.ts": {
-    "mtime": 1793940664.410316,
-    "seen": 1793940943.2200606,
-    "ast_hash": "f69c5aa9e7fb76498c0b244478a119d1",
+    "mtime": 1793945440.795241,
+    "seen": 1793946166.699488,
+    "ast_hash": "a87ebc9bcfc3573aaff87a3eed70cc71",
     "semantic_hash": ""
   },
   "site/lib/conteudo/obter.ts": {
