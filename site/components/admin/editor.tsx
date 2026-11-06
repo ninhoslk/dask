@@ -253,7 +253,7 @@ export function Editor({ rascunho, publicado }: { rascunho: Documento; publicado
                   <EditorCampo
                     key={`${secao.id}-${campo.chave}`}
                     campo={campo}
-                    valor={resolvida.c[campo.chave]}
+                    valor={(resolvida.c as Record<string, Valor>)[campo.chave]}
                     alterado={campo.chave in secao.campos}
                     aoMudar={(v) => mudarCampo(campo.chave, v)}
                     aoRestaurar={() => mudarCampo(campo.chave, undefined)}

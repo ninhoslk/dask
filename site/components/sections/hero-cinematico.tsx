@@ -14,7 +14,7 @@ import {
   type SequenciaFrames,
 } from "@/lib/hero-cinematico"
 import { Linhas } from "@/components/linhas"
-import { txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { mensagemVisita, whatsappLink } from "@/lib/site"
 
 // Abertura de tela cheia: o voo do drone até a porta do Dask avança e volta
@@ -48,7 +48,7 @@ function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: 
   ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh)
 }
 
-export function HeroCinematico({ c }: { c: Conteudo }) {
+export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
   const secaoRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
@@ -268,10 +268,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             className="cine-bloco"
           >
             <h1 id="hero-title" className="display text-[clamp(34px,11vw,52px)] text-white sm:text-[clamp(52px,10vw,176px)]">
-              <Linhas texto={txt(c, "titulo1")} />
+              <Linhas texto={c.titulo1} />
             </h1>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto1")}
+              {c.texto1}
             </p>
             {estatico && (
               <a
@@ -280,7 +280,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
                 rel="noopener noreferrer"
                 className="btn-action mt-8 text-lg"
               >
-                {txt(c, "botao")}
+                {c.botao}
               </a>
             )}
           </div>
@@ -293,10 +293,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(40px,6.4vw,112px)] text-white">
-              <Linhas texto={txt(c, "titulo2")} />
+              <Linhas texto={c.titulo2} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto2")}
+              {c.texto2}
             </p>
           </div>
 
@@ -308,10 +308,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(44px,7.4vw,128px)] text-white">
-              <Linhas texto={txt(c, "titulo3")} />
+              <Linhas texto={c.titulo3} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto3")}
+              {c.texto3}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
@@ -320,7 +320,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
                 rel="noopener noreferrer"
                 className="btn-action text-lg"
               >
-                {txt(c, "botao")}
+                {c.botao}
               </a>
               <a href="#ensino" className="link font-semibold text-white">
                 Ver séries e turnos

@@ -2,7 +2,7 @@ import Image from "next/image"
 import { ArrowUpRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import type { Imagem } from "@/lib/conteudo/esquema"
 import { parceiros } from "@/lib/site"
 
@@ -108,9 +108,9 @@ function Parceiro({
   )
 }
 
-export function Metodo({ c }: { c: Conteudo }) {
-  const [sas1, sas2, sas3] = imgs(c, "sasFotos")
-  const [arv1, arv2, arv3] = imgs(c, "arvoreFotos")
+export function Metodo({ c }: { c: ConteudoDe<"metodo"> }) {
+  const [sas1, sas2, sas3] = c.sasFotos
+  const [arv1, arv2, arv3] = c.arvoreFotos
   return (
     <section
       data-encaixe
@@ -121,14 +121,14 @@ export function Metodo({ c }: { c: Conteudo }) {
     >
       <div className="flex flex-col gap-6">
         <h2 id="metodo-title" className="head" data-reveal>
-          {txt(c, "titulo")}
+          {c.titulo}
         </h2>
         <p
           className="lead max-w-[64ch]"
           data-reveal
           style={{ "--d": "80ms" } as React.CSSProperties}
         >
-          {txt(c, "texto")}
+          {c.texto}
         </p>
       </div>
 
@@ -137,8 +137,8 @@ export function Metodo({ c }: { c: Conteudo }) {
         verMais="Ver mais sobre o SAS"
         site={parceiros.sas}
         logo={<Image src="/logos/sas.png" alt="SAS Educação" width={201} height={88} className="h-10 w-auto md:h-12" />}
-        titulo={txt(c, "sasTitulo")}
-        itens={itens(c, "sasItens")}
+        titulo={c.sasTitulo}
+        itens={c.sasItens}
         fotos={[sas1, sas2, sas3]}
         className="mt-14 md:mt-20"
       />
@@ -148,9 +148,9 @@ export function Metodo({ c }: { c: Conteudo }) {
         verMais="Ver mais sobre a Árvore"
         site={parceiros.arvore}
         logo={<Image src="/logos/arvore.svg" alt="Árvore" width={130} height={29} className="h-8 w-auto md:h-9" />}
-        titulo={txt(c, "arvoreTitulo")}
-        texto={txt(c, "arvoreTexto")}
-        itens={itens(c, "arvoreItens")}
+        titulo={c.arvoreTitulo}
+        texto={c.arvoreTexto}
+        itens={c.arvoreItens}
         fotos={[arv1, arv2, { ...arv3, className: arv3.src === "/fotos/arvore-leitura.jpg" ? "object-[70%_50%]" : undefined }]}
         invertido
         className="mt-16 md:mt-24 lg:mt-32"

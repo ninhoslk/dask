@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { formatoData, resumoInteiro, type NoticiaCartao } from "@/lib/noticias-tipos"
 
 // The robotics section already shows this post's cover, so the news list
@@ -19,7 +19,7 @@ function Data({ n }: { n: NoticiaCartao }) {
   )
 }
 
-export function Noticias({ c, noticias }: { c: Conteudo; noticias: NoticiaCartao[] }) {
+export function Noticias({ c, noticias }: { c: ConteudoDe<"noticias">; noticias: NoticiaCartao[] }) {
   const [destaque, ...resto] = noticias
   if (!destaque) return null
   const capa = outraFoto[destaque.slug] ?? destaque.imagem
@@ -34,10 +34,10 @@ export function Noticias({ c, noticias }: { c: Conteudo; noticias: NoticiaCartao
     >
       <div className="grid12 items-end gap-y-6">
         <h2 id="noticias-title" className="head col-span-12 md:col-span-8" data-reveal>
-          {txt(c, "titulo")}
+          {c.titulo}
         </h2>
         <Link href="/noticias" className="link col-span-12 font-semibold md:col-span-4 md:justify-self-end">
-          {txt(c, "link")}
+          {c.link}
         </Link>
       </div>
 

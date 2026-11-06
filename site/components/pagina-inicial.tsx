@@ -24,7 +24,8 @@ export function PaginaInicial({
   noticias: NoticiaCartao[]
   editavel?: boolean
 }) {
-  const render: Record<IdSecao, (s: SecaoResolvida) => React.ReactNode> = {
+  // cada entrada recebe a própria seção, com o conteúdo tipado dela
+  const render: { [Id in IdSecao]: (s: Extract<SecaoResolvida, { id: Id }>) => React.ReactNode } = {
     abertura: (s) => <HeroCinematico c={s.c} />,
     apresentacao: (s) => <Apresentacao c={s.c} />,
     escola: (s) => <Escola c={s.c} />,
@@ -48,7 +49,7 @@ export function PaginaInicial({
             data-oculta={editavel && !s.visivel ? "" : undefined}
             style={{ display: "contents" }}
           >
-            {render[s.id](s)}
+            {(render[s.id] as (s: SecaoResolvida) => React.ReactNode)(s)}
           </div>
         ))}
     </>
