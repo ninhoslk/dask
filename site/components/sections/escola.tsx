@@ -1,14 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { img, imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
 import { juntarCurtas } from "@/lib/utils"
 
-export function Escola({ c }: { c: Conteudo }) {
-  const retrato = img(c, "retrato")
-  const [grande, foto2, foto3] = imgs(c, "fotos")
-  const historia = itens(c, "historia")
+export function Escola({ c }: { c: ConteudoDe<"escola"> }) {
+  const retrato = c.retrato
+  const [grande, foto2, foto3] = c.fotos
+  const historia = c.historia
   return (
     <section id="escola" aria-labelledby="escola-title">
       <h2 id="escola-title" className="sr-only">
@@ -30,14 +30,14 @@ export function Escola({ c }: { c: Conteudo }) {
                 sizes="(max-width: 640px) 120px, 160px"
               />
             </span>
-            <strong className="font-semibold">{txt(c, "destaque")}</strong> {juntarCurtas(txt(c, "paragrafo1"))}
+            <strong className="font-semibold">{c.destaque}</strong> {juntarCurtas(c.paragrafo1)}
           </p>
           <p
             data-reveal
             style={{ "--d": "90ms" } as React.CSSProperties}
             className="col-span-12 text-muted-foreground max-md:text-pretty lg:col-span-6"
           >
-            {juntarCurtas(txt(c, "paragrafo2"))}
+            {juntarCurtas(c.paragrafo2)}
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export function Escola({ c }: { c: Conteudo }) {
             </div>
             <div data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
               <dt className="small text-muted-foreground">Desde</dt>
-              <dd className="font-semibold">{txt(c, "desde")}</dd>
+              <dd className="font-semibold">{c.desde}</dd>
             </div>
             <div data-reveal style={{ "--d": "160ms" } as React.CSSProperties}>
               <dt className="small text-muted-foreground">Secretaria</dt>
@@ -111,7 +111,7 @@ export function Escola({ c }: { c: Conteudo }) {
       <div className="bg-field text-field-foreground" data-sem-encaixe>
         <div className="frame grid12 gap-y-8" style={{ paddingBlock: "clamp(64px, 7vw, 112px)" }}>
           <h3 className="col-span-12 text-[clamp(32px,3.6vw,56px)] font-extrabold leading-none tracking-[-0.045em] lg:col-span-3" data-reveal>
-            {txt(c, "tituloHistoria")}
+            {c.tituloHistoria}
           </h3>
           <ol className="col-span-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:col-span-9 lg:grid-cols-7">
             {historia.map((item, i) => (

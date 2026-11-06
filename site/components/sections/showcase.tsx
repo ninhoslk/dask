@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 
-import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 
 // One photograph of the Makerníficos, seen from three distances as the reader
 // scrolls: the whole team, the flag, then the medals. Scale and translate only,
@@ -14,8 +14,8 @@ const stages = [
   { scale: 1.55, y: -13 },
 ]
 
-export function Showcase({ c }: { c: Conteudo }) {
-  const foto = img(c, "foto")
+export function Showcase({ c }: { c: ConteudoDe<"robotica"> }) {
+  const foto = c.foto
   const [stage, setStage] = useState(0)
   const markers = useRef<(HTMLDivElement | null)[]>([])
 
@@ -62,7 +62,7 @@ export function Showcase({ c }: { c: Conteudo }) {
             id="robotica-title"
             className="display relative z-10 mb-[0.15em] text-center text-[13vw] md:text-[clamp(56px,7.4vw,124px)]"
           >
-            {txt(c, "titulo1")} <span className="sr-only">{txt(c, "titulo2")}</span>
+            {c.titulo1} <span className="sr-only">{c.titulo2}</span>
           </h2>
 
           <div className="showcase-frame">
@@ -86,7 +86,7 @@ export function Showcase({ c }: { c: Conteudo }) {
               transform: stage >= 1 ? "none" : "translateY(0.2em)",
             }}
           >
-            {txt(c, "titulo2")}
+            {c.titulo2}
           </p>
         </div>
       </div>

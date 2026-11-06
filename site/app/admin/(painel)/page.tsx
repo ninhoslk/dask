@@ -1,12 +1,11 @@
 import { Editor } from "@/components/admin/editor"
 import { exigirAdmin } from "@/lib/admin/sessao"
-import { normalizar } from "@/lib/conteudo/documento"
+import { lojaSupabase } from "@/lib/conteudo/loja-supabase"
+import { repositorioPagina } from "@/lib/conteudo/repositorio"
 
 export default async function EditorVisual() {
   const { sb } = await exigirAdmin()
-  const [rascunho, publicado] = await Promise.all([
-    sb.from("rascunhos").select("conteudo").eq("id", "home").maybeSingle(),
-    sb.from("paginas").select("conteudo").eq("id", "home").maybeSingle(),
-  ])
-  return <Editor rascunho={normalizar(rascunho.data?.conteudo)} publicado={normalizar(publicado.data?.conteudo)} />
+  // se o banco falhar, lança erro (app/admin/error.tsx) em vez de abrir o padrão
+  const { rascunho, publicado } = await repositorioPagina(lojaSupabase(sb)).paraEditar()
+  return <Editor rascunho={rascunho} publicado={publicado} />
 }

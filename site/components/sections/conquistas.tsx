@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 
-import { lst, txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 
 type Palavra = { texto: string; titulo?: boolean }
 
@@ -26,8 +26,8 @@ function palavrasDa(inicio: string, frase: string[]): Palavra[] {
 // viewport; as each line of text crosses it, its words fill left to right in
 // sequence. On a fine pointer, words step aside from the cursor. Everything is
 // written straight to the DOM inside one requestAnimationFrame.
-export function Conquistas({ c }: { c: Conteudo }) {
-  const palavras = palavrasDa(txt(c, "inicio"), lst(c, "lista"))
+export function Conquistas({ c }: { c: ConteudoDe<"conquistas"> }) {
+  const palavras = palavrasDa(c.inicio, c.lista)
   const chave = palavras.map((w) => w.texto).join(" ")
   const ref = useRef<HTMLParagraphElement>(null)
 

@@ -1,12 +1,12 @@
 import Image from "next/image"
 
 import { FaixaPausavel } from "@/components/sections/faixa-pausavel"
-import { conteudoPadrao, imgs } from "@/lib/conteudo/documento"
+import { conteudoPadrao } from "@/lib/conteudo/documento"
 import type { Imagem } from "@/lib/conteudo/esquema"
 
 // A strip of real school photos that drifts sideways (CSS). It stops under
 // reduced motion and pauses on hover, on keyboard focus or with a tap.
-const padrao = imgs(conteudoPadrao("apresentacao"), "faixa")
+const padrao = conteudoPadrao("apresentacao").faixa
 
 export function FaixaFotos({ reverso = false, fotos = padrao }: { reverso?: boolean; fotos?: Imagem[] }) {
   const lista = reverso ? [...fotos].reverse() : fotos

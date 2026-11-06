@@ -12,7 +12,6 @@ import {
 } from "@dnd-kit/core"
 import {
   SortableContext,
-  arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
@@ -47,6 +46,7 @@ import {
 import { FieldGroup } from "@/components/ui/field"
 import { normalizar, resolver, type Documento } from "@/lib/conteudo/documento"
 import { tipoDaSecao, type IdSecao, type Valor } from "@/lib/conteudo/esquema"
+import { alternarSecao, moverSecao, mudarCampo, reordenarSecao } from "@/lib/conteudo/operacoes"
 import { cn } from "@/lib/utils"
 
 const larguras = {
@@ -111,23 +111,8 @@ export function Editor({ rascunho, publicado }: { rascunho: Documento; publicado
     paraPrevia({ tipo: "selecionar", id: selecionada })
   }, [selecionada, paraPrevia])
 
-  const mover = useCallback(
-    (id: IdSecao, direcao: -1 | 1) =>
-      mudar((d) => {
-        const i = d.secoes.findIndex((s) => s.id === id)
-        const j = i + direcao
-        if (i < 0 || j < 1 || j >= d.secoes.length || tipoDaSecao[id].fixa) return d
-        return { secoes: arrayMove(d.secoes, i, j) }
-      }),
-    [mudar]
-  )
-  const alternar = useCallback(
-    (id: IdSecao) =>
-      mudar((d) => ({
-        secoes: d.secoes.map((s) => (s.id === id && !tipoDaSecao[id].fixa ? { ...s, visivel: !s.visivel } : s)),
-      })),
-    [mudar]
-  )
+  const mover = useCallback((id: IdSecao, direcao: -1 | 1) => mudar((d) => moverSecao(d, id, direcao)), [mudar])
+  const alternar = useCallback((id: IdSecao) => mudar((d) => alternarSecao(d, id)), [mudar])
 
   // messages from the preview
   useEffect(() => {
@@ -194,22 +179,15 @@ export function Editor({ rascunho, publicado }: { rascunho: Documento; publicado
       if (r.ok) {
         setNoAr(doc)
         setEstado("salvo")
-        toast.success("Publicado. O site já mostra as mudanças.")
+        if (r.aviso) toast.warning(r.aviso)
+        else toast.success("Publicado. O site já mostra as mudanças.")
       } else toast.error(r.erro)
     })
 
   const secao = selecionada ? doc.secoes.find((s) => s.id === selecionada) : undefined
   const resolvida = secao ? resolver({ secoes: [secao] })[0] : undefined
-  const mudarCampo = (chave: string, v: Valor | undefined) =>
-    mudar((d) => ({
-      secoes: d.secoes.map((s) => {
-        if (s.id !== selecionada) return s
-        const campos = { ...s.campos }
-        if (v === undefined) delete campos[chave]
-        else campos[chave] = v
-        return { ...s, campos }
-      }),
-    }))
+  const trocarCampo = (chave: string, v: Valor | undefined) =>
+    selecionada && mudar((d) => mudarCampo(d, selecionada, chave, v))
 
   const pendenteDePublicar = !igual(normalizar(doc), normalizar(noAr))
 
@@ -252,10 +230,10 @@ export function Editor({ rascunho, publicado }: { rascunho: Documento; publicado
                   <EditorCampo
                     key={`${secao.id}-${campo.chave}`}
                     campo={campo}
-                    valor={resolvida.c[campo.chave]}
+                    valor={(resolvida.c as Record<string, Valor>)[campo.chave]}
                     alterado={campo.chave in secao.campos}
-                    aoMudar={(v) => mudarCampo(campo.chave, v)}
-                    aoRestaurar={() => mudarCampo(campo.chave, undefined)}
+                    aoMudar={(v) => trocarCampo(campo.chave, v)}
+                    aoRestaurar={() => trocarCampo(campo.chave, undefined)}
                   />
                 ))}
               </FieldGroup>
@@ -340,10 +318,8 @@ function Estrutura({
   const moveis = doc.secoes.filter((s) => !tipoDaSecao[s.id].fixa)
 
   const aoSoltar = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return
-    const de = moveis.findIndex((s) => s.id === active.id)
-    const para = moveis.findIndex((s) => s.id === over.id)
-    aoMudar({ secoes: [...fixas, ...arrayMove(moveis, de, para)] })
+    if (!over) return
+    aoMudar(reordenarSecao(doc, active.id as IdSecao, over.id as IdSecao))
   }
 
   return (

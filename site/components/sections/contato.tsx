@@ -2,12 +2,12 @@ import Image from "next/image"
 import { MapPinIcon } from "lucide-react"
 
 import { FaixaFotos } from "@/components/sections/faixa-fotos"
-import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
 
-export function Contato({ c }: { c: Conteudo }) {
-  const foto = img(c, "foto")
-  const fachada = img(c, "fachada")
+export function Contato({ c }: { c: ConteudoDe<"contato"> }) {
+  const foto = c.foto
+  const fachada = c.fachada
   return (
     <section
       data-encaixe
@@ -23,10 +23,10 @@ export function Contato({ c }: { c: Conteudo }) {
       <div className="grid12 items-start gap-y-10">
         <div className="col-span-12 md:col-span-6" data-reveal>
           <h2 id="contato-title" className="head">
-            {txt(c, "titulo")}
+            {c.titulo}
           </h2>
           <p className="mt-6 text-[22px] leading-[1.25] tracking-[-0.02em] md:text-[clamp(24px,2.4vw,34px)]">
-            {txt(c, "texto")}
+            {c.texto}
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export function Contato({ c }: { c: Conteudo }) {
           className="col-span-12 text-[clamp(26px,2.6vw,40px)] font-extrabold leading-[1.02] tracking-[-0.04em]"
           data-reveal
         >
-          {txt(c, "tituloLocal")}
+          {c.tituloLocal}
         </h3>
         <figure className="media col-span-12 aspect-[16/10] lg:col-span-7 lg:aspect-auto" data-reveal>
           <Image

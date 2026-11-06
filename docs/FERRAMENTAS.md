@@ -28,6 +28,7 @@ de cada pessoa). Para reproduzir, copie a pasta indicada de cada repositório pa
 | `migrate-radix-to-base` | mesmo repositório do shadcn | instalada junto; não usada |
 | `web-design-guidelines` | <https://github.com/vercel-labs/agent-skills> → `skills/web-design-guidelines` | Auditoria de acessibilidade e boas práticas (busca as regras em `raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md`) |
 | `grill-me` / `grilling` | <https://github.com/mattpocock/skills> | A rodada de perguntas inicial sobre o que o cliente queria |
+| `improve-codebase-architecture` (+ `codebase-design`, `domain-modeling`, `grilling`) | <https://github.com/mattpocock/skills> → `skills/engineering/…` e `skills/productivity/grilling` (MIT, commit `4ae2317`) | Instalada em nov/2026. Procura módulos "rasos" no código e propõe refatorações num relatório HTML; só roda quando chamada com `/improve-codebase-architecture`. Só instruções em Markdown, sem scripts |
 | demais skills do mattpocock | mesmo repositório (engineering, productivity, misc) | instaladas (`tdd`, `triage`, `to-spec`, `handoff`…); não usadas neste projeto |
 | `21st-ui` | <https://github.com/21st-dev/magic-mcp> → `skills/21st-ui` | instalada; o servidor MCP não carregou na sessão, então não foi usada |
 | `chrome-devtools`, `a11y-debugging`, `debug-optimize-lcp`… | <https://github.com/ChromeDevTools/chrome-devtools-mcp> → `skills/` | instaladas; o servidor MCP não carregou, então não foram usadas |

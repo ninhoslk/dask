@@ -6,6 +6,7 @@ import { PaginaInicial } from "@/components/pagina-inicial"
 import { SiteFooter } from "@/components/site-footer"
 import { normalizar, resolver, type Documento } from "@/lib/conteudo/documento"
 import { tipoDaSecao, type IdSecao } from "@/lib/conteudo/esquema"
+import { podeMover } from "@/lib/conteudo/operacoes"
 import type { NoticiaCartao } from "@/lib/noticias-tipos"
 
 // Mensagens entre o editor (janela de cima) e a prévia (iframe). Só aceitas
@@ -106,7 +107,6 @@ export function PreviaAoVivo({ inicial, noticias }: { inicial: Documento; notici
 
   const secoes = resolver(doc)
   const caixa = hover ?? fixa
-  const ordem = doc.secoes.map((s) => s.id)
   const oculta = (id: IdSecao) => !doc.secoes.find((s) => s.id === id)?.visivel
 
   return (
@@ -133,14 +133,14 @@ export function PreviaAoVivo({ inicial, noticias }: { inicial: Documento; notici
               <>
                 <BotaoBarra
                   rotulo="Subir seção"
-                  desativado={ordem.indexOf(caixa.id) <= 1}
+                  desativado={!podeMover(doc, caixa.id, -1)}
                   onClick={() => enviar({ tipo: "mover", id: caixa.id, direcao: -1 })}
                 >
                   ↑
                 </BotaoBarra>
                 <BotaoBarra
                   rotulo="Descer seção"
-                  desativado={ordem.indexOf(caixa.id) === ordem.length - 1}
+                  desativado={!podeMover(doc, caixa.id, 1)}
                   onClick={() => enviar({ tipo: "mover", id: caixa.id, direcao: 1 })}
                 >
                   ↓

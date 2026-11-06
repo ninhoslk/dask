@@ -4,8 +4,7 @@ import { ListaNoticias } from "@/components/lista-noticias"
 import { RedesSociais } from "@/components/redes-sociais"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { listarNoticias } from "@/lib/noticias"
-import { paraCartao } from "@/lib/noticias-tipos"
+import { listarCartoes } from "@/lib/noticias"
 
 export const metadata: Metadata = {
   title: "Notícias · Colégio Dask",
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function PaginaNoticias() {
-  const noticias = (await listarNoticias()).map(paraCartao)
+  const noticias = await listarCartoes()
   const primeiroAno = noticias.length ? new Date(noticias[noticias.length - 1].data).getFullYear() : 2022
 
   return (

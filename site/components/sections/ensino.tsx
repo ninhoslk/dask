@@ -6,7 +6,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
-import { txt, type Conteudo } from "@/lib/conteudo/documento"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { IconeWhatsApp } from "@/components/icones-redes"
 import { Button } from "@/components/ui/button"
 import {
@@ -52,7 +52,7 @@ function Linha({ rotulo, children }: { rotulo: string; children: React.ReactNode
 // Escolher a série (ou clicar num cartão apagado) desliza a faixa até o cartão
 // daquele segmento ficar no centro; os outros ficam apagados nas laterais.
 // Só transform e opacity animam; com movimento reduzido, a troca é instantânea.
-export function Ensino({ c }: { c: Conteudo }) {
+export function Ensino({ c }: { c: ConteudoDe<"ensino"> }) {
   const [serie, setSerie] = useState<string>()
   const [foco, setFoco] = useState<string>(segmentos[1].id)
   const atual = segmentoDa(serie)
@@ -85,12 +85,12 @@ export function Ensino({ c }: { c: Conteudo }) {
     >
       <div className="frame grid12 items-end gap-y-10">
         <h2 id="ensino-title" className="head col-span-12 lg:col-span-6" data-reveal>
-          <Linhas texto={txt(c, "titulo")} />
+          <Linhas texto={c.titulo} />
         </h2>
 
         <div className="col-span-12 flex flex-col gap-4 lg:col-span-6" data-reveal>
           <label htmlFor="serie" className="lead font-semibold">
-            {txt(c, "pergunta")}
+            {c.pergunta}
           </label>
           <Select value={serie} onValueChange={escolherSerie}>
             <SelectTrigger id="serie" className="w-full bg-background pl-4! text-base! data-[size=default]:h-12 sm:max-w-sm">

@@ -6,6 +6,7 @@ import {
   secoes,
   tipoDaSecao,
   type Campo,
+  type ConteudoDe,
   type IdSecao,
   type Imagem,
   type Item,
@@ -14,8 +15,8 @@ import {
 
 export type SecaoDoc = { id: IdSecao; visivel: boolean; campos: Record<string, Valor> }
 export type Documento = { secoes: SecaoDoc[] }
-export type Conteudo = Record<string, Valor>
-export type SecaoResolvida = { id: IdSecao; visivel: boolean; c: Conteudo }
+/** Uma seção pronta para mostrar: o id diz qual é, e `c` tem os campos dela com o tipo certo. */
+export type SecaoResolvida = { [Id in IdSecao]: { id: Id; visivel: boolean; c: ConteudoDe<Id> } }[IdSecao]
 
 const LIMITE_TEXTO = 2000
 const LIMITE_LISTA = 40
@@ -103,22 +104,20 @@ export function normalizar(bruto: unknown): Documento {
   return { secoes: [...fixas, ...lista.filter((s) => !tipoDaSecao[s.id].fixa)] }
 }
 
+// Todo campo declarado no esquema sai preenchido (o salvo ou o padrão), e
+// normalizar já garantiu o tipo de cada um: por isso o conteúdo pode ser lido
+// como ConteudoDe<Id> sem conferir campo a campo nos componentes.
+function conteudoDa(id: IdSecao, campos: Record<string, Valor>) {
+  const c: Record<string, Valor> = {}
+  for (const campo of tipoDaSecao[id].campos) c[campo.chave] = campos[campo.chave] ?? campo.padrao
+  return c
+}
+
 export function resolver(doc: Documento): SecaoResolvida[] {
-  return doc.secoes.map((s) => {
-    const c: Conteudo = {}
-    for (const campo of tipoDaSecao[s.id].campos) c[campo.chave] = s.campos[campo.chave] ?? campo.padrao
-    return { id: s.id, visivel: s.visivel, c }
-  })
+  return doc.secoes.map((s) => ({ id: s.id, visivel: s.visivel, c: conteudoDa(s.id, s.campos) }) as SecaoResolvida)
 }
 
 /** Conteúdo padrão de uma seção, para quando ela é usada fora da home. */
-export function conteudoPadrao(id: IdSecao): Conteudo {
-  return resolver({ secoes: [{ id, visivel: true, campos: {} }] })[0].c
+export function conteudoPadrao<Id extends IdSecao>(id: Id): ConteudoDe<Id> {
+  return conteudoDa(id, {}) as ConteudoDe<Id>
 }
-
-// Leitura tipada dentro dos componentes.
-export const txt = (c: Conteudo, k: string) => (typeof c[k] === "string" ? (c[k] as string) : "")
-export const img = (c: Conteudo, k: string) => c[k] as Imagem
-export const imgs = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as Imagem[]) : [])
-export const lst = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as string[]) : [])
-export const itens = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as Item[]) : [])

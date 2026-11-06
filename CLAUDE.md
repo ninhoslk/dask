@@ -38,7 +38,7 @@ Isso vale para o dono do projeto. **Quem só colabora** (ver
 branch (`feat/…` ou `fix/…`), faz commit nela e abre um PR para o dono revisar.
 
 ```bash
-cd site && npm run typecheck && npm run lint && npm run build   # tem que passar
+cd site && npm run typecheck && npm run lint && npm test && npm run build   # tem que passar
 cd .. && graphify update .                                        # atualiza o grafo
 git add -A && git commit -m "Descreve a mudança em português"
 git push
@@ -54,6 +54,7 @@ npm install
 npm run dev          # http://localhost:3000
 npm run typecheck    # tsc --noEmit
 npm run lint         # eslint (regras do React 19 ativas)
+npm test             # vitest: testes de lógica pura (lib/**/*.test.ts)
 npm run build        # precisa passar antes de publicar
 ```
 

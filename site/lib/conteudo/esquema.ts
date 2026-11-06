@@ -18,6 +18,22 @@ export type Campo =
 
 export type Valor = string | Imagem | Imagem[] | string[] | Item[]
 
+// Declaração de um campo como escrita aqui embaixo: igual a Campo, mas aceita
+// as listas como somente leitura (é assim que o TypeScript guarda os literais).
+type CampoDecl =
+  | { chave: string; rotulo: string; tipo: "texto" | "textarea"; padrao: string; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "imagem"; padrao: Imagem; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "imagens"; padrao: readonly Imagem[]; fixo?: boolean; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "lista"; padrao: readonly string[]; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "itens"; padrao: readonly Item[]; rotulos?: readonly [string, string]; ajuda?: string }
+
+type SecaoDecl = { id: IdSecao; nome: string; descricao: string; fixa?: boolean; campos: readonly CampoDecl[] }
+
+/** Guarda o nome e o tipo de cada campo no tipo da seção (para `ConteudoDe`), sem mudar o objeto. */
+function secao<const S extends SecaoDecl>(s: S): S {
+  return s
+}
+
 export type TipoSecao = {
   id: IdSecao
   nome: string
@@ -40,8 +56,8 @@ export type IdSecao =
 
 const quebra = "Use Enter para quebrar a linha do título."
 
-export const secoes: TipoSecao[] = [
-  {
+const definicoes = [
+  secao({
     id: "abertura",
     nome: "Abertura em vídeo",
     descricao: "Voo de drone controlado pela rolagem, com três textos.",
@@ -55,8 +71,8 @@ export const secoes: TipoSecao[] = [
       { chave: "texto3", rotulo: "Texto de chegada", tipo: "textarea", padrao: "Agende uma visita e conheça a escola por dentro." },
       { chave: "botao", rotulo: "Botão", tipo: "texto", padrao: "Agende uma visita" },
     ],
-  },
-  {
+  }),
+  secao({
     id: "apresentacao",
     nome: "Apresentação",
     descricao: "Frase, números e faixa de fotos logo após a abertura.",
@@ -93,8 +109,8 @@ export const secoes: TipoSecao[] = [
         ],
       },
     ],
-  },
-  {
+  }),
+  secao({
     id: "escola",
     nome: "A escola",
     descricao: "Quem somos, fotos e a linha do tempo.",
@@ -124,8 +140,8 @@ export const secoes: TipoSecao[] = [
         padrao: linhaDoTempo.map((l) => ({ titulo: l.ano, texto: l.texto })),
       },
     ],
-  },
-  {
+  }),
+  secao({
     id: "ensino",
     nome: "Ensino e coordenação",
     descricao: "Seletor de série e cartões dos segmentos com as coordenações.",
@@ -133,8 +149,8 @@ export const secoes: TipoSecao[] = [
       { chave: "titulo", rotulo: "Título", tipo: "textarea", padrao: "Séries, horários\ne coordenação.", ajuda: quebra },
       { chave: "pergunta", rotulo: "Pergunta do seletor", tipo: "texto", padrao: "Em que série seu filho vai estudar?" },
     ],
-  },
-  {
+  }),
+  secao({
     id: "metodo",
     nome: "Método (SAS e Árvore)",
     descricao: "Os dois parceiros pedagógicos, com logo e link.",
@@ -188,8 +204,8 @@ export const secoes: TipoSecao[] = [
         ],
       },
     ],
-  },
-  {
+  }),
+  secao({
     id: "robotica",
     nome: "Robótica",
     descricao: "A foto dos Makerníficos que se aproxima com a rolagem.",
@@ -198,8 +214,8 @@ export const secoes: TipoSecao[] = [
       { chave: "titulo2", rotulo: "Segunda linha", tipo: "texto", padrao: "com pódio." },
       { chave: "foto", rotulo: "Foto", tipo: "imagem", padrao: { src: "/fotos/robotica-bandeira.jpg", alt: "Equipe Makerníficos do Colégio Dask com a bandeira e as medalhas" } },
     ],
-  },
-  {
+  }),
+  secao({
     id: "conquistas",
     nome: "Conquistas",
     descricao: "A frase lida palavra por palavra com a rolagem.",
@@ -207,8 +223,8 @@ export const secoes: TipoSecao[] = [
       { chave: "inicio", rotulo: "Início da frase", tipo: "texto", padrao: "Nossos alunos estiveram" },
       { chave: "lista", rotulo: "Onde estiveram", tipo: "lista", padrao: conquistas, ajuda: "Cada linha com a preposição: “na UNESP”, “no Simulado FUVEST”." },
     ],
-  },
-  {
+  }),
+  secao({
     id: "noticias",
     nome: "Notícias",
     descricao: "Destaque e últimas notícias. As notícias em si ficam na aba Notícias.",
@@ -216,8 +232,8 @@ export const secoes: TipoSecao[] = [
       { chave: "titulo", rotulo: "Título", tipo: "texto", padrao: "Acontece no Dask" },
       { chave: "link", rotulo: "Link para todas", tipo: "texto", padrao: "Todas as notícias" },
     ],
-  },
-  {
+  }),
+  secao({
     id: "contato",
     nome: "Contato e localização",
     descricao: "Convite para visita, contatos, fachada e mapa.",
@@ -228,7 +244,37 @@ export const secoes: TipoSecao[] = [
       { chave: "tituloLocal", rotulo: "Título da localização", tipo: "texto", padrao: "Onde estamos" },
       { chave: "fachada", rotulo: "Foto da fachada", tipo: "imagem", padrao: { src: "/fotos/fachada.jpg", alt: "Vista aérea da fachada do Colégio Dask, com a praça das palmeiras na entrada" } },
     ],
-  },
-]
+  }),
+] as const
+
+// Em tempo de execução é a mesma lista; o tipo largo (Campo) é o que o painel usa.
+export const secoes = definicoes as unknown as TipoSecao[]
+
+type Definicao = (typeof definicoes)[number]
+type ValorDoTipo<T> = T extends "texto" | "textarea"
+  ? string
+  : T extends "imagem"
+    ? Imagem
+    : T extends "imagens"
+      ? Imagem[]
+      : T extends "lista"
+        ? string[]
+        : T extends "itens"
+          ? Item[]
+          : never
+
+/**
+ * O conteúdo já resolvido de uma seção, com cada campo pelo nome e tipo
+ * declarados aqui: `c.sasTitulo` é string, `c.sasFotos` é Imagem[]. Um nome
+ * errado vira erro de compilação, e não texto vazio no site.
+ */
+export type ConteudoDe<Id extends IdSecao> = {
+  [E in Extract<Definicao, { id: Id }>["campos"][number] as E["chave"]]: ValorDoTipo<E["tipo"]>
+}
+
+// confere, em tempo de compilação, que toda seção de IdSecao foi declarada
+type Faltando = Exclude<IdSecao, Definicao["id"]>
+const _todasDeclaradas: Faltando extends never ? true : Faltando = true
+void _todasDeclaradas
 
 export const tipoDaSecao = Object.fromEntries(secoes.map((s) => [s.id, s])) as Record<IdSecao, TipoSecao>

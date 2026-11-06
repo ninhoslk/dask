@@ -14,7 +14,8 @@ import {
   type SequenciaFrames,
 } from "@/lib/hero-cinematico"
 import { Linhas } from "@/components/linhas"
-import { txt, type Conteudo } from "@/lib/conteudo/documento"
+import { criarSequencia, type Sequencia } from "@/lib/sequencia-frames"
+import type { ConteudoDe } from "@/lib/conteudo/esquema"
 import { mensagemVisita, whatsappLink } from "@/lib/site"
 
 // Abertura de tela cheia: o voo do drone até a porta do Dask avança e volta
@@ -48,7 +49,7 @@ function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: 
   ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh)
 }
 
-export function HeroCinematico({ c }: { c: Conteudo }) {
+export function HeroCinematico({ c }: { c: ConteudoDe<"abertura"> }) {
   const secaoRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
@@ -72,95 +73,35 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
     if (!secao || !canvas || !ctx) return
 
     let seq: SequenciaFrames = sequencias.desktop
-    let raio = janelaFrames.desktop
-    let frames: (HTMLImageElement | null)[] = []
-    let estado: ("vazio" | "carregando" | "ok" | "erro")[] = []
-    let emVoo = 0
+    let cache: Sequencia<HTMLImageElement> | null = null
     let alvo = 0
     let desenhado = -1
     let raf = 0
-    let ativo = true
 
     const escolherSequencia = () =>
       window.innerWidth < larguraMobile ? sequencias.mobile : sequencias.desktop
 
+    // quais quadros ficam na memória e qual desenhar: lib/sequencia-frames.ts
     const iniciarSequencia = (nova: SequenciaFrames) => {
+      cache?.encerrar()
       seq = nova
       const mobile = nova === sequencias.mobile
-      raio = mobile ? janelaFrames.mobile : janelaFrames.desktop
-      frames = new Array(seq.quantidade).fill(null)
-      estado = new Array(seq.quantidade).fill("vazio")
       desenhado = -1
-      secao.style.height = `${mobile ? alturaSecao.mobile : alturaSecao.desktop}svh`
-    }
-
-    // solta os frames longe do atual: a memória fica limitada à janela em vez
-    // de crescer até a sequência inteira (pesa no Safari do iPhone). O frame
-    // que está desenhado nunca é solto, para o canvas não ficar sem reserva.
-    const soltarDistantes = () => {
-      const limite = raio + janelaFrames.folga
-      for (let i = 0; i < seq.quantidade; i++) {
-        if (frames[i] && i !== desenhado && Math.abs(i - alvo) > limite) {
-          // sem src a imagem libera os dados decodificados; os handlers já
-          // foram usados e não rodam de novo (removeAttribute não dispara erro)
-          frames[i]!.removeAttribute("src")
-          frames[i] = null
-          estado[i] = "vazio"
-        }
-      }
-    }
-
-    const url = (i: number) => `${seq.pasta}/${String(i).padStart(3, "0")}.webp`
-
-    // carrega primeiro o frame alvo e seus vizinhos, só dentro da janela
-    const proximoParaCarregar = () => {
-      for (let r = 0; r <= raio; r++) {
-        for (const i of [alvo + r, alvo - r]) {
-          if (i >= 0 && i < seq.quantidade && estado[i] === "vazio") return i
-        }
-      }
-      return -1
-    }
-
-    const bombear = () => {
-      while (ativo && emVoo < carregamentoParalelo) {
-        const i = proximoParaCarregar()
-        if (i < 0) return
-        const img = new Image()
-        img.decoding = "async"
-        estado[i] = "carregando"
-        emVoo++
-        const sequenciaDaVez = seq
-        img.onload = () => {
-          emVoo--
-          if (sequenciaDaVez !== seq) return bombear()
-          frames[i] = img
-          estado[i] = "ok"
-          // qualquer frame serve: com a janela, o 0 pode nem carregar se a
+      cache = criarSequencia({
+        quantidade: seq.quantidade,
+        url: (i) => `${seq.pasta}/${String(i).padStart(3, "0")}.webp`,
+        raio: mobile ? janelaFrames.mobile : janelaFrames.desktop,
+        folga: janelaFrames.folga,
+        paralelo: carregamentoParalelo,
+        criarImagem: () => new Image(),
+        aoCarregar: (i) => {
+          // qualquer quadro serve: com a janela, o 0 pode nem carregar se a
           // página abrir já rolada até o meio da abertura
           setPrimeiroFrame(true)
-          // redesenha se este frame está mais perto do alvo do que o atual
-          if (Math.abs(i - alvo) < Math.abs(desenhado - alvo) || desenhado < 0) agendar()
-          bombear()
-        }
-        img.onerror = () => {
-          emVoo--
-          // se nenhum frame carregar, o poster continua visível e os textos
-          // seguem animando pelo scroll normalmente
-          estado[i] = "erro"
-          bombear()
-        }
-        img.src = url(i)
-      }
-    }
-
-    // o frame mais próximo do alvo que já está carregado
-    const melhorDisponivel = () => {
-      for (let r = 0; r < seq.quantidade; r++) {
-        if (frames[alvo - r]) return alvo - r
-        if (frames[alvo + r]) return alvo + r
-      }
-      return -1
+          if (cache?.melhorQueODesenhado(i)) agendar()
+        },
+      })
+      secao.style.height = `${mobile ? alturaSecao.mobile : alturaSecao.desktop}svh`
     }
 
     const ajustarCanvas = () => {
@@ -171,6 +112,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
         canvas.width = w
         canvas.height = h
         desenhado = -1
+        cache?.desenhou(-1)
       }
     }
 
@@ -181,10 +123,12 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
       const p = percurso > 0 ? clamp(-rect.top / percurso) : 0
 
       alvo = Math.round(p * (seq.quantidade - 1))
-      const i = melhorDisponivel()
-      if (i >= 0 && i !== desenhado) {
-        desenharCover(ctx, frames[i]!, canvas.width, canvas.height)
-        desenhado = i
+      cache!.irPara(alvo)
+      const melhor = cache!.melhor()
+      if (melhor && melhor.indice !== desenhado) {
+        desenharCover(ctx, melhor.imagem, canvas.width, canvas.height)
+        desenhado = melhor.indice
+        cache!.desenhou(desenhado)
       }
 
       blocos.forEach((b, n) => {
@@ -202,8 +146,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
       if (barraRef.current) barraRef.current.style.transform = `scaleX(${p})`
       if (dicaRef.current) dicaRef.current.style.opacity = String(clamp(1 - p / 0.04))
 
-      soltarDistantes()
-      bombear()
+      cache!.carregar()
     }
 
     const agendar = () => {
@@ -225,7 +168,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
     window.addEventListener("resize", aoRedimensionar)
 
     return () => {
-      ativo = false
+      cache?.encerrar()
       cancelAnimationFrame(raf)
       window.removeEventListener("scroll", agendar)
       window.removeEventListener("resize", aoRedimensionar)
@@ -268,10 +211,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             className="cine-bloco"
           >
             <h1 id="hero-title" className="display text-[clamp(34px,11vw,52px)] text-white sm:text-[clamp(52px,10vw,176px)]">
-              <Linhas texto={txt(c, "titulo1")} />
+              <Linhas texto={c.titulo1} />
             </h1>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto1")}
+              {c.texto1}
             </p>
             {estatico && (
               <a
@@ -280,7 +223,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
                 rel="noopener noreferrer"
                 className="btn-action mt-8 text-lg"
               >
-                {txt(c, "botao")}
+                {c.botao}
               </a>
             )}
           </div>
@@ -293,10 +236,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(40px,6.4vw,112px)] text-white">
-              <Linhas texto={txt(c, "titulo2")} />
+              <Linhas texto={c.titulo2} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto2")}
+              {c.texto2}
             </p>
           </div>
 
@@ -308,10 +251,10 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             style={estatico ? { display: "none" } : undefined}
           >
             <p className="display text-[clamp(44px,7.4vw,128px)] text-white">
-              <Linhas texto={txt(c, "titulo3")} />
+              <Linhas texto={c.titulo3} />
             </p>
             <p className="lead mt-6 max-w-[36ch] text-white/90">
-              {txt(c, "texto3")}
+              {c.texto3}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
@@ -320,7 +263,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
                 rel="noopener noreferrer"
                 className="btn-action text-lg"
               >
-                {txt(c, "botao")}
+                {c.botao}
               </a>
               <a href="#ensino" className="link font-semibold text-white">
                 Ver séries e turnos
