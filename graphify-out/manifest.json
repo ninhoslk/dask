@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/escola.tsx": {
-    "mtime": 1793937744.6634433,
-    "seen": 1793937890.7844696,
-    "ast_hash": "5f32fdbcfb6855dcca6da270367dffbf",
+    "mtime": 1793940587.2690818,
+    "seen": 1793940943.2160575,
+    "ast_hash": "6a7f81be7c04ae9845e53828fe51d0eb",
     "semantic_hash": ""
   },
   "site/components/sections/faixa-fotos.tsx": {
@@ -102,9 +102,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/metodo.tsx": {
-    "mtime": 1793825310.715757,
-    "seen": 1793842972.3017833,
-    "ast_hash": "d1c3de7c0c65660aaa6a5f84ba2eebca",
+    "mtime": 1793940671.9905388,
+    "seen": 1793940943.2160575,
+    "ast_hash": "44b0793717cdd63f3ae8599fa95b2da7",
     "semantic_hash": ""
   },
   "site/components/sections/noticias.tsx": {
@@ -117,12 +117,6 @@
     "mtime": 1793825310.716756,
     "seen": 1793842972.3017833,
     "ast_hash": "1302f96f05414d692c03d326c1be1ce3",
-    "semantic_hash": ""
-  },
-  "site/components/sections/vida.tsx": {
-    "mtime": 1793825310.7177556,
-    "seen": 1793842972.3017833,
-    "ast_hash": "755d35970b668724bcd7c5df0e801887",
     "semantic_hash": ""
   },
   "site/components/site-footer.tsx": {
@@ -192,9 +186,9 @@
     "semantic_hash": ""
   },
   "site/lib/site.ts": {
-    "mtime": 1793836068.3217876,
-    "seen": 1793842972.3017833,
-    "ast_hash": "4b6fd44c86537733b8188f5c28e680ee",
+    "mtime": 1793940664.4118226,
+    "seen": 1793940943.2210605,
+    "ast_hash": "f6f1f27bde6556fec123a8e40021ad56",
     "semantic_hash": ""
   },
   "site/lib/utils.ts": {
@@ -210,9 +204,9 @@
     "semantic_hash": ""
   },
   "site/package.json": {
-    "mtime": 1793842403.096528,
-    "seen": 1793842972.3017833,
-    "ast_hash": "ceec93f65d3489a81c4aa4db73d1d94e",
+    "mtime": 1793940603.5971642,
+    "seen": 1793940943.222062,
+    "ast_hash": "b5c078ac51656fb8e431845997c12129",
     "semantic_hash": ""
   },
   "site/postcss.config.mjs": {
@@ -240,15 +234,15 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793939547.6895924,
-    "seen": 1793939606.5637555,
-    "ast_hash": "340932cfc1ca8a86a4b12fb2d7f71c1d",
+    "mtime": 1793940928.0782902,
+    "seen": 1793940943.2230623,
+    "ast_hash": "5f31705d519509848d2bacfac0226191",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
-    "mtime": 1793939547.741022,
-    "seen": 1793939606.5637555,
-    "ast_hash": "87cbd1398fb07e311501152396cbde61",
+    "mtime": 1793940928.0782902,
+    "seen": 1793940943.2230623,
+    "ast_hash": "b800f1dfa9c9ab3cbc9af506f5888f24",
     "semantic_hash": ""
   },
   "docs/CONTEUDO.md": {
@@ -258,9 +252,9 @@
     "semantic_hash": ""
   },
   "docs/DESIGN.md": {
-    "mtime": 1793939558.2825806,
-    "seen": 1793939606.5637555,
-    "ast_hash": "45428146a498fd88b28ab58e333a5275",
+    "mtime": 1793940928.0782902,
+    "seen": 1793940943.2230623,
+    "ast_hash": "fce15c003bc240ddfe9101220ce58d84",
     "semantic_hash": ""
   },
   "docs/FERRAMENTAS.md": {
@@ -276,9 +270,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793939547.741022,
-    "seen": 1793939606.5647554,
-    "ast_hash": "87afd4238e8ee24e5211594be4e01d4d",
+    "mtime": 1793940937.847409,
+    "seen": 1793940943.2230623,
+    "ast_hash": "c5d4a2c917ad2894226f545a5e18bd43",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {
@@ -486,9 +480,9 @@
     "semantic_hash": ""
   },
   "site/components/pagina-inicial.tsx": {
-    "mtime": 1793825310.5643349,
-    "seen": 1793842972.3017833,
-    "ast_hash": "642ec9b3832b0b52d69a6c693d3c2e94",
+    "mtime": 1793940664.4093168,
+    "seen": 1793940943.2150607,
+    "ast_hash": "d561eac60159d5b4d8b5956313622e1f",
     "semantic_hash": ""
   },
   "site/components/redes-sociais.tsx": {
@@ -576,9 +570,9 @@
     "semantic_hash": ""
   },
   "site/lib/conteudo/esquema.ts": {
-    "mtime": 1793937744.5694432,
-    "seen": 1793937890.7885523,
-    "ast_hash": "0e9a717113e4a26b9c15320d0350bc96",
+    "mtime": 1793940664.410316,
+    "seen": 1793940943.2200606,
+    "ast_hash": "f69c5aa9e7fb76498c0b244478a119d1",
     "semantic_hash": ""
   },
   "site/lib/conteudo/obter.ts": {
@@ -665,12 +659,6 @@
     "ast_hash": "39b9ba50db9f796f87edc3dd48b15dbf",
     "semantic_hash": ""
   },
-  "site/components/historia-cinematica.tsx": {
-    "mtime": 1793844381.9890835,
-    "seen": 1793844628.1965039,
-    "ast_hash": "28f3b5f56b60834d13a41318d49e545c",
-    "semantic_hash": ""
-  },
   "site/components/cabecalho-fixo.tsx": {
     "mtime": 1793939209.3137054,
     "seen": 1793939606.554759,
@@ -684,9 +672,9 @@
     "semantic_hash": ""
   },
   "site/package-lock.json": {
-    "mtime": 1793842403.288414,
-    "seen": 1793842972.3017833,
-    "ast_hash": "e71bbf54d488785ae2e4627d5adf74db",
+    "mtime": 1793940603.7848783,
+    "seen": 1793940943.2240627,
+    "ast_hash": "ca0c0cfe6aa013b613bbaa18674ac639",
     "semantic_hash": ""
   }
 }

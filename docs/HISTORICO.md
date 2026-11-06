@@ -21,6 +21,7 @@ SAS, **sem criar foto nova**.
 9. Instalar o **Graphify**, gerar o grafo do código (`graphify-out/`) e deixar explícito no repositório que ele deve ser consultado antes de ler arquivos, para economizar tokens ([GRAFO.md](GRAFO.md)).
 10. **Toda mudança vira commit e push**, porque a Vercel publica a partir do GitHub.
 11. Terceira revisão (30/out/2026): botão flutuante do WhatsApp sempre no canto inferior direito, com Instagram e "voltar ao topo"; mapa do Google com a foto aérea da fachada (enviada pelo cliente); página própria de notícias com **todas** as 265 do blog e compartilhamento no Facebook, LinkedIn, Pinterest e WhatsApp (o site oficial só tem perfis no Instagram e no Facebook; não há LinkedIn nem Pinterest da escola); menos vazio na seção SAS/Árvore, com logo e "Ver mais" levando ao site de cada parceiro; legenda da robótica removida e "com pódio." afastado da foto; fotos de "Vida no Dask" afastadas do título; Diário do Aluno e Prof. Web estavam invertidos (eduxego é o app do aluno; Eduxe Class é o do professor); ícone do WhatsApp nos telefones das coordenações; frase de conquistas com o efeito de leitura e a rolagem suave (Lenis, lerp 0,085) da onform.studio; **painel administrativo** com Supabase (ver [PAINEL.md](PAINEL.md)) e aba reservada para o tour 360°.
+12. Quarta revisão (nov/2026): seção **"Vida no Dask" removida** (e o item do menu); "Nossa história" volta à lista estática da `main` (a versão animada com GSAP foi descartada e o pacote `gsap` removido); no Método, o texto "O professor orienta…" fica logo abaixo do título; a dica "Role para chegar à escola" subiu para não ficar atrás dos botões flutuantes.
 
 ## O que foi feito
 
@@ -34,7 +35,7 @@ SAS, **sem criar foto nova**.
 ### Site
 - Projeto criado com `npx shadcn@latest init --template next --base radix --preset nova`.
 - Direção de arte e regras de design com a taste-skill (ver [DESIGN.md](DESIGN.md)).
-- Home com 10 seções + rodapé e a página Central do aluno (ver [ARQUITETURA.md](ARQUITETURA.md)).
+- Home com 9 seções + rodapé e a página Central do aluno (ver [ARQUITETURA.md](ARQUITETURA.md)).
 - Animações (ver [ANIMACOES.md](ANIMACOES.md)): abertura cinematográfica, robótica, conquistas, entradas, faixas de fotos.
 - SAS Educação e Árvore integrados à seção Método, cada um com logo oficial, texto e fotos.
 - Publicado na Vercel (ver [PUBLICACAO.md](PUBLICACAO.md)).

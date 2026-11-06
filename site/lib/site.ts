@@ -162,7 +162,6 @@ export const documentos = {
 export const navegacao = [
   { href: "/#escola", label: "A escola" },
   { href: "/#ensino", label: "Ensino" },
-  { href: "/#vida", label: "Vida no Dask" },
   { href: "/noticias", label: "Notícias" },
   { href: "/tour-360", label: "Tour 360°" },
 ]

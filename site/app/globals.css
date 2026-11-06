@@ -264,38 +264,6 @@
   }
 }
 
-/* ---------- gallery: prints dropped on the headline ---------- */
-.prints {
-  position: relative;
-  min-height: 100svh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-}
-.print {
-  position: absolute;
-  border: 8px solid var(--background);
-  border-radius: 4px;
-  overflow: hidden;
-  transition:
-    rotate 220ms var(--ease-out),
-    scale 220ms var(--ease-out),
-    opacity 700ms ease,
-    transform 800ms var(--ease-out);
-  transition-delay: 0ms, 0ms, var(--d, 0ms), var(--d, 0ms);
-  z-index: 2;
-}
-.print img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.print:hover {
-  rotate: 0deg;
-  scale: 1.03;
-  z-index: 5;
-}
-
 /* ---------- proof: the sentence is read line by line (after onform.studio) ---------- */
 /* Each word is filled left to right as its line crosses a reading line at 58%
    of the viewport. The fill is a hard colour stop clipped to the glyphs, not a
@@ -422,7 +390,9 @@ html.lenis {
   position: absolute;
   z-index: 10;
   right: var(--margin);
-  bottom: clamp(56px, 9svh, 112px);
+  /* acima da coluna de botões flutuantes (WhatsApp, Instagram e topo, ~166px),
+     que fica no mesmo canto */
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 196px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -739,119 +709,6 @@ a.group:active {
   html.js-motion [data-reveal]:not([data-shown]) {
     opacity: 1;
     transform: none;
-  }
-}
-
-/* ---------- "Nossa história": a linha percorre os anos pela rolagem ----------
-   Mesma composição da lista original (título à esquerda, anos em faixa à
-   direita). A seção fica fixa (pin do GSAP ScrollTrigger); a linha turquesa
-   avança com a rolagem e, ao alcançar cada ano, mostra o bloco do fato.
-   Os blocos ficam empilhados numa área de altura fixa: nada muda de tamanho. */
-.historia {
-  background: var(--field);
-  color: var(--field-foreground);
-}
-.historia-palco {
-  min-height: 100svh;
-  align-content: center;
-  row-gap: clamp(28px, 5vh, 56px);
-  padding-block: clamp(64px, 9vh, 112px);
-}
-.historia-conteudo {
-  display: grid;
-  gap: clamp(28px, 5vh, 48px);
-  align-content: center;
-}
-.historia-trilha {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
-  padding-bottom: 22px;
-}
-.historia-linha {
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: calc(50% / var(--n));
-  height: 2px;
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--field-foreground) 16%, transparent);
-}
-.historia-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--brand);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--brand) 60%, transparent);
-  transform-origin: left center;
-  transform: scaleX(0);
-}
-.historia-marco {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  padding-bottom: 6px;
-}
-.historia-ano {
-  display: inline-block;
-  font-size: clamp(15px, 2.6vw, 36px);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  transform-origin: center bottom;
-  opacity: 0.35;
-}
-.historia-ponto {
-  position: absolute;
-  bottom: -22px;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
-  border-radius: 999px;
-  background: var(--field);
-  border: 2px solid color-mix(in srgb, var(--field-foreground) 35%, transparent);
-}
-.historia-ponto-luz {
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: var(--brand);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--brand) 70%, transparent);
-  opacity: 0;
-  transform: scale(0.4);
-}
-.historia-blocos {
-  position: relative;
-  min-height: clamp(120px, 16vh, 160px);
-}
-.historia-bloco {
-  --largura: min(440px, 100%);
-  position: absolute;
-  top: 0;
-  width: var(--largura);
-  left: clamp(0px, calc((var(--i) + 0.5) / var(--n) * 100% - var(--largura) / 2), calc(100% - var(--largura)));
-  display: grid;
-  gap: 6px;
-  padding: clamp(16px, 2vw, 24px) clamp(18px, 2.2vw, 28px);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--field-foreground) 7%, var(--field));
-  border: 1px solid color-mix(in srgb, var(--brand) 55%, transparent);
-  opacity: 0;
-  visibility: hidden;
-  will-change: transform, opacity;
-}
-.historia-bloco-ano {
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--brand);
-}
-.historia-bloco-texto {
-  font-size: clamp(17px, 1.5vw, 22px);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-@media (max-width: 639px) {
-  .historia-bloco {
-    --largura: 100%;
   }
 }
 

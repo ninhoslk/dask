@@ -127,32 +127,10 @@ registra elementos adicionados depois. O estado escondido só existe sob
 | Faixa de fotos (Apresentação e Contato) | Corre sozinha 60 s por volta; no Contato corre ao contrário. Pausa com o mouse em cima, com o foco do teclado e com um toque ou Enter (que alterna), exigência da WCAG 2.2.2 | `.faixa*`, `faixa-fotos.tsx`, `faixa-pausavel.tsx` |
 | Cabeçalho que volta | Depois que o cabeçalho da página sai da tela, o mesmo cabeçalho reaparece preso no topo quando a pessoa rola para cima e some quando ela desce (só `transform`/`opacity`; escondido fica `visibility: hidden` + `inert`) | `.cabecalho-fixo`, `cabecalho-fixo.tsx` |
 | Toque | Links de texto, chips, itens do menu e cartões de notícia escurecem na hora em que são pressionados (`:active`); no toque, links ganham área clicável de ~44 px sem mudar o desenho (`.link::after`, `.alvo-toque`) | `globals.css` |
-| Vida no Dask | Fotos inclinadas ficam retas e crescem 3% no hover | `.print` (usa as propriedades `rotate` e `scale`) |
 | Foto do Contato | Deriva lenta (zoom e deslocamento, 14 s, vai e volta) | `.drift` |
 | Botões de ação | Press (`scale(.97)`) e hover | `.btn-action` |
 | Seletor de série | O texto de resultado entra com `animate-in fade-in slide-in-from-bottom-2` | `ensino.tsx` |
-| Dica de scroll da abertura | Linha verde correndo | `.cine-dica` |
-
-## 6. "Nossa história": a linha percorre os anos (`historia-cinematica.tsx`)
-
-Única animação feita com **GSAP + ScrollTrigger** (pacote `gsap`). Mantém a composição
-da lista original: título à esquerda e os sete anos numa faixa horizontal à direita
-(no celular, título em cima e a faixa embaixo). No início aparecem **só os anos**.
-
-Ao chegar à faixa azul, ela fica fixa na tela (`pin`, cerca de 0,8 altura de tela por
-ano; 0,7 no celular) e:
-
-- uma linha turquesa (`.historia-fill`, `scaleX`, brilho suave) avança da esquerda para a direita junto com a rolagem, sem saltos;
-- ao alcançar cada ano, ele fica turquesa e um pouco maior (1,15×), o ponto acende e surge abaixo da faixa um bloco com o fato (fundo um pouco mais claro, borda turquesa fina, cantos arredondados), alinhado ao ano e preso às bordas da faixa;
-- o bloco anterior sai antes; só um fica visível. Anos já percorridos ficam a 75%, os ainda não alcançados a 35%;
-- depois de 2022 há uma pausa curta e a página segue.
-
-`scrub: true` liga tudo à posição da rolagem: subir faz a linha recuar e os blocos
-anteriores voltarem. A rolagem suave do Lenis continua valendo. Os blocos ficam numa área
-de altura fixa, então nada muda de tamanho. Sem vidro/blur, por causa da regra de design.
-Leitores de tela recebem a lista completa (`ol.sr-only`); a cena visual é `aria-hidden`.
-**Sem JavaScript ou com movimento reduzido**, aparece a lista original.
-Os anos e textos vêm do conteúdo editável (`historia` em `lib/conteudo/esquema.ts`).
+| Dica de scroll da abertura | Linha verde correndo; fica acima dos botões flutuantes (Instagram/WhatsApp/topo), a 196 px da base, para não ser coberta | `.cine-dica` |
 
 ## Testando animações
 

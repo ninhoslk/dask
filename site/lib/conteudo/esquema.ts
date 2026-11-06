@@ -34,7 +34,6 @@ export type IdSecao =
   | "ensino"
   | "metodo"
   | "robotica"
-  | "vida"
   | "conquistas"
   | "noticias"
   | "contato"
@@ -199,28 +198,6 @@ export const secoes: TipoSecao[] = [
       { chave: "titulo1", rotulo: "Primeira linha", tipo: "texto", padrao: "Robótica é aula" },
       { chave: "titulo2", rotulo: "Segunda linha", tipo: "texto", padrao: "com pódio." },
       { chave: "foto", rotulo: "Foto", tipo: "imagem", padrao: { src: "/fotos/robotica-bandeira.jpg", alt: "Equipe Makerníficos do Colégio Dask com a bandeira e as medalhas" } },
-    ],
-  },
-  {
-    id: "vida",
-    nome: "Vida no Dask",
-    descricao: "Título grande com fotos espalhadas em volta.",
-    campos: [
-      { chave: "titulo1", rotulo: "Primeira linha", tipo: "texto", padrao: "Vida" },
-      { chave: "titulo2", rotulo: "Segunda linha", tipo: "texto", padrao: "no Dask" },
-      { chave: "legenda", rotulo: "Legenda", tipo: "textarea", padrao: "Teatro, coral de Natal, vôlei, xadrez, tênis de mesa e acantonamento: a escola continua depois do sinal." },
-      {
-        chave: "fotos",
-        rotulo: "Fotos (4)",
-        tipo: "imagens",
-        fixo: true,
-        padrao: [
-          { src: "/fotos/era-uma-vez.jpg", alt: "Alunas do Fundamental I fantasiadas no espetáculo Era uma vez" },
-          { src: "/fotos/volei-time.jpg", alt: "Time de vôlei feminino do Colégio Dask na quadra" },
-          { src: "/fotos/natal-coral.jpg", alt: "Coral de Natal com alunos de camiseta azul do Dask" },
-          { src: "/fotos/teatro-compadecida.jpg", alt: "Alunos encenando o Auto da Compadecida" },
-        ],
-      },
     ],
   },
   {

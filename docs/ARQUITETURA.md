@@ -36,7 +36,6 @@ site/
 │   ├── pagina-inicial.tsx          monta as seções na ordem/visibilidade do documento
 │   ├── motion.tsx                  revela [data-reveal] ao rolar
 │   ├── rolagem-suave.tsx           Lenis (fora do painel e sem movimento reduzido)
-│   ├── historia-cinematica.tsx     "Nossa história" com GSAP + ScrollTrigger
 │   ├── botoes-flutuantes.tsx       WhatsApp, Instagram e voltar ao topo
 │   ├── cabecalho-fixo.tsx          o cabeçalho volta preso no topo ao rolar para cima
 │   ├── lista-noticias.tsx, compartilhar.tsx, redes-sociais.tsx, tour-ao-clicar.tsx
@@ -51,7 +50,6 @@ site/
 │   │   ├── ensino.tsx              seletor de série + tabela de segmentos e coordenações
 │   │   ├── metodo.tsx              SAS Educação e Árvore, com logos e fotos
 │   │   ├── showcase.tsx            "Robótica é aula com pódio", zoom pelo scroll
-│   │   ├── vida.tsx                "Vida no Dask": fotos soltas sobre fundo teal
 │   │   ├── conquistas.tsx          frase com nomes que acendem pelo scroll
 │   │   ├── noticias.tsx            1 destaque + 4 notícias reais do blog
 │   │   └── contato.tsx             convite à visita, WhatsApp, e-mail, faixa de fotos
@@ -91,14 +89,13 @@ Ordem das seções e o que cada uma faz:
 | 4 | `Ensino` | `bg-tint` | Seletor "Em que série seu filho vai estudar?" e tabela dos 3 segmentos + psicologia |
 | 5 | `Metodo` | `bg-field` (azul-marinho) | SAS Educação e Árvore, ambos integrados ao "aprender fazendo" |
 | 6 | `Showcase` | `--background` | Robótica: foto dos Makerníficos com zoom pelo scroll |
-| 7 | `Vida` | `bg-brand` (teal) | Fotos soltas "caídas" sobre o título; ficam retas ao passar o mouse |
-| 8 | `Conquistas` | `bg-field` | Frase pinned; o nome atual acende em teal conforme o scroll |
-| 9 | `Noticias` | `--background` | 1 destaque + 4 notícias; cada item abre em `/noticias/[slug]` |
-| 10 | `Contato` | `bg-tint` | Faixa de fotos reversa, convite, WhatsApp e e-mail |
+| 7 | `Conquistas` | `bg-field` | Frase pinned; o nome atual acende em teal conforme o scroll |
+| 8 | `Noticias` | `--background` | 1 destaque + 4 notícias; cada item abre em `/noticias/[slug]` |
+| 9 | `Contato` | `bg-tint` | Faixa de fotos reversa, convite, WhatsApp e e-mail |
 | — | `SiteFooter` | `bg-field` | Endereço, razão social, mantenedora, CNPJ, telefone da secretaria |
 
-Âncoras de navegação: `#escola`, `#ensino`, `#metodo`, `#vida`, `#noticias`, `#contato`
-(o menu, em `navegacao` de `lib/site.ts`, usa `/#escola`, `/#ensino`, `/#vida` para
+Âncoras de navegação: `#escola`, `#ensino`, `#metodo`, `#noticias`, `#contato`
+(o menu, em `navegacao` de `lib/site.ts`, usa `/#escola` e `/#ensino` para
 funcionar a partir das outras páginas, e leva a `/noticias` e `/tour-360`).
 
 ## Cabeçalho (`site-header.tsx`)

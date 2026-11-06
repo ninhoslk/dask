@@ -116,12 +116,12 @@ export function Metodo({ c }: { c: Conteudo }) {
       className="frame bg-field text-field-foreground"
       style={{ paddingBlock: "var(--section-gap)" }}
     >
-      <div className="grid12 gap-y-6">
-        <h2 id="metodo-title" className="head col-span-12 lg:col-span-7" data-reveal>
+      <div className="flex flex-col gap-6">
+        <h2 id="metodo-title" className="head" data-reveal>
           {txt(c, "titulo")}
         </h2>
         <p
-          className="lead col-span-12 max-w-[42ch] lg:col-span-5 lg:self-end"
+          className="lead max-w-[42ch]"
           data-reveal
           style={{ "--d": "80ms" } as React.CSSProperties}
         >
