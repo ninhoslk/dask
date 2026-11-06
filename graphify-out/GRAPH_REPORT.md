@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 115 files · ~83,833 words
+- 115 files · ~84,014 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `81c3b503`
+- Built from commit: `3b89f818`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -57,8 +57,8 @@
 6. `lucide-react` - 22 edges
 7. `txt()` - 19 edges
 8. `cn` - 19 edges
-9. `Ensino()` - 17 edges
-10. `normalizar()` - 17 edges
+9. `normalizar()` - 17 edges
+10. `Ensino()` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
@@ -69,8 +69,8 @@
   docs/ARQUITETURA.md → site/lib/site.ts
 - `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/site-footer.tsx
-- `Como funciona` --references--> `resolver()`  [INFERRED]
-  docs/PAINEL.md → site/lib/conteudo/documento.ts
+- `Cabeçalho (`site-header.tsx`)` --references--> `Sheet()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/ui/sheet.tsx
 
 ## Import Cycles
 - None detected.

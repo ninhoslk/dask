@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793944461.670156,
-    "seen": 1793944467.0680003,
-    "ast_hash": "e0d1f04901447f72a41aa9fe16f75008",
+    "mtime": 1793945142.5430508,
+    "seen": 1793945148.202859,
+    "ast_hash": "412663c45a21b3f315d94210f53d2973",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
@@ -672,9 +672,9 @@
     "semantic_hash": ""
   },
   "site/components/encaixe-apresentacao.tsx": {
-    "mtime": 1793944331.6687074,
-    "seen": 1793944467.0579827,
-    "ast_hash": "49e4332dc55f5b5c2c8e68361b2df62c",
+    "mtime": 1793944990.9725153,
+    "seen": 1793945148.1928675,
+    "ast_hash": "e7c4b9adf813503c26aa25b6aa1b62c3",
     "semantic_hash": ""
   },
   "site/package-lock.json": {
