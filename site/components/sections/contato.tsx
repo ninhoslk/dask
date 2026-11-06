@@ -54,8 +54,10 @@ export function Contato({ c }: { c: Conteudo }) {
             >
               WhatsApp {contato.whatsapp}
             </a>
-            <a href={`mailto:${contato.email}`} className="link text-lg break-all">
-              {contato.email}
+            {/* se não couber, quebra só depois do @ ("secretaria@" / "colegiodask.com.br") */}
+            <a href={`mailto:${contato.email}`} className="link text-lg">
+              {contato.email.split("@")[0]}@<wbr />
+              {contato.email.split("@")[1]}
             </a>
             <p className="small text-muted-foreground">
               {contato.endereco}, {contato.cidade}

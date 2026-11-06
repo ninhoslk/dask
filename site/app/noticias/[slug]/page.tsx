@@ -61,7 +61,9 @@ export default async function PaginaNoticia({ params }: Props) {
           </header>
 
           {n.imagem && (
-            <div className="media mt-10 max-h-[78svh] md:mt-14">
+            // a capa nunca passa da largura do arquivo original (as do blog têm
+            // 1024 px): ampliada, perderia nitidez
+            <div className="media mt-10 w-fit max-w-full md:mt-14">
               <Image
                 src={n.imagem}
                 alt=""
@@ -70,7 +72,7 @@ export default async function PaginaNoticia({ params }: Props) {
                 sizes="100vw"
                 priority
                 unoptimized={n.imagem.startsWith("http")}
-                className="max-h-[78svh]"
+                className="h-auto max-h-[78svh] w-auto max-w-full"
               />
             </div>
           )}
