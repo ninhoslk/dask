@@ -3,23 +3,21 @@
 import { useEffect } from "react"
 import type Lenis from "lenis"
 
+import { escolherEncaixe, pontosDeEncaixe, zonaLivreNaTela, type Faixa } from "@/lib/encaixe"
 import { aoMudarRolagem } from "@/lib/rolagem"
 
-// Encaixe automático das seções da home. Quando a rolagem para de vez
-// (inércia incluída, e com o dedo fora da tela), a página desliza até o ponto
-// de encaixe mais próximo, se estiver perto:
-//   - o começo de cada elemento [data-encaixe];
-//   - nos mais altos que a tela, também o fim (o último trecho encosta embaixo).
-// No meio de uma seção alta não há ponto, então a leitura fica livre.
-// "Perto" depende do sentido: descendo, até 30% de uma tela antes do ponto ou
-// 10% depois; subindo, o inverso. Quem passa direto não é puxado de volta.
-// Não age enquanto um elemento [data-sem-encaixe] ocupa 25% da tela ou mais:
-// a abertura em vídeo, a robótica e "Nossa história" rolam livres.
+// Encaixe automático das seções da home: quando a rolagem para de vez
+// (inércia incluída, e com o dedo fora da tela), mede a página e pergunta à
+// regra de lib/encaixe.ts para onde deslizar. A regra (o que é "perto",
+// zonas livres, fim das seções altas) está lá, com testes.
 // Vale no computador e no celular. Com movimento reduzido, não age.
-const antes = 0.3
-const depois = 0.1
-const ocupacaoLivre = 0.25
 const pausa = 140
+
+const faixas = (seletor: string): Faixa[] =>
+  [...document.querySelectorAll<HTMLElement>(seletor)].map((el) => {
+    const r = el.getBoundingClientRect()
+    return { topo: r.top, altura: r.height }
+  })
 
 export function EncaixeSecoes() {
   useEffect(() => {
@@ -32,28 +30,6 @@ export function EncaixeSecoes() {
     let encaixando = false
     let fimEncaixe = 0
 
-    const telaLivre = () => {
-      const tela = window.innerHeight
-      for (const el of document.querySelectorAll<HTMLElement>("[data-sem-encaixe]")) {
-        const r = el.getBoundingClientRect()
-        const visivel = Math.min(r.bottom, tela) - Math.max(r.top, 0)
-        if (visivel >= tela * ocupacaoLivre) return true
-      }
-      return false
-    }
-
-    const pontos = () => {
-      const tela = window.innerHeight
-      const lista: number[] = []
-      for (const el of document.querySelectorAll<HTMLElement>("[data-encaixe]")) {
-        const r = el.getBoundingClientRect()
-        const topo = r.top + window.scrollY
-        lista.push(topo)
-        if (r.height > tela + 40) lista.push(topo + r.height - tela)
-      }
-      return lista
-    }
-
     const terminar = () => {
       encaixando = false
       clearTimeout(fimEncaixe)
@@ -63,19 +39,17 @@ export function EncaixeSecoes() {
       espera = 0
       if (reduzido.matches || tocando || encaixando || !direcao) return
       if (lenis && Math.abs(lenis.targetScroll - lenis.scroll) >= 1) return
-      if (telaLivre()) return
-      const atual = window.scrollY
       const tela = window.innerHeight
-      const limite = document.documentElement.scrollHeight - tela
-      let melhor: number | undefined
-      for (const p of pontos()) {
-        const alvo = Math.min(Math.max(p, 0), limite)
-        const d = atual - alvo // negativo: o ponto ainda está abaixo
-        const perto =
-          direcao > 0 ? d >= -tela * antes && d <= tela * depois : d <= tela * antes && d >= -tela * depois
-        if (perto && (melhor === undefined || Math.abs(d) < Math.abs(atual - melhor))) melhor = alvo
-      }
-      if (melhor === undefined || Math.abs(atual - melhor) < 2) return
+      if (zonaLivreNaTela(faixas("[data-sem-encaixe]"), tela)) return
+      const atual = window.scrollY
+      const melhor = escolherEncaixe({
+        atual,
+        direcao: direcao > 0 ? 1 : -1,
+        tela,
+        limite: document.documentElement.scrollHeight - tela,
+        pontos: pontosDeEncaixe(faixas("[data-encaixe]"), atual, tela),
+      })
+      if (melhor === undefined) return
       encaixando = true
       if (lenis) {
         lenis.scrollTo(melhor, {
