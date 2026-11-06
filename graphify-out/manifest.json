@@ -126,9 +126,9 @@
     "semantic_hash": ""
   },
   "site/components/site-header.tsx": {
-    "mtime": 1793946462.8160925,
-    "seen": 1793946627.7686236,
-    "ast_hash": "47bc2287314abaf040fea7c267c7f0fb",
+    "mtime": 1793946888.6653037,
+    "seen": 1793947005.1581578,
+    "ast_hash": "a89ac8b5538208d92e4947bfe550a288",
     "semantic_hash": ""
   },
   "site/components/ui/button.tsx": {
