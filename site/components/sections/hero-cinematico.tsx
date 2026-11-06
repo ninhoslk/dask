@@ -266,7 +266,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             }}
             className="cine-bloco"
           >
-            <h1 id="hero-title" className="display text-[clamp(52px,10vw,176px)] text-white">
+            <h1 id="hero-title" className="display text-[clamp(34px,11vw,52px)] text-white sm:text-[clamp(52px,10vw,176px)]">
               <Linhas texto={txt(c, "titulo1")} />
             </h1>
             <p className="lead mt-6 max-w-[36ch] text-white/90">

@@ -163,6 +163,26 @@
 .link:hover {
   text-decoration-color: currentColor;
 }
+/* resposta no toque, na hora (sem esperar o clique terminar) */
+.link:active {
+  text-decoration-color: currentColor;
+  opacity: 0.7;
+  transition-duration: 0ms;
+}
+/* no toque, a área clicável dos links de texto chega a ~44px de altura sem
+   mudar o desenho: uma camada invisível maior que o texto */
+@media (pointer: coarse) {
+  .link,
+  .alvo-toque {
+    position: relative;
+  }
+  .link::after,
+  .alvo-toque::after {
+    content: "";
+    position: absolute;
+    inset: -12px -6px;
+  }
+}
 .media {
   border-radius: var(--radius);
   overflow: hidden;
@@ -469,6 +489,10 @@ html.lenis {
 .faixa-trilho[data-reverso] {
   animation-direction: reverse;
 }
+/* pausa com o mouse em cima, com foco do teclado ou com um toque (que
+   alterna); movimento que dura mais de 5 s precisa poder parar (WCAG 2.2.2) */
+.faixa:focus-visible .faixa-trilho,
+.faixa[data-pausada] .faixa-trilho,
 .faixa:hover .faixa-trilho {
   animation-play-state: paused;
 }
@@ -546,6 +570,33 @@ html.js-motion [data-reveal] {
   transform: scale(0.97);
 }
 
+/* ---------- cabeçalho que volta ao rolar para cima (cabecalho-fixo.tsx) ----------
+   Mesmo cabeçalho da página, sobre o fundo "papel". Escondido = fora da tela,
+   invisível e inerte; só transform e opacity animam. */
+.cabecalho-fixo {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 45;
+  background: var(--background);
+  padding-block: 12px;
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 200ms ease,
+    visibility 0s linear 260ms;
+}
+.cabecalho-fixo[data-visivel] {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 200ms ease,
+    visibility 0s;
+}
+
 /* ---------- news: share chips, filters and article text ---------- */
 .rede {
   display: inline-flex;
@@ -557,6 +608,12 @@ html.js-motion [data-reveal] {
   background: var(--tint);
   font-weight: 600;
   transition: background-color 160ms ease;
+}
+/* resposta no toque para chips, menu e cartões de notícia */
+.rede:active,
+.nav-item:active,
+a.group:active {
+  opacity: 0.7;
 }
 .rede:hover {
   background: color-mix(in srgb, var(--brand) 45%, var(--tint));

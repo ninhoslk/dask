@@ -38,6 +38,7 @@ site/
 │   ├── rolagem-suave.tsx           Lenis (fora do painel e sem movimento reduzido)
 │   ├── historia-cinematica.tsx     "Nossa história" com GSAP + ScrollTrigger
 │   ├── botoes-flutuantes.tsx       WhatsApp, Instagram e voltar ao topo
+│   ├── cabecalho-fixo.tsx          o cabeçalho volta preso no topo ao rolar para cima
 │   ├── lista-noticias.tsx, compartilhar.tsx, redes-sociais.tsx, tour-ao-clicar.tsx
 │   ├── admin/                      editor, prévia ao vivo, formulários, mídia
 │   ├── site-header.tsx             cabeçalho (tom "escuro" | "claro")
@@ -105,6 +106,8 @@ funcionar a partir das outras páginas, e leva a `/noticias` e `/tour-360`).
 - Props: `tom?: "escuro" | "claro"`. `claro` troca o logo para o branco e o texto para branco (usado sobre o vídeo).
 - Desktop (`lg`): links, menu "Área do aluno" (Diário do Aluno, Prof. Web, Central do aluno) e botão "Agendar visita".
 - Celular: botão "Menu" abre um `Sheet` com os mesmos itens e o botão do WhatsApp.
+- O item da página atual recebe `aria-current="page"` e fica sublinhado (como no hover).
+- `cabecalho-fixo.tsx` (montado no `layout.tsx`) repete este cabeçalho no topo da tela quando a pessoa rola para cima depois que o original saiu da tela. Fora do painel.
 - Botão "Agendar visita" abre o WhatsApp da secretaria com mensagem pronta (`whatsappLink(mensagemVisita)` em `lib/site.ts`).
 
 ## Seletor de série (`ensino.tsx`)

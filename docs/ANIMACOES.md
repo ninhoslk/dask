@@ -124,7 +124,9 @@ registra elementos adicionados depois. O estado escondido só existe sob
 
 | Onde | O quê | Classe/arquivo |
 | --- | --- | --- |
-| Faixa de fotos (Apresentação e Contato) | Corre sozinha 60 s por volta; pausa no hover; no Contato corre ao contrário | `.faixa*`, `faixa-fotos.tsx` |
+| Faixa de fotos (Apresentação e Contato) | Corre sozinha 60 s por volta; no Contato corre ao contrário. Pausa com o mouse em cima, com o foco do teclado e com um toque ou Enter (que alterna), exigência da WCAG 2.2.2 | `.faixa*`, `faixa-fotos.tsx`, `faixa-pausavel.tsx` |
+| Cabeçalho que volta | Depois que o cabeçalho da página sai da tela, o mesmo cabeçalho reaparece preso no topo quando a pessoa rola para cima e some quando ela desce (só `transform`/`opacity`; escondido fica `visibility: hidden` + `inert`) | `.cabecalho-fixo`, `cabecalho-fixo.tsx` |
+| Toque | Links de texto, chips, itens do menu e cartões de notícia escurecem na hora em que são pressionados (`:active`); no toque, links ganham área clicável de ~44 px sem mudar o desenho (`.link::after`, `.alvo-toque`) | `globals.css` |
 | Vida no Dask | Fotos inclinadas ficam retas e crescem 3% no hover | `.print` (usa as propriedades `rotate` e `scale`) |
 | Foto do Contato | Deriva lenta (zoom e deslocamento, 14 s, vai e volta) | `.drift` |
 | Botões de ação | Press (`scale(.97)`) e hover | `.btn-action` |

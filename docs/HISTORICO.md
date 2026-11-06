@@ -73,7 +73,7 @@ SAS, **sem criar foto nova**.
 
 **Técnico**
 11. **Memória na abertura em vídeo:** ~~todos os frames ficavam decodificados~~. Desde nov/2026 só fica uma janela ao redor do frame atual (`janelaFrames` em `lib/hero-cinematico.ts`; ver [ANIMACOES.md](ANIMACOES.md#carregamento)), o que corta o pior caso pela metade no celular. **Ainda falta medir em aparelho real** (principalmente Safari do iOS) se a rolagem rápida continua sem quadros vazios; se pesar, os próximos passos são `ImageBitmap` ou frames menores.
-12. O título da abertura quebra em **3 linhas** no celular (regra de design é ≤ 2) e a abertura **não foi medida** pelo inspetor.
+12. ~~O título da abertura quebra em 3 linhas no celular~~ corrigido em nov/2026: abaixo de 640 px o tamanho é `clamp(34px, 11vw, 52px)` e "Evoluir / para transformar." cabe em duas linhas de 320 a 640 px. Se o texto for trocado no painel por um mais longo, pode voltar a quebrar.
 13. Notícias novas são cadastradas pelo painel; as do blog antigo foram importadas uma vez. Se a escola continuar publicando no WordPress, é preciso rodar `scripts/importar-noticias.mjs` e `semear-noticias.mjs` de novo (não há sincronização automática).
 14. SEO básico apenas (título e descrição). Falta imagem Open Graph, sitemap, dados estruturados.
 15. Sem analytics, sem domínio próprio, sem testes automatizados (unitários/E2E) no repositório.

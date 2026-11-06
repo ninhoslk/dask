@@ -1,17 +1,17 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 114 files · ~83,653 words
+- 116 files · ~84,340 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
 ## Summary
-- 674 nodes · 1641 edges · 36 communities (28 shown, 8 thin omitted)
+- 679 nodes · 1657 edges · 36 communities (28 shown, 8 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 43 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `eda07a5d`
+- Built from commit: `3335bcad`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,7 +23,7 @@
 - components.json
 - react
 - compilerOptions
-- [slug]/page.tsx
+- app/layout.tsx
 - sessao.ts
 - cine-test.mjs
 - @types/sanitize-html
@@ -49,10 +49,10 @@
 - next-themes
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 39 edges
-2. `next` - 35 edges
-3. `Button()` - 27 edges
-4. `SiteHeader()` - 24 edges
+1. `react` - 41 edges
+2. `next` - 36 edges
+3. `SiteHeader()` - 27 edges
+4. `Button()` - 27 edges
 5. `FormNoticia()` - 24 edges
 6. `lucide-react` - 22 edges
 7. `txt()` - 21 edges
@@ -65,12 +65,12 @@
   docs/ARQUITETURA.md → site/lib/site.ts
 - `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/site.ts
-- `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
-  docs/CONTEUDO.md → site/lib/noticias-tipos.ts
-- `Tipos e dados` --references--> `Noticia`  [INFERRED]
-  docs/ARQUITETURA.md → site/lib/noticias-tipos.ts
-- `Tipos e dados` --references--> `Segmento`  [INFERRED]
-  docs/ARQUITETURA.md → site/lib/site.ts
+- `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/sections/ensino.tsx
+- `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/site-footer.tsx
+- `Cabeçalho (`site-header.tsx`)` --references--> `Sheet()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/ui/sheet.tsx
 
 ## Import Cycles
 - None detected.
@@ -82,16 +82,16 @@ Cohesion: 0.12
 Nodes (23): prettier, prettier-plugin-tailwindcss, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom, @types/sanitize-html (+15 more)
 
 ### Community 1 - "documento.ts"
-Cohesion: 0.08
-Nodes (56): Como a home é montada (`app/page.tsx`), Tipos e dados, PaginaInicial(), Conquistas(), Palavra, palavrasDa(), Contato(), Escola() (+48 more)
+Cohesion: 0.09
+Nodes (51): Como a home é montada (`app/page.tsx`), Tipos e dados, next, PaginaInicial(), Conquistas(), Palavra, palavrasDa(), Contato() (+43 more)
 
 ### Community 2 - "site-header.tsx"
-Cohesion: 0.12
-Nodes (17): Acessibilidade, acessos, SiteHeader(), DropdownMenu(), DropdownMenuContent(), DropdownMenuGroup(), DropdownMenuItem(), DropdownMenuTrigger() (+9 more)
+Cohesion: 0.10
+Nodes (20): Acessibilidade, abas, CabecalhoFixo(), acessos, atual(), SiteHeader(), DropdownMenu(), DropdownMenuContent() (+12 more)
 
 ### Community 3 - "editor.tsx"
-Cohesion: 0.09
-Nodes (49): sonner, apagarMidia(), apagarNoticia(), conteudoSeguro(), enderecoDoTour(), falha(), lerVersao(), listarVersoes() (+41 more)
+Cohesion: 0.07
+Nodes (58): sonner, apagarMidia(), apagarNoticia(), conteudoSeguro(), enderecoDoTour(), falha(), lerVersao(), listarVersoes() (+50 more)
 
 ### Community 4 - "components.json"
 Cohesion: 0.09
@@ -99,15 +99,15 @@ Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent 
 
 ### Community 5 - "react"
 Cohesion: 0.07
-Nodes (57): Regras de design, class-variance-authority, cn, radix-ui, react, NoticiaForm, FormularioLogin(), avisos (+49 more)
+Nodes (56): Regras de design, class-variance-authority, cn, radix-ui, react, FormularioLogin(), avisos, Login() (+48 more)
 
 ### Community 6 - "compilerOptions"
 Cohesion: 0.11
 Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
 
-### Community 7 - "[slug]/page.tsx"
-Cohesion: 0.14
-Nodes (21): lenis, lucide-react, metadata, RootLayout(), schibsted, viewport, BotoesFlutuantes(), icones (+13 more)
+### Community 7 - "app/layout.tsx"
+Cohesion: 0.22
+Nodes (9): lenis, metadata, RootLayout(), schibsted, viewport, Motion(), RolagemSuave(), definirRolagem() (+1 more)
 
 ### Community 8 - "sessao.ts"
 Cohesion: 0.12
@@ -118,8 +118,8 @@ Cohesion: 0.08
 Nodes (21): sanitize-html, chrome, errors, evalJs(), pending, report, send(), categorias (+13 more)
 
 ### Community 10 - "@types/sanitize-html"
-Cohesion: 0.07
-Nodes (46): next, metadata, Previa(), metadata, PaginaNoticias(), generateMetadata(), generateStaticParams(), PaginaNoticia() (+38 more)
+Cohesion: 0.10
+Nodes (33): Notícias: como atualizar, metadata, Previa(), metadata, PaginaNoticias(), generateMetadata(), generateStaticParams(), PaginaNoticia() (+25 more)
 
 ### Community 17 - "CLAUDE.md — Colégio Dask"
 Cohesion: 0.13
@@ -138,8 +138,8 @@ Cohesion: 0.25
 Nodes (8): Cores (tokens em `site/app/globals.css`), Design, Espaço, Ideia, Imagens, O que é proibido (e por quê), Responsivo, Tipografia
 
 ### Community 23 - "hero-cinematico.tsx"
-Cohesion: 0.12
-Nodes (16): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, 6. "Nossa história": a linha percorre os anos (`historia-cinematica.tsx`), Animações, Carregamento (+8 more)
+Cohesion: 0.09
+Nodes (28): 1. Abertura cinematográfica (scroll controla o vídeo), 2. Robótica: zoom pelo scroll (`showcase.tsx`), 3. Conquistas pelo scroll (`conquistas.tsx`), 4. Entradas ao rolar (`motion.tsx` + `[data-reveal]`), 5. Outras animações, 6. "Nossa história": a linha percorre os anos (`historia-cinematica.tsx`), Animações, Carregamento (+20 more)
 
 ### Community 24 - "Publicação (Vercel)"
 Cohesion: 0.25
@@ -170,12 +170,12 @@ Cohesion: 0.33
 Nodes (5): eslint, eslint-config-next, eslintConfig, eslint@^9, eslint-config-next@16.4.2
 
 ### Community 31 - "Conteúdo: de onde vem e onde editar"
-Cohesion: 0.33
-Nodes (5): Contatos usados (do site da escola), Conteúdo: de onde vem e onde editar, Fotos, Notícias: como atualizar, Onde editar cada coisa
+Cohesion: 0.40
+Nodes (4): Contatos usados (do site da escola), Conteúdo: de onde vem e onde editar, Fotos, Onde editar cada coisa
 
 ### Community 32 - "ensino.tsx"
-Cohesion: 0.09
-Nodes (33): Central do aluno (`app/central-do-aluno/page.tsx`), Acesso(), CentralDoAluno(), Doc, docsPorSegmento, metadata, Linhas(), Ensino() (+25 more)
+Cohesion: 0.08
+Nodes (44): Central do aluno (`app/central-do-aluno/page.tsx`), lucide-react, Acesso(), CentralDoAluno(), Doc, docsPorSegmento, metadata, BotoesFlutuantes() (+36 more)
 
 ### Community 33 - "Arquitetura"
 Cohesion: 0.40
@@ -195,17 +195,17 @@ Nodes (4): next-themes, react-dom, next-themes@^0.4.6, react-dom@19.3.1
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `ensino.tsx`, `documento.ts`, `historia-cinematica.tsx`, `editor.tsx`, `site-header.tsx`, `devDependencies`, `[slug]/page.tsx`, `@types/sanitize-html`, `dependencies`?**
-  _High betweenness centrality (0.148) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `historia-cinematica.tsx`, `devDependencies`, `app/layout.tsx`, `@types/sanitize-html`, `hero-cinematico.tsx`, `dependencies`?**
+  _High betweenness centrality (0.151) - this node is a cross-community bridge._
 - **Should `devDependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.11594202898550725 - nodes in this community are weakly interconnected._
-- **Why does `next` connect `@types/sanitize-html` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `editor.tsx`, `devDependencies`, `react`, `[slug]/page.tsx`, `sessao.ts`, `dependencies`?**
+- **Why does `next` connect `documento.ts` to `ensino.tsx`, `devDependencies`, `site-header.tsx`, `editor.tsx`, `react`, `app/layout.tsx`, `sessao.ts`, `@types/sanitize-html`, `dependencies`?**
   _High betweenness centrality (0.127) - this node is a cross-community bridge._
 - **Should `documento.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08482523444160273 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08857808857808858 - nodes in this community are weakly interconnected._
 - **Why does `CLAUDE.md — Colégio Dask` connect `CLAUDE.md — Colégio Dask` to `README.md`, `react`?**
-  _High betweenness centrality (0.093) - this node is a cross-community bridge._
+  _High betweenness centrality (0.092) - this node is a cross-community bridge._
 - **Should `site-header.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.12258064516129032 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09672830725462304 - nodes in this community are weakly interconnected._
 - **Should `editor.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.0852994555353902 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07111501316944688 - nodes in this community are weakly interconnected._

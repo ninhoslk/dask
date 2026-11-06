@@ -36,9 +36,9 @@
     "semantic_hash": "76cc06642a7a8b0dfe8eeb31652b087e"
   },
   "site/app/layout.tsx": {
-    "mtime": 1793836068.3177824,
-    "seen": 1793842972.3017833,
-    "ast_hash": "084c08993e62d70db18569b6e8414eec",
+    "mtime": 1793939220.6793234,
+    "seen": 1793939606.5517585,
+    "ast_hash": "fe16f4973fedbcd428af0cfcae35aa97",
     "semantic_hash": ""
   },
   "site/app/page.tsx": {
@@ -84,15 +84,15 @@
     "semantic_hash": ""
   },
   "site/components/sections/faixa-fotos.tsx": {
-    "mtime": 1793825310.676766,
-    "seen": 1793842972.3017833,
-    "ast_hash": "768978ffe670d8f385591be305d91898",
+    "mtime": 1793939188.4426136,
+    "seen": 1793939606.5567582,
+    "ast_hash": "b1b5a0515dff083364ab77804e809d34",
     "semantic_hash": ""
   },
   "site/components/sections/hero-cinematico.tsx": {
-    "mtime": 1793937727.5662274,
-    "seen": 1793937890.7844696,
-    "ast_hash": "965aa6442c1f4b48dae6ab5256cc55f7",
+    "mtime": 1793939227.7178254,
+    "seen": 1793939606.5567582,
+    "ast_hash": "b88c1cf2674cfdf32905ecd3732b72c3",
     "semantic_hash": ""
   },
   "site/components/sections/hero.tsx": {
@@ -132,9 +132,9 @@
     "semantic_hash": ""
   },
   "site/components/site-header.tsx": {
-    "mtime": 1793825310.718756,
-    "seen": 1793842972.3017833,
-    "ast_hash": "2fd451c6e57793500cb3bec88ad5ff35",
+    "mtime": 1793939493.6600826,
+    "seen": 1793939606.5577586,
+    "ast_hash": "b1496865662d18e5f21dd2d1c383b66a",
     "semantic_hash": ""
   },
   "site/components/ui/button.tsx": {
@@ -240,15 +240,15 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793937847.117383,
-    "seen": 1793937890.79147,
-    "ast_hash": "b65a4b4e514e9e9fa32967034cd1b41c",
+    "mtime": 1793939547.6895924,
+    "seen": 1793939606.5637555,
+    "ast_hash": "340932cfc1ca8a86a4b12fb2d7f71c1d",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
-    "mtime": 1793937812.2920618,
-    "seen": 1793937890.79147,
-    "ast_hash": "46021de9d1822a15860db075caed64a7",
+    "mtime": 1793939547.741022,
+    "seen": 1793939606.5637555,
+    "ast_hash": "87cbd1398fb07e311501152396cbde61",
     "semantic_hash": ""
   },
   "docs/CONTEUDO.md": {
@@ -258,9 +258,9 @@
     "semantic_hash": ""
   },
   "docs/DESIGN.md": {
-    "mtime": 1793825308.6765988,
-    "seen": 1793842972.3017833,
-    "ast_hash": "fed587f1af04f69ae480090a9c705cdd",
+    "mtime": 1793939558.2825806,
+    "seen": 1793939606.5637555,
+    "ast_hash": "45428146a498fd88b28ab58e333a5275",
     "semantic_hash": ""
   },
   "docs/FERRAMENTAS.md": {
@@ -276,9 +276,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793937864.5057032,
-    "seen": 1793937890.79147,
-    "ast_hash": "8b1570ebbf661d3e701b9eebf5b287af",
+    "mtime": 1793939547.741022,
+    "seen": 1793939606.5647554,
+    "ast_hash": "87afd4238e8ee24e5211594be4e01d4d",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {
@@ -669,6 +669,18 @@
     "mtime": 1793844381.9890835,
     "seen": 1793844628.1965039,
     "ast_hash": "28f3b5f56b60834d13a41318d49e545c",
+    "semantic_hash": ""
+  },
+  "site/components/cabecalho-fixo.tsx": {
+    "mtime": 1793939209.3137054,
+    "seen": 1793939606.554759,
+    "ast_hash": "abd9fa5e028ba7a04c4a7f8ea1eccd73",
+    "semantic_hash": ""
+  },
+  "site/components/sections/faixa-pausavel.tsx": {
+    "mtime": 1793939188.4451096,
+    "seen": 1793939606.5567582,
+    "ast_hash": "7057d3ad9d4db7bfd184cb49892cb709",
     "semantic_hash": ""
   },
   "site/package-lock.json": {
