@@ -55,9 +55,8 @@ function Parceiro({
   className?: string
 }) {
   const [grande, ...pequenas] = fotos
-  // no computador cada parceiro ocupa uma tela inteira, com o conteúdo centrado
   return (
-    <div className={cn("grid12 items-center gap-y-10 lg:min-h-svh lg:content-center", className)}>
+    <div className={cn("grid12 items-center gap-y-10", className)}>
       <div className={cn("col-span-12 lg:col-span-6", invertido && "lg:order-last")}>
         <a
           href={site}
@@ -140,7 +139,7 @@ export function Metodo({ c }: { c: Conteudo }) {
         titulo={txt(c, "sasTitulo")}
         itens={itens(c, "sasItens")}
         fotos={[sas1, sas2, sas3]}
-        className="mt-14 md:mt-20 lg:mt-0"
+        className="mt-14 md:mt-20"
       />
 
       <Parceiro
@@ -153,7 +152,7 @@ export function Metodo({ c }: { c: Conteudo }) {
         itens={itens(c, "arvoreItens")}
         fotos={[arv1, arv2, { ...arv3, className: arv3.src === "/fotos/arvore-leitura.jpg" ? "object-[70%_50%]" : undefined }]}
         invertido
-        className="mt-16 md:mt-24 lg:mt-0"
+        className="mt-16 md:mt-24 lg:mt-32"
       />
     </section>
   )

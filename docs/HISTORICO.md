@@ -96,11 +96,11 @@ em nenhuma delas. Em ordem de prioridade:
 4. ~~Foto da robótica borrada no desktop~~ corrigido: o `sizes` agora conta o zoom de 1,55x; no desktop chega a versão de 1080 px.
 
 **Ritmo e composição**
-5. **Dois títulos quase iguais em sequência:** "Do 1º ano ao vestibular, em Dracena." (Apresentação) e "Do primeiro ano ao vestibular." (Ensino). Um deles pode mudar.
-6. **Rodapé com um vazio de ~415 px** entre o endereço e o telefone grande, em todas as páginas no desktop.
-7. **Método:** no desktop sobra um vazio grande abaixo do bloco do SAS antes da Árvore (~500 px no tablet), e as fotos do SAS começam mais abaixo que o texto.
-8. **Escola:** no desktop a palavra "aluno." fica sozinha na última linha do parágrafo com a foto embutida.
-9. **Conquistas:** o parágrafo de leitura tem 18 linhas no celular (9 no desktop); é a frase mais longa do site.
+5. ~~Dois títulos quase iguais em sequência~~ corrigido: o título padrão do Ensino passou a "Séries, horários / e coordenação." (o que os cartões mostram). Se o título estiver salvo no painel, o salvo continua valendo.
+6. ~~Rodapé com um vazio de ~415 px~~ corrigido: o rodapé não ocupa mais 90% da tela; o telefone vem logo depois do endereço.
+7. ~~Método com vazio entre SAS e Árvore~~ corrigido: cada parceiro deixou de ocupar uma tela inteira no desktop; os blocos ficam a um espaço fixo um do outro.
+8. ~~"aluno." sozinha na última linha~~ corrigido com `text-wrap: pretty` nos dois parágrafos da Escola, só abaixo de 768 px (no computador fica como era, a pedido).
+9. **Conquistas:** o parágrafo de leitura tem 18 linhas no celular (9 no desktop). Testada uma letra menor no celular (12 linhas), mas a pedido ficou como era.
 
 **Tipografia**
 10. **Escala com muitos tamanhos:** a home no desktop usa 16 tamanhos de fonte diferentes (14, 15, 16, 18, 19, 26, 34, 35, 36, 37, 49, 52, 58, 72, 107, 130 px). Dá para juntar os vizinhos (34–37, 49–52, 18–19) em uma escala de 7 ou 8 degraus.
