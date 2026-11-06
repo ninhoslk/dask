@@ -99,7 +99,7 @@ em nenhuma delas. Em ordem de prioridade:
 5. ~~Dois títulos quase iguais em sequência~~ corrigido: o título padrão do Ensino passou a "Séries, horários / e coordenação." (o que os cartões mostram). Se o título estiver salvo no painel, o salvo continua valendo.
 6. ~~Rodapé com um vazio de ~415 px~~ corrigido: o rodapé não ocupa mais 90% da tela; o telefone vem logo depois do endereço.
 7. ~~Método com vazio entre SAS e Árvore~~ corrigido: cada parceiro deixou de ocupar uma tela inteira no desktop; os blocos ficam a um espaço fixo um do outro.
-8. ~~"aluno." sozinha na última linha~~ corrigido com `text-wrap: pretty` nos dois parágrafos da Escola.
+8. ~~"aluno." sozinha na última linha~~ corrigido com `text-wrap: pretty` nos dois parágrafos da Escola, só abaixo de 768 px (no computador fica como era, a pedido).
 9. ~~Conquistas com 18 linhas no celular~~ reduzido para 12: abaixo de 600 px a frase usa `clamp(20px, 5.4vw, 32px)`. O texto não mudou.
 
 **Tipografia**
