@@ -8,16 +8,18 @@ import { parceiros } from "@/lib/site"
 
 function Lista({ itens }: { itens: { titulo: string; texto: string }[] }) {
   return (
-    <dl className="mt-8 flex flex-col gap-5">
+    <dl className="mt-8 flex max-w-[52ch] flex-col gap-7">
       {itens.map((p, i) => (
         <div
           key={p.titulo}
           data-reveal
           style={{ "--d": `${120 + i * 70}ms` } as React.CSSProperties}
-          className="grid gap-1 sm:grid-cols-[minmax(0,14ch)_1fr] sm:gap-8"
+          className="flex flex-col gap-1.5"
         >
-          <dt className="font-semibold text-brand">{p.titulo}</dt>
-          <dd>{p.texto}</dd>
+          {/* título em cima e texto embaixo: o espaço entre itens (gap-7) é bem
+              maior que o de dentro (gap-1.5), então cada par se lê como um bloco */}
+          <dt className="text-lg font-semibold leading-snug text-brand">{p.titulo}</dt>
+          <dd className="leading-relaxed opacity-90">{p.texto}</dd>
         </div>
       ))}
     </dl>

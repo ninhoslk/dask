@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 114 files · ~83,210 words
+- 114 files · ~83,243 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `08511c6f`
+- Built from commit: `bdcbd378`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -59,8 +59,8 @@
 6. `lucide-react` - 22 edges
 7. `txt()` - 19 edges
 8. `cn` - 19 edges
-9. `Ensino()` - 17 edges
-10. `normalizar()` - 17 edges
+9. `normalizar()` - 17 edges
+10. `Ensino()` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Tipos e dados` --references--> `Coordenacao`  [INFERRED]
@@ -69,10 +69,10 @@
   docs/CONTEUDO.md → site/lib/site.ts
 - `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/noticias-tipos.ts
-- `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
-  docs/ARQUITETURA.md → site/components/sections/ensino.tsx
 - `Tipos e dados` --references--> `Noticia`  [INFERRED]
   docs/ARQUITETURA.md → site/lib/noticias-tipos.ts
+- `Tipos e dados` --references--> `Segmento`  [INFERRED]
+  docs/ARQUITETURA.md → site/lib/site.ts
 
 ## Import Cycles
 - None detected.
