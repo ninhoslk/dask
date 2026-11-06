@@ -144,6 +144,21 @@
   line-height: 0.98;
   text-wrap: balance;
 }
+/* título da Apresentação: "Do 1º ano ao vestibular," é uma linha longa;
+   o tamanho acompanha a largura para o título caber em duas linhas */
+.head.titulo-apresentacao {
+  font-size: clamp(26px, 8.6vw, 36px);
+}
+@media (min-width: 640px) {
+  .head.titulo-apresentacao {
+    font-size: var(--step-head);
+  }
+}
+@media (min-width: 1024px) {
+  .head.titulo-apresentacao {
+    font-size: min(4.5rem, 5vw);
+  }
+}
 .lead {
   font-size: var(--step-lead);
   line-height: 1.3;
@@ -427,6 +442,13 @@ html.lenis {
   bottom: clamp(56px, 9svh, 112px);
   will-change: opacity, transform;
   text-shadow: 0 1px 24px rgb(8 22 40 / 0.35);
+}
+/* no celular os textos da abertura terminam antes da coluna de botões
+   flutuantes (58px + folga), para nenhuma palavra ficar coberta */
+@media (max-width: 639px) {
+  .cine-bloco .lead {
+    padding-right: 66px;
+  }
 }
 /* before the script runs only the opening text shows */
 .cine-bloco:not(:first-child) {

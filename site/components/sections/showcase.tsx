@@ -70,7 +70,9 @@ export function Showcase({ c }: { c: Conteudo }) {
               alt={foto.alt}
               width={1600}
               height={900}
-              sizes="(max-width: 768px) 100vw, 48vw"
+              // a foto chega a 1,55x do quadro no último passo do zoom; pede a
+              // versão do tamanho ampliado para não borrar
+              sizes="(max-width: 768px) 155vw, 75vw"
               style={{ transform: `scale(${s.scale}) translateY(${s.y}%)` }}
             />
           </div>

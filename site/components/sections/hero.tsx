@@ -14,8 +14,8 @@ export function Apresentacao({ c }: { c: Conteudo }) {
     <section id="apresentacao" className="bg-tint lg:flex lg:min-h-svh lg:flex-col" aria-labelledby="apresentacao-title">
       <EncaixeApresentacao alvo="apresentacao" />
       <div className="frame grid12 items-end gap-y-8 lg:flex-1 lg:content-center" style={{ paddingTop: "clamp(56px, 7vw, 104px)" }}>
-        <div className="col-span-12 flex flex-col gap-6 lg:col-span-6">
-          <h2 id="apresentacao-title" className="head">
+        <div className="col-span-12 flex flex-col gap-6 lg:col-span-7">
+          <h2 id="apresentacao-title" className="head titulo-apresentacao">
             {txt(c, "titulo")}
           </h2>
           <p className="lead max-w-[38ch]">{txt(c, "texto")}</p>
@@ -33,7 +33,7 @@ export function Apresentacao({ c }: { c: Conteudo }) {
             </a>
           </div>
         </div>
-        <dl className="col-span-12 grid grid-cols-3 gap-3 lg:col-span-6 lg:gap-4">
+        <dl className="col-span-12 grid grid-cols-3 gap-3 lg:col-span-5 lg:gap-4">
           {destaques.map((d, i) => (
             <div key={i} className="rounded-[var(--radius)] bg-background/70 p-4 md:p-5">
               <dt className="sr-only">{d.texto}</dt>

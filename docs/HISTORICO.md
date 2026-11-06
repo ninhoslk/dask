@@ -90,10 +90,10 @@ capturas de tela olhadas uma a uma. Sem rolagem horizontal e sem erro de console
 em nenhuma delas. Em ordem de prioridade:
 
 **Quebram regra do projeto ou atrapalham o uso**
-1. **Título "Do 1º ano ao vestibular, em Dracena." em 3 linhas** (desktop e celular), na Apresentação. A regra é no máximo duas.
-2. **Subtítulo da abertura passa por baixo dos botões flutuantes** (Instagram e WhatsApp) no celular: "…Dracena-SP: do" fica coberto.
-3. **Abas da Central do aluno com 25 a 32 px de altura** (Fundamental I, II, Médio). São as únicas áreas de toque abaixo de 44 px que sobraram (os links de texto já ganham área invisível no toque).
-4. **Foto da robótica borrada no desktop:** aparece com 1071 px de largura, mas o `next/image` entrega a versão de 750 px (o `sizes` está menor que o real).
+1. ~~Título "Do 1º ano ao vestibular, em Dracena." em 3 linhas~~ corrigido: a coluna do título passou a 7/12 no desktop e o tamanho segue a largura (`.titulo-apresentacao`); 2 linhas de 320 a 1920 px.
+2. ~~Subtítulo da abertura por baixo dos botões flutuantes no celular~~ corrigido: abaixo de 640 px os textos da abertura param 66 px antes da borda direita.
+3. ~~Abas da Central do aluno com 25 a 32 px de altura~~ corrigido: 44 px. A lista das abas tinha altura fixa de 32 px (seletor do shadcn) e, no celular, as abas quebradas em duas linhas vazavam dela; agora a altura acompanha.
+4. ~~Foto da robótica borrada no desktop~~ corrigido: o `sizes` agora conta o zoom de 1,55x; no desktop chega a versão de 1080 px.
 
 **Ritmo e composição**
 5. **Dois títulos quase iguais em sequência:** "Do 1º ano ao vestibular, em Dracena." (Apresentação) e "Do primeiro ano ao vestibular." (Ensino). Um deles pode mudar.
