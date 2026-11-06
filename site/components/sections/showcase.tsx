@@ -38,6 +38,7 @@ export function Showcase({ c }: { c: Conteudo }) {
 
   return (
     <section
+      data-sem-encaixe
       aria-labelledby="robotica-title"
       className="showcase"
       style={{ marginTop: "var(--section-gap)" }}

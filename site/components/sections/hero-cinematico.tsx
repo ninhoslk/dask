@@ -237,6 +237,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
 
   return (
     <section
+      data-sem-encaixe
       ref={secaoRef}
       aria-labelledby="hero-title"
       className="cine"

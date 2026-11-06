@@ -10,6 +10,7 @@ export function Contato({ c }: { c: Conteudo }) {
   const fachada = img(c, "fachada")
   return (
     <section
+      data-encaixe
       id="contato"
       aria-labelledby="contato-title"
       className="frame bg-tint"

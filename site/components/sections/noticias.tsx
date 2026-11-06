@@ -26,6 +26,7 @@ export function Noticias({ c, noticias }: { c: Conteudo; noticias: NoticiaCartao
 
   return (
     <section
+      data-encaixe
       id="noticias"
       aria-labelledby="noticias-title"
       className="frame"
