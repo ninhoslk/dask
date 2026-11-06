@@ -18,7 +18,7 @@ export function Escola({ c }: { c: Conteudo }) {
       {/* revista aberta: os dois parágrafos lado a lado e, embaixo, as três
           fotos numa faixa de mesma altura. Sem colunas de alturas diferentes,
           não sobra vazio em nenhuma largura. */}
-      <div className="frame" style={{ paddingBlock: "var(--section-gap)" }}>
+      <div className="frame" data-encaixe style={{ paddingBlock: "var(--section-gap)" }}>
         <div className="grid12 gap-y-[1.2em] text-[22px] leading-[1.25] tracking-[-0.02em] md:text-[clamp(24px,2.5vw,36px)] md:leading-[1.2]">
           <p data-reveal className="col-span-12 max-md:text-pretty lg:col-span-6">
             <span className="dropcap-portrait">
@@ -108,7 +108,7 @@ export function Escola({ c }: { c: Conteudo }) {
         </div>
       </div>
 
-      <div className="bg-field text-field-foreground">
+      <div className="bg-field text-field-foreground" data-sem-encaixe>
         <div className="frame grid12 gap-y-8" style={{ paddingBlock: "clamp(64px, 7vw, 112px)" }}>
           <h3 className="col-span-12 text-[clamp(32px,3.6vw,56px)] font-extrabold leading-none tracking-[-0.045em] lg:col-span-3" data-reveal>
             {txt(c, "tituloHistoria")}

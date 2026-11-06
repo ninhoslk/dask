@@ -1,3 +1,4 @@
+import { EncaixeSecoes } from "@/components/encaixe-secoes"
 import { Conquistas } from "@/components/sections/conquistas"
 import { Contato } from "@/components/sections/contato"
 import { Ensino } from "@/components/sections/ensino"
@@ -37,6 +38,7 @@ export function PaginaInicial({
 
   return (
     <>
+      {!editavel && <EncaixeSecoes />}
       {secoes
         .filter((s) => s.visivel || editavel)
         .map((s) => (

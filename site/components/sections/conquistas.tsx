@@ -207,7 +207,7 @@ export function Conquistas({ c }: { c: Conteudo }) {
   const resto = palavras.filter((w) => !w.titulo)
 
   return (
-    <section aria-labelledby="conquistas-title" className="conquistas frame bg-field text-field-foreground">
+    <section data-encaixe aria-labelledby="conquistas-title" className="conquistas frame bg-field text-field-foreground">
       <p ref={ref} className="leitura">
         <span id="conquistas-title" role="heading" aria-level={2}>
           {titulo.map((w, i) => (

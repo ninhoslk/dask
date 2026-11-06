@@ -113,6 +113,7 @@ export function Metodo({ c }: { c: Conteudo }) {
   const [arv1, arv2, arv3] = imgs(c, "arvoreFotos")
   return (
     <section
+      data-encaixe
       id="metodo"
       aria-labelledby="metodo-title"
       className="frame bg-field text-field-foreground"

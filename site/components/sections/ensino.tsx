@@ -71,6 +71,7 @@ export function Ensino({ c }: { c: Conteudo }) {
 
   return (
     <section
+      data-encaixe
       id="ensino"
       aria-labelledby="ensino-title"
       className="bg-tint"
