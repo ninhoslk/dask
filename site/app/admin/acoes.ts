@@ -1,12 +1,12 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import sanitizeHtml from "sanitize-html"
 
 import { adminOuErro } from "@/lib/admin/sessao"
 import type { Documento } from "@/lib/conteudo/documento"
 import { lojaSupabase } from "@/lib/conteudo/loja-supabase"
 import { repositorioPagina, type Versao } from "@/lib/conteudo/repositorio"
+import { htmlParaGravar, textoPuro } from "@/lib/noticias-html"
 import { falha, type Resultado } from "@/lib/resultado"
 import { permiteIncorporar } from "@/lib/tour"
 
@@ -58,26 +58,6 @@ export type NoticiaForm = {
   publicado: boolean
 }
 
-const tagsNoticia = ["p", "br", "strong", "b", "em", "i", "u", "a", "ul", "ol", "li", "h2", "h3", "h4", "blockquote", "img", "figure", "figcaption"]
-
-// Texto simples vira parágrafos; HTML vindo do WordPress é aceito, mas limpo.
-function conteudoSeguro(texto: string) {
-  const html = /<\/?[a-z][\s\S]*>/i.test(texto)
-    ? texto
-    : texto
-        .split(/\n{2,}/)
-        .map((p) => p.trim())
-        .filter(Boolean)
-        .map((p) => `<p>${p.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>")}</p>`)
-        .join("\n")
-  return sanitizeHtml(html, {
-    allowedTags: tagsNoticia,
-    allowedAttributes: { a: ["href"], img: ["src", "alt", "width", "height"] },
-    allowedSchemes: ["https", "mailto", "tel"],
-    allowedSchemesByTag: { img: ["https"] },
-  })
-}
-
 const slugDe = (s: string) =>
   s
     .normalize("NFD")
@@ -100,8 +80,8 @@ export async function salvarNoticia(f: NoticiaForm): Promise<Resultado<{ id: str
   if (Number.isNaN(data.getTime())) return falha("Data inválida.")
   const imagem = String(f.imagem ?? "").trim()
   if (imagem && !/^https:\/\/[^\s"'<>]+$/.test(imagem)) return falha("A imagem precisa ser um endereço https.")
-  const conteudo = conteudoSeguro(String(f.conteudo ?? "").slice(0, 150000))
-  const resumo = String(f.resumo ?? "").trim().slice(0, 600) || sanitizeHtml(conteudo, { allowedTags: [] }).slice(0, 280)
+  const conteudo = htmlParaGravar(String(f.conteudo ?? "").slice(0, 150000))
+  const resumo = String(f.resumo ?? "").trim().slice(0, 600) || textoPuro(conteudo).slice(0, 280)
 
   const linha = {
     slug,

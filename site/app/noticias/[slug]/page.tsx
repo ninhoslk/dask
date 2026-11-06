@@ -8,13 +8,14 @@ import { Compartilhar } from "@/components/compartilhar"
 import { RedesSociais } from "@/components/redes-sociais"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { htmlSeguro, listarNoticias, obterNoticia } from "@/lib/noticias"
+import { listarCartoes, obterNoticia, relacionadas as buscarRelacionadas } from "@/lib/noticias"
+import { htmlParaMostrar } from "@/lib/noticias-html"
 import { formatoData, resumoInteiro } from "@/lib/noticias-tipos"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://colegio-dask.vercel.app"
 
 export async function generateStaticParams() {
-  return (await listarNoticias()).map((n) => ({ slug: n.slug }))
+  return (await listarCartoes()).map((n) => ({ slug: n.slug }))
 }
 
 type Props = { params: Promise<{ slug: string }> }
@@ -34,8 +35,7 @@ export default async function PaginaNoticia({ params }: Props) {
   const n = await obterNoticia(slug)
   if (!n) notFound()
 
-  const todas = await listarNoticias()
-  const relacionadas = todas.filter((x) => x.slug !== n.slug && x.categoria === n.categoria).slice(0, 3)
+  const relacionadas = await buscarRelacionadas(n)
   const url = `${siteUrl}/noticias/${n.slug}`
 
   return (
@@ -80,7 +80,7 @@ export default async function PaginaNoticia({ params }: Props) {
           <div className="grid12 mt-10 gap-y-10 md:mt-14">
             <div
               className="noticia-texto col-span-12 lg:col-span-7"
-              dangerouslySetInnerHTML={{ __html: htmlSeguro(n.conteudo) }}
+              dangerouslySetInnerHTML={{ __html: htmlParaMostrar(n.conteudo) }}
             />
             <aside className="col-span-12 flex flex-col gap-8 lg:col-span-4 lg:col-start-9">
               <Compartilhar url={url} titulo={n.titulo} imagem={n.imagem ?? undefined} />

@@ -1,9 +1,7 @@
 import "server-only"
 
-import sanitizeHtml from "sanitize-html"
-
 import todas from "@/lib/noticias-todas.json"
-import type { Noticia } from "@/lib/noticias-tipos"
+import { paraCartao, type Noticia, type NoticiaCartao } from "@/lib/noticias-tipos"
 import { clientePublico } from "@/lib/supabase/publico"
 
 export type { Noticia }
@@ -47,18 +45,32 @@ const doArquivo: Noticia[] = todas.map((n) => ({
 }))
 
 const colunas = "slug,titulo,data,categoria,resumo,conteudo,imagem,miniatura"
+// listas e cartões não precisam do texto inteiro (são 265 notícias)
+const colunasCartao = "slug,titulo,data,categoria,resumo,imagem,miniatura"
 
-export async function listarNoticias(): Promise<Noticia[]> {
+/**
+ * Cartões das notícias publicadas, da mais nova para a mais antiga (todas, ou
+ * as `limite` primeiras). Sem banco, com erro ou com a tabela vazia, usa as
+ * notícias importadas do WordPress: decisão deliberada, porque a tabela vazia
+ * pode ser só um banco ainda não semeado, e o site não deve ficar sem notícias.
+ */
+export async function listarCartoes(limite?: number): Promise<NoticiaCartao[]> {
+  const doArquivoCartoes = () => doArquivo.slice(0, limite).map(paraCartao)
   const sb = clientePublico()
-  if (!sb) return doArquivo
+  if (!sb) return doArquivoCartoes()
   const { data, error } = await sb
     .from("noticias")
-    .select(colunas)
+    .select(colunasCartao)
     .eq("publicado", true)
     .order("data", { ascending: false })
-    .limit(2000)
-  if (error || !data?.length) return doArquivo
-  return (data as Linha[]).map(doBanco)
+    .limit(limite ?? 2000)
+  if (error || !data?.length) return doArquivoCartoes()
+  return (data as Omit<Linha, "conteudo">[]).map((l) => paraCartao(doBanco({ ...l, conteudo: "" })))
+}
+
+/** Até `quantas` outras notícias da mesma categoria, para o fim da página de uma notícia. */
+export async function relacionadas(n: Pick<Noticia, "slug" | "categoria">, quantas = 3): Promise<NoticiaCartao[]> {
+  return (await listarCartoes()).filter((x) => x.slug !== n.slug && x.categoria === n.categoria).slice(0, quantas)
 }
 
 export async function obterNoticia(slug: string): Promise<Noticia | undefined> {
@@ -71,21 +83,3 @@ export async function obterNoticia(slug: string): Promise<Noticia | undefined> {
   }
   return doArquivo.find((n) => n.slug === slug)
 }
-
-// O texto da notícia é limpo de novo na hora de mostrar, mesmo já tendo sido
-// limpo ao salvar: o que vai para o HTML da página nunca depende só do banco.
-export function htmlSeguro(html: string) {
-  return sanitizeHtml(html, {
-    allowedTags: ["p", "br", "strong", "b", "em", "i", "u", "a", "ul", "ol", "li", "h2", "h3", "h4", "blockquote", "img", "figure", "figcaption"],
-    allowedAttributes: { a: ["href", "target", "rel"], img: ["src", "alt", "width", "height", "loading", "decoding"] },
-    allowedSchemes: ["https", "mailto", "tel"],
-    allowedSchemesByTag: { img: ["https"] },
-    transformTags: {
-      a: (_tag, attribs) => ({
-        tagName: "a",
-        attribs: { href: attribs.href ?? "", target: "_blank", rel: "noopener noreferrer nofollow" },
-      }),
-    },
-  })
-}
-
