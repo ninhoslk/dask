@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/hero.tsx": {
-    "mtime": 1793944000.2266982,
-    "seen": 1793944110.9354022,
-    "ast_hash": "d5971cd738eea7d2aeefae21a5bf35f1",
+    "mtime": 1793944275.8073213,
+    "seen": 1793944467.0599825,
+    "ast_hash": "a0eea4521951eb7ae4fbb70a473fe7dd",
     "semantic_hash": ""
   },
   "site/components/sections/metodo.tsx": {
@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "docs/ANIMACOES.md": {
-    "mtime": 1793940928.0782902,
-    "seen": 1793940943.2230623,
-    "ast_hash": "5f31705d519509848d2bacfac0226191",
+    "mtime": 1793944461.670156,
+    "seen": 1793944467.0680003,
+    "ast_hash": "e0d1f04901447f72a41aa9fe16f75008",
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "site/lib/rolagem.ts": {
-    "mtime": 1793825310.7387562,
-    "seen": 1793842972.3017833,
-    "ast_hash": "036556f89ae39fe4c1ea3ca0d2f59664",
+    "mtime": 1793944275.69378,
+    "seen": 1793944467.0659854,
+    "ast_hash": "55e81a1db510a5c89715af1df929beef",
     "semantic_hash": ""
   },
   "site/lib/supabase/config.ts": {
@@ -669,6 +669,12 @@
     "mtime": 1793939188.4451096,
     "seen": 1793939606.5567582,
     "ast_hash": "7057d3ad9d4db7bfd184cb49892cb709",
+    "semantic_hash": ""
+  },
+  "site/components/encaixe-apresentacao.tsx": {
+    "mtime": 1793944331.6687074,
+    "seen": 1793944467.0579827,
+    "ast_hash": "49e4332dc55f5b5c2c8e68361b2df62c",
     "semantic_hash": ""
   },
   "site/package-lock.json": {
