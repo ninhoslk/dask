@@ -13,7 +13,7 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 
 | O quê | Arquivo |
 | --- | --- |
-| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
+| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno, ClassApp e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
 | Mensagem pré-escrita do WhatsApp | `site/lib/site.ts` → `mensagemVisita` e `whatsappLink()` |
 | Segmentos, séries, coordenações, horários de atendimento | `site/lib/site.ts` → `segmentos`, `psicologa` |
 | Linha do tempo (1995–2022) | Painel (seção A escola); padrão em `site/lib/site.ts` → `linhaDoTempo` |

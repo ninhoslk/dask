@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 115 files · ~84,197 words
+- 115 files · ~84,247 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5fac6489`
+- Built from commit: `d31d7860`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -56,22 +56,22 @@
 4. `Button()` - 27 edges
 5. `FormNoticia()` - 24 edges
 6. `lucide-react` - 22 edges
-7. `Ensino()` - 19 edges
-8. `txt()` - 19 edges
+7. `txt()` - 19 edges
+8. `Ensino()` - 19 edges
 9. `cn` - 19 edges
 10. `normalizar()` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
-  docs/CONTEUDO.md → site/lib/noticias-tipos.ts
 - `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/site.ts
+- `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
+  docs/CONTEUDO.md → site/lib/noticias-tipos.ts
+- `Tipos e dados` --references--> `Coordenacao`  [INFERRED]
+  docs/ARQUITETURA.md → site/lib/site.ts
 - `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/sections/ensino.tsx
 - `Como a home é montada (`app/page.tsx`)` --references--> `HeroCinematico()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/sections/hero-cinematico.tsx
-- `Como a home é montada (`app/page.tsx`)` --references--> `Noticias()`  [INFERRED]
-  docs/ARQUITETURA.md → site/components/sections/noticias.tsx
 
 ## Import Cycles
 - None detected.

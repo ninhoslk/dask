@@ -26,6 +26,7 @@ import { contato, mensagemVisita, navegacao, whatsappLink } from "@/lib/site"
 
 const acessos = [
   { label: "Diário do Aluno", href: contato.diarioDoAluno, externo: true },
+  { label: "ClassApp (recados)", href: contato.classApp, externo: true },
   { label: "Prof. Web", href: contato.profWeb, externo: true },
   { label: "Central do aluno", href: "/central-do-aluno", externo: false },
 ]

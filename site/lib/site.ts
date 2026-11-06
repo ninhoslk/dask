@@ -16,6 +16,8 @@ export const contato = {
   facebook: "https://www.facebook.com/colegiodask",
   // eduxego é o app de alunos e famílias; eduxe (Eduxe Class) é o diário de classe do professor.
   diarioDoAluno: "https://colegiodask.eduxego.com.br/",
+  // os recados da escola para as famílias chegam pelo ClassApp, não pelo Diário do Aluno
+  classApp: "https://classapp.com.br/auth",
   profWeb: "https://colegiodask.eduxe.com.br",
   trabalheConosco:
     "https://docs.google.com/forms/d/e/1FAIpQLSfQ6YoWv4TvpOwl0vIMFd1TU18r5CuRGAYDBWLNZPlFWw2rHQ/viewform?usp=header",

@@ -101,7 +101,7 @@ funcionar a partir das outras páginas, e leva a `/noticias` e `/tour-360`).
 ## Cabeçalho (`site-header.tsx`)
 
 - Props: `tom?: "escuro" | "claro"`. `claro` troca o logo para o branco e o texto para branco (usado sobre o vídeo).
-- Desktop (`lg`): links, menu "Área do aluno" (Diário do Aluno, Prof. Web, Central do aluno) e botão "Agendar visita".
+- Desktop (`lg`): links, menu "Área do aluno" (Diário do Aluno, ClassApp, Prof. Web, Central do aluno) e botão "Agendar visita".
 - Celular: botão "Menu" abre um `Sheet` com os mesmos itens e o botão do WhatsApp.
 - O item da página atual recebe `aria-current="page"` e fica sublinhado (como no hover).
 - `cabecalho-fixo.tsx` (montado no `layout.tsx`) repete este cabeçalho no topo da tela quando a pessoa rola para cima depois que o original saiu da tela. Fora do painel.
@@ -118,8 +118,9 @@ série escolhida. O `aria-live="polite"` anuncia a mudança.
 
 ## Central do aluno (`app/central-do-aluno/page.tsx`)
 
-Página de servidor (estática) com três cartões de acesso (Diário do Aluno,
-Prof. Web, Trabalhe conosco), `Tabs` por segmento com os documentos e um cartão
+Página de servidor (estática) com quatro cartões de acesso (Diário do Aluno,
+que tem só as notas; ClassApp, onde chegam os recados da escola; Prof. Web;
+Trabalhe conosco), `Tabs` por segmento com os documentos e um cartão
 com a coordenação. Documentos com URL do Google Drive aparecem como "PDF";
 os sem URL aparecem como "Em breve", igual ao site original. Os links do
 Fundamental I (lista de material 2026, 8 arquivos) e das "Normas disciplinares"

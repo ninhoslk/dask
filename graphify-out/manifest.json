@@ -30,10 +30,10 @@
     "semantic_hash": ""
   },
   "site/app/central-do-aluno/page.tsx": {
-    "mtime": 1793836068.3167818,
-    "seen": 1793842972.3017833,
-    "ast_hash": "76cc06642a7a8b0dfe8eeb31652b087e",
-    "semantic_hash": "76cc06642a7a8b0dfe8eeb31652b087e"
+    "mtime": 1793946462.8160925,
+    "seen": 1793946627.7616217,
+    "ast_hash": "b9f37ccbd86272fe10c0e6a26d4970ad",
+    "semantic_hash": ""
   },
   "site/app/layout.tsx": {
     "mtime": 1793939220.6793234,
@@ -126,9 +126,9 @@
     "semantic_hash": ""
   },
   "site/components/site-header.tsx": {
-    "mtime": 1793939493.6600826,
-    "seen": 1793939606.5577586,
-    "ast_hash": "b1496865662d18e5f21dd2d1c383b66a",
+    "mtime": 1793946462.8160925,
+    "seen": 1793946627.7686236,
+    "ast_hash": "47bc2287314abaf040fea7c267c7f0fb",
     "semantic_hash": ""
   },
   "site/components/ui/button.tsx": {
@@ -186,9 +186,9 @@
     "semantic_hash": ""
   },
   "site/lib/site.ts": {
-    "mtime": 1793940664.4118226,
-    "seen": 1793940943.2210605,
-    "ast_hash": "f6f1f27bde6556fec123a8e40021ad56",
+    "mtime": 1793946462.8150983,
+    "seen": 1793946627.772742,
+    "ast_hash": "493939b5e73ca4ee65e12eb017d2107c",
     "semantic_hash": ""
   },
   "site/lib/utils.ts": {
@@ -240,15 +240,15 @@
     "semantic_hash": ""
   },
   "docs/ARQUITETURA.md": {
-    "mtime": 1793946161.1390524,
-    "seen": 1793946166.702489,
-    "ast_hash": "9888b8ab4ac7d4d60a8e448bfc23e1f8",
+    "mtime": 1793946475.5456538,
+    "seen": 1793946627.7757947,
+    "ast_hash": "10cbb4b6fc3edfb6c5765c980277a2de",
     "semantic_hash": ""
   },
   "docs/CONTEUDO.md": {
-    "mtime": 1793937832.0677838,
-    "seen": 1793937890.79147,
-    "ast_hash": "45ec19d7984d2f37458922980f606c2c",
+    "mtime": 1793946475.5456538,
+    "seen": 1793946627.7757947,
+    "ast_hash": "399c542fa8de5df57ebf6ce25a8f6feb",
     "semantic_hash": ""
   },
   "docs/DESIGN.md": {
