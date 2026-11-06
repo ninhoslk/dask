@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { img, imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
 import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
+import { juntarCurtas } from "@/lib/utils"
 
 export function Escola({ c }: { c: Conteudo }) {
   const retrato = img(c, "retrato")
@@ -29,14 +30,14 @@ export function Escola({ c }: { c: Conteudo }) {
                 sizes="(max-width: 640px) 120px, 160px"
               />
             </span>
-            <strong className="font-semibold">{txt(c, "destaque")}</strong> {txt(c, "paragrafo1")}
+            <strong className="font-semibold">{txt(c, "destaque")}</strong> {juntarCurtas(txt(c, "paragrafo1"))}
           </p>
           <p
             data-reveal
             style={{ "--d": "90ms" } as React.CSSProperties}
             className="col-span-12 text-muted-foreground lg:col-span-6"
           >
-            {txt(c, "paragrafo2")}
+            {juntarCurtas(txt(c, "paragrafo2"))}
           </p>
         </div>
 

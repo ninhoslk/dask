@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/escola.tsx": {
-    "mtime": 1793943609.7537985,
-    "seen": 1793943712.7547789,
-    "ast_hash": "df269acc157a9f4ad45e0247eb15bc0e",
+    "mtime": 1793943800.9840202,
+    "seen": 1793943937.0028524,
+    "ast_hash": "3aebeb10fcd7965200ea86d283c2e8ae",
     "semantic_hash": ""
   },
   "site/components/sections/faixa-fotos.tsx": {
@@ -192,10 +192,10 @@
     "semantic_hash": ""
   },
   "site/lib/utils.ts": {
-    "mtime": 1793825310.742756,
-    "seen": 1793842972.3017833,
-    "ast_hash": "0482d21cfeab8cfcfe44f94927e45afb",
-    "semantic_hash": "0482d21cfeab8cfcfe44f94927e45afb"
+    "mtime": 1793943800.8979535,
+    "seen": 1793943937.0098553,
+    "ast_hash": "2f7c8365e255f2474b77cb6a53cd9f01",
+    "semantic_hash": ""
   },
   "site/next.config.ts": {
     "mtime": 1793943013.0463233,
