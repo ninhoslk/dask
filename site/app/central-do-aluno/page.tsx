@@ -78,9 +78,9 @@ export default function CentralDoAluno() {
           Documentos por segmento
         </h2>
         <Tabs defaultValue="fund1" className="mt-8">
-          <TabsList className="h-auto flex-wrap">
+          <TabsList className="h-auto flex-wrap group-data-horizontal/tabs:h-auto">
             {segmentos.map((s) => (
-              <TabsTrigger key={s.id} value={s.id} className="px-4 py-2 text-base">
+              <TabsTrigger key={s.id} value={s.id} className="min-h-11 px-4 py-2 text-base">
                 {s.nome}
               </TabsTrigger>
             ))}

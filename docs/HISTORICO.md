@@ -82,6 +82,37 @@ SAS, **sem criar foto nova**.
 17. O 21st.dev (Magic) e o Chrome DevTools MCP foram instalados mas **não usados**.
 18. O freio de tentativas de login do painel (`app/admin/login/acoes.ts`) fica na memória de cada instância do servidor; na Vercel cada instância conta separado. O limite por IP do próprio Supabase Auth continua valendo por trás. Para um freio único, seria preciso guardar as tentativas no banco (tabela + função), o que pede uma migração nova.
 
+## Possíveis melhorias de design (auditoria de nov/2026)
+
+Medido no build de produção, em Chrome headless, nas larguras 1440, 768 e 390 px,
+nas páginas `/`, `/central-do-aluno`, `/noticias`, uma notícia e `/tour-360`, com
+capturas de tela olhadas uma a uma. Sem rolagem horizontal e sem erro de console
+em nenhuma delas. Em ordem de prioridade:
+
+**Quebram regra do projeto ou atrapalham o uso**
+1. ~~Título "Do 1º ano ao vestibular, em Dracena." em 3 linhas~~ corrigido: a coluna do título passou a 7/12 no desktop e o tamanho segue a largura (`.titulo-apresentacao`); 2 linhas de 320 a 1920 px.
+2. ~~Subtítulo da abertura por baixo dos botões flutuantes no celular~~ corrigido: abaixo de 640 px os textos da abertura param 66 px antes da borda direita.
+3. ~~Abas da Central do aluno com 25 a 32 px de altura~~ corrigido: 44 px. A lista das abas tinha altura fixa de 32 px (seletor do shadcn) e, no celular, as abas quebradas em duas linhas vazavam dela; agora a altura acompanha.
+4. ~~Foto da robótica borrada no desktop~~ corrigido: o `sizes` agora conta o zoom de 1,55x; no desktop chega a versão de 1080 px.
+
+**Ritmo e composição**
+5. **Dois títulos quase iguais em sequência:** "Do 1º ano ao vestibular, em Dracena." (Apresentação) e "Do primeiro ano ao vestibular." (Ensino). Um deles pode mudar.
+6. **Rodapé com um vazio de ~415 px** entre o endereço e o telefone grande, em todas as páginas no desktop.
+7. **Método:** no desktop sobra um vazio grande abaixo do bloco do SAS antes da Árvore (~500 px no tablet), e as fotos do SAS começam mais abaixo que o texto.
+8. **Escola:** no desktop a palavra "aluno." fica sozinha na última linha do parágrafo com a foto embutida.
+9. **Conquistas:** o parágrafo de leitura tem 18 linhas no celular (9 no desktop); é a frase mais longa do site.
+
+**Tipografia**
+10. **Escala com muitos tamanhos:** a home no desktop usa 16 tamanhos de fonte diferentes (14, 15, 16, 18, 19, 26, 34, 35, 36, 37, 49, 52, 58, 72, 107, 130 px). Dá para juntar os vizinhos (34–37, 49–52, 18–19) em uma escala de 7 ou 8 degraus.
+11. **Texto de 13 a 14 px demais no celular:** linha do tempo de "Nossa história", rótulos dos números (1996, +700, SAS; o do SAS ocupa 4 linhas) e a nota "Normas, listas de material…" do Ensino.
+12. **E-mail quebra no meio** em "Venha nos visitar" no celular ("colegiodask.com." / "br").
+
+**Imagens**
+13. **Foto da notícia ampliada:** na página de notícia, a capa aparece com 1377 px, mas o arquivo original do WordPress tem 1024 px. Limitar a largura da imagem ao tamanho do original.
+
+Não deu para medir aqui: o mapa do Google (sem rede no ambiente de teste) e o
+contraste exato sobre fotos e sobre o vídeo da abertura.
+
 ## Como foram gerados os dados
 
 Os scripts de levantamento estão em [../scripts/](../scripts/README.md). Resumo do
