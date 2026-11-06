@@ -72,15 +72,15 @@
     "semantic_hash": ""
   },
   "site/components/sections/ensino.tsx": {
-    "mtime": 1793937734.9455092,
-    "seen": 1793937890.7844696,
-    "ast_hash": "f0491c05f17f8c694605afce0e8ba13a",
+    "mtime": 1793941268.0606167,
+    "seen": 1793941431.9826214,
+    "ast_hash": "4bc0222a2bb1467b070ce04966d56185",
     "semantic_hash": ""
   },
   "site/components/sections/escola.tsx": {
-    "mtime": 1793940587.2690818,
-    "seen": 1793940943.2160575,
-    "ast_hash": "6a7f81be7c04ae9845e53828fe51d0eb",
+    "mtime": 1793941274.1775029,
+    "seen": 1793941431.9826214,
+    "ast_hash": "c4cab0e59014f9c35af02de426b41d51",
     "semantic_hash": ""
   },
   "site/components/sections/faixa-fotos.tsx": {
@@ -102,9 +102,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/metodo.tsx": {
-    "mtime": 1793940671.9905388,
-    "seen": 1793940943.2160575,
-    "ast_hash": "44b0793717cdd63f3ae8599fa95b2da7",
+    "mtime": 1793941268.0606167,
+    "seen": 1793941431.9826214,
+    "ast_hash": "19805f17eb5df0e04066b83e8d3abcca",
     "semantic_hash": ""
   },
   "site/components/sections/noticias.tsx": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793940937.847409,
-    "seen": 1793940943.2230623,
-    "ast_hash": "c5d4a2c917ad2894226f545a5e18bd43",
+    "mtime": 1793941426.8260667,
+    "seen": 1793941431.9906213,
+    "ast_hash": "7567d5bf76939edf24797a7e43457f60",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {

@@ -41,7 +41,7 @@ export function Ensino({ c }: { c: Conteudo }) {
       className="frame bg-tint"
       style={{ paddingBlock: "var(--section-gap)" }}
     >
-      <h2 id="ensino-title" className="head md:indent-[3vw]" data-reveal>
+      <h2 id="ensino-title" className="head" data-reveal>
         <Linhas texto={txt(c, "titulo")} />
       </h2>
 

@@ -1,17 +1,17 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 114 files · ~83,128 words
+- 114 files · ~83,210 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
 ## Summary
-- 666 nodes · 1625 edges · 38 communities (27 shown, 11 thin omitted)
+- 666 nodes · 1628 edges · 38 communities (27 shown, 11 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 39 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4ae2be8e`
+- Built from commit: `08511c6f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -57,22 +57,22 @@
 4. `Button()` - 27 edges
 5. `FormNoticia()` - 24 edges
 6. `lucide-react` - 22 edges
-7. `cn` - 19 edges
-8. `txt()` - 19 edges
-9. `normalizar()` - 17 edges
-10. `Ensino()` - 17 edges
+7. `txt()` - 19 edges
+8. `cn` - 19 edges
+9. `Ensino()` - 17 edges
+10. `normalizar()` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
-  docs/CONTEUDO.md → site/lib/site.ts
 - `Tipos e dados` --references--> `Coordenacao`  [INFERRED]
   docs/ARQUITETURA.md → site/lib/site.ts
+- `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
+  docs/CONTEUDO.md → site/lib/site.ts
 - `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/noticias-tipos.ts
-- `Tipos e dados` --references--> `Segmento`  [INFERRED]
-  docs/ARQUITETURA.md → site/lib/site.ts
 - `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
   docs/ARQUITETURA.md → site/components/sections/ensino.tsx
+- `Tipos e dados` --references--> `Noticia`  [INFERRED]
+  docs/ARQUITETURA.md → site/lib/noticias-tipos.ts
 
 ## Import Cycles
 - None detected.
@@ -200,7 +200,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `next` connect `sessao.ts` to `ensino.tsx`, `documento.ts`, `site-header.tsx`, `admin/acoes.ts`, `devDependencies`, `react`, `lucide-react`, `@types/sanitize-html`, `dependencies`?**
   _High betweenness centrality (0.125) - this node is a cross-community bridge._
 - **Should `documento.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08198757763975155 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08322981366459627 - nodes in this community are weakly interconnected._
 - **Why does `CLAUDE.md — Colégio Dask` connect `CLAUDE.md — Colégio Dask` to `README.md`, `react`?**
   _High betweenness centrality (0.094) - this node is a cross-community bridge._
 - **Should `site-header.tsx` be split into smaller, more focused modules?**

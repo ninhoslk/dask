@@ -1,7 +1,8 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { img, imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
-import { contato } from "@/lib/site"
+import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
 
 export function Escola({ c }: { c: Conteudo }) {
   const retrato = img(c, "retrato")
@@ -55,6 +56,18 @@ export function Escola({ c }: { c: Conteudo }) {
               </dd>
             </div>
           </dl>
+          <div
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
+            data-reveal
+            style={{ "--d": "240ms" } as React.CSSProperties}
+          >
+            <a href={whatsappLink(mensagemVisita)} target="_blank" rel="noopener noreferrer" className="btn-action">
+              Agendar visita
+            </a>
+            <Link href="/tour-360" className="link font-semibold">
+              Conheça a escola no Tour 360°
+            </Link>
+          </div>
         </div>
 
         {/* photo pair closing the right side */}

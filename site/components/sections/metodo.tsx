@@ -121,7 +121,7 @@ export function Metodo({ c }: { c: Conteudo }) {
           {txt(c, "titulo")}
         </h2>
         <p
-          className="lead max-w-[42ch]"
+          className="lead max-w-[64ch]"
           data-reveal
           style={{ "--d": "80ms" } as React.CSSProperties}
         >
