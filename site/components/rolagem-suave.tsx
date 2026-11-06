@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import Lenis from "lenis"
 import { usePathname } from "next/navigation"
 
@@ -10,7 +10,20 @@ import { definirRolagem } from "@/lib/rolagem"
 // continua nativo (syncTouch desligado) e listas, diálogos e campos de texto
 // rolam sozinhos. O painel administrativo usa a rolagem do navegador. Com movimento reduzido, a rolagem fica a do navegador.
 export function RolagemSuave() {
-  const noPainel = usePathname()?.startsWith("/admin") ?? false
+  const caminho = usePathname()
+  const noPainel = caminho?.startsWith("/admin") ?? false
+  const instancia = useRef<Lenis | undefined>(undefined)
+
+  // Troca de página: o Next já pôs a rolagem no lugar certo (topo, âncora ou a
+  // posição de antes, ao voltar). Se a inércia da página anterior ainda estava
+  // correndo, o Lenis continuaria indo para o destino antigo e a página nova
+  // abriria no fim. Aqui o Lenis para e assume a posição atual. Roda antes da
+  // pintura (layout effect), depois que o Next rolou. Com âncora no endereço
+  // (/#ensino) não mexe: a rolagem até a âncora ainda vai acontecer.
+  useLayoutEffect(() => {
+    if (window.location.hash) return
+    instancia.current?.scrollTo(window.scrollY, { immediate: true, force: true })
+  }, [caminho])
 
   useEffect(() => {
     if (noPainel) return
@@ -42,6 +55,7 @@ export function RolagemSuave() {
         })
         frame = requestAnimationFrame(tick)
       }
+      instancia.current = lenis
       definirRolagem(lenis)
     }
 
@@ -51,6 +65,7 @@ export function RolagemSuave() {
       reduzido.removeEventListener("change", configurar)
       cancelAnimationFrame(frame)
       lenis?.destroy()
+      instancia.current = undefined
       definirRolagem(undefined)
     }
   }, [noPainel])
