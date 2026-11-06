@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 114 files · ~83,288 words
+- 114 files · ~83,393 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c968603c`
+- Built from commit: `a246df5d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -69,10 +69,10 @@
   docs/CONTEUDO.md → site/lib/site.ts
 - `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/noticias-tipos.ts
-- `Tipos e dados` --references--> `Noticia`  [INFERRED]
-  docs/ARQUITETURA.md → site/lib/noticias-tipos.ts
-- `Tipos e dados` --references--> `Segmento`  [INFERRED]
-  docs/ARQUITETURA.md → site/lib/site.ts
+- `Como a home é montada (`app/page.tsx`)` --references--> `Ensino()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/sections/ensino.tsx
+- `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/site-footer.tsx
 
 ## Import Cycles
 - None detected.
