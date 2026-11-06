@@ -1,7 +1,7 @@
 # Graph Report - dask  (2026-11-06)
 
 ## Corpus Check
-- 114 files · ~83,440 words
+- 114 files · ~83,520 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: (none) 10, .css 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `423f30ad`
+- Built from commit: `7e68bf50`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -56,18 +56,18 @@
 6. `lucide-react` - 22 edges
 7. `txt()` - 19 edges
 8. `cn` - 19 edges
-9. `normalizar()` - 17 edges
-10. `Ensino()` - 17 edges
+9. `Ensino()` - 17 edges
+10. `normalizar()` - 17 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
-  docs/CONTEUDO.md → site/lib/site.ts
 - `Notícias: como atualizar` --references--> `resumoInteiro()`  [INFERRED]
   docs/CONTEUDO.md → site/lib/noticias-tipos.ts
+- `Onde editar cada coisa` --references--> `whatsappLink()`  [INFERRED]
+  docs/CONTEUDO.md → site/lib/site.ts
 - `Tipos e dados` --references--> `Coordenacao`  [INFERRED]
   docs/ARQUITETURA.md → site/lib/site.ts
-- `Como a home é montada (`app/page.tsx`)` --references--> `HeroCinematico()`  [INFERRED]
-  docs/ARQUITETURA.md → site/components/sections/hero-cinematico.tsx
+- `Como a home é montada (`app/page.tsx`)` --references--> `SiteFooter()`  [INFERRED]
+  docs/ARQUITETURA.md → site/components/site-footer.tsx
 - `Como funciona` --references--> `resolver()`  [INFERRED]
   docs/PAINEL.md → site/lib/conteudo/documento.ts
 

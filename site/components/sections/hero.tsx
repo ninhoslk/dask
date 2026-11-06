@@ -7,9 +7,11 @@ import { mensagemVisita, whatsappLink } from "@/lib/site"
 // os números reais e as fotos do dia a dia.
 export function Apresentacao({ c }: { c: Conteudo }) {
   const destaques = itens(c, "destaques").map((d) => ({ valor: d.titulo, texto: d.texto }))
+  // no computador ocupa uma tela inteira: a frase no meio do espaço livre e a
+  // faixa de fotos encostada embaixo, sem mostrar o começo da próxima seção
   return (
-    <section className="bg-tint" aria-labelledby="apresentacao-title">
-      <div className="frame grid12 items-end gap-y-8" style={{ paddingTop: "clamp(56px, 7vw, 104px)" }}>
+    <section className="bg-tint lg:flex lg:min-h-svh lg:flex-col" aria-labelledby="apresentacao-title">
+      <div className="frame grid12 items-end gap-y-8 lg:flex-1 lg:content-center" style={{ paddingTop: "clamp(56px, 7vw, 104px)" }}>
         <div className="col-span-12 flex flex-col gap-6 lg:col-span-6">
           <h2 id="apresentacao-title" className="head">
             {txt(c, "titulo")}

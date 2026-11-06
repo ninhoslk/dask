@@ -96,15 +96,15 @@
     "semantic_hash": ""
   },
   "site/components/sections/hero.tsx": {
-    "mtime": 1793825310.714756,
-    "seen": 1793842972.3017833,
-    "ast_hash": "5da8d26ba4afb790cb8b2e03a1dedc47",
+    "mtime": 1793944000.2266982,
+    "seen": 1793944110.9354022,
+    "ast_hash": "d5971cd738eea7d2aeefae21a5bf35f1",
     "semantic_hash": ""
   },
   "site/components/sections/metodo.tsx": {
-    "mtime": 1793942385.6385844,
-    "seen": 1793942676.6222515,
-    "ast_hash": "ca94a07d99c584e2b5dee5416d0fc2bd",
+    "mtime": 1793944000.2276983,
+    "seen": 1793944110.9354022,
+    "ast_hash": "7c3bde6f16fdc4415258d518925902ad",
     "semantic_hash": ""
   },
   "site/components/sections/noticias.tsx": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "docs/HISTORICO.md": {
-    "mtime": 1793943706.8841398,
-    "seen": 1793943712.7637818,
-    "ast_hash": "42ed52e457438f27d04a18d3e7fed0be",
+    "mtime": 1793944105.7425165,
+    "seen": 1793944110.9434016,
+    "ast_hash": "905f2c4a6e9eb086862fa9a6f5d95473",
     "semantic_hash": ""
   },
   "docs/PUBLICACAO.md": {
