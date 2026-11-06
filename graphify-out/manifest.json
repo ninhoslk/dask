@@ -66,9 +66,9 @@
     "semantic_hash": ""
   },
   "site/components/sections/contato.tsx": {
-    "mtime": 1793825310.5788722,
-    "seen": 1793842972.3017833,
-    "ast_hash": "f800d6c2dfc6337593877fb4ca33c4a8",
+    "mtime": 1793942874.8154545,
+    "seen": 1793943063.3133814,
+    "ast_hash": "a6bd03d3bd35fb721fbb4f5cd3c5b822",
     "semantic_hash": ""
   },
   "site/components/sections/ensino.tsx": {
@@ -198,9 +198,9 @@
     "semantic_hash": "0482d21cfeab8cfcfe44f94927e45afb"
   },
   "site/next.config.ts": {
-    "mtime": 1793825310.742756,
-    "seen": 1793842972.3017833,
-    "ast_hash": "8600a9ab1414ad798b1d24d76d206435",
+    "mtime": 1793943013.0463233,
+    "seen": 1793943063.3213778,
+    "ast_hash": "82ee4d7748257d4a47a775698a538677",
     "semantic_hash": ""
   },
   "site/package.json": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1793938099.6700194,
-    "seen": 1793938111.9756377,
-    "ast_hash": "f064d7de797d81f98c40f7be199d36ed",
+    "mtime": 1793943057.9947217,
+    "seen": 1793943063.3213778,
+    "ast_hash": "fab8637ad45c4d97f19d31da913df464",
     "semantic_hash": ""
   },
   "README.md": {

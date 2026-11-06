@@ -24,6 +24,8 @@ const csp = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // NEXT_BUILD_CPUS=2 limita os processos do build em máquinas com pouca memória
+  ...(process.env.NEXT_BUILD_CPUS ? { experimental: { cpus: Number(process.env.NEXT_BUILD_CPUS) } } : {}),
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "colegiodask.com.br", pathname: "/wp-content/uploads/**" },

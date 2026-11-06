@@ -65,17 +65,13 @@ export function Contato({ c }: { c: Conteudo }) {
 
       {/* where we are: the façade from the drone beside the live map */}
       <section className="grid12 mt-16 gap-y-5 md:mt-24" aria-labelledby="localizacao-title">
-        <div className="col-span-12 flex flex-wrap items-end justify-between gap-x-8 gap-y-3" data-reveal>
-          <h3
-            id="localizacao-title"
-            className="text-[clamp(26px,2.6vw,40px)] font-extrabold leading-[1.02] tracking-[-0.04em]"
-          >
-            {txt(c, "tituloLocal")}
-          </h3>
-          <p className="max-w-[40ch]">
-            {contato.endereco} · {contato.cidade} · CEP {contato.cep}
-          </p>
-        </div>
+        <h3
+          id="localizacao-title"
+          className="col-span-12 text-[clamp(26px,2.6vw,40px)] font-extrabold leading-[1.02] tracking-[-0.04em]"
+          data-reveal
+        >
+          {txt(c, "tituloLocal")}
+        </h3>
         <figure className="media col-span-12 aspect-[16/10] lg:col-span-7 lg:aspect-auto" data-reveal>
           <Image
             src={fachada.src}
