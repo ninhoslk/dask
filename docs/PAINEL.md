@@ -1,38 +1,79 @@
 # Painel administrativo (backend com Supabase)
 
-O site tem um painel em **`/admin`** para a equipe/assessoria editar a home, as
-notícias, as fotos e o futuro tour 360°, sem mexer em código.
+O site tem um painel em **`/admin`** para a equipe/assessoria editar o site
+inteiro (home, informações, menus, Central do aluno, cores), as notícias, as
+fotos e o tour 360°, sem mexer em código.
 
 ## O que dá para fazer
 
 | Aba | Para quê |
 | --- | --- |
-| **Editor visual** (`/admin`) | Prévia ao vivo da home (computador, tablet, celular). Clique numa seção na prévia (ou na lista) para editar textos, títulos, fotos e listas; arraste as seções para mudar a ordem; olho para ocultar/mostrar; setas ↑ ↓ e "Ocultar" também na barra que aparece sobre a seção na prévia. Itens de listas (tópicos do SAS, linha do tempo, conquistas, fotos) se arrastam, somam e removem. Desfazer/refazer (Ctrl+Z / Ctrl+Y), "Original" volta um campo ao texto de fábrica, rascunho salvo sozinho, botão **Publicar**, histórico de publicações para voltar a uma versão. |
-| **Notícias** | Criar, editar, despublicar e apagar notícias (as 265 do blog antigo já vêm importadas). |
+| **Página inicial** (`/admin`) | Prévia ao vivo da home (computador, tablet, celular). Clique numa seção na prévia (ou na lista) para editar textos, títulos, fotos, botões, links e listas. Arraste para mudar a ordem; olho para ocultar/mostrar; **Adicionar seção** ("Texto e imagem", "Chamada com botão"), **Duplicar** e **Remover**, também pela barra que aparece sobre a seção na prévia. Desfazer/refazer (Ctrl+Z / Ctrl+Y), "Original" volta um campo ao texto de fábrica, rascunho salvo sozinho, botão **Publicar**, histórico de publicações. |
+| **Informações do site** (`/admin/site`) | O que vale para todas as páginas: identidade e endereço (nome, logos, CNPJ), contatos e horário de atendimento, redes sociais, **menu do topo** (abas, Área do aluno, botão de visita), **segmentos e coordenação** (séries, coordenador, telefone/WhatsApp, horário, documentos), Central do aluno (cartões e textos), rodapé, títulos das páginas e do Google, **cores** e cantos arredondados. Mesma prévia, rascunho e publicação da home. |
+| **Notícias** | Criar, editar, despublicar e apagar notícias (as 265 do blog antigo já vêm importadas). A lista se atualiza sozinha quando outra pessoa mexe. |
 | **Mídia** | Enviar fotos (JPG/PNG/WebP/AVIF/GIF, até 8 MB), copiar o endereço, apagar. |
 | **Tour 360°** | Endereço do tour (ou o código `<iframe>`) e ativar. Hoje aponta para https://colegio-dask-tour.vercel.app (exportação do Panoee, ver [`tour/README.md`](../tour/README.md)). A página pública `/tour-360` só carrega o tour quando o visitante clica; se o site do tour proibir ser incorporado, mostra um botão para abrir em outra aba. |
 
-O que o editor **não** faz (diferenças honestas em relação ao Elementor): não
-cria seções novas do zero nem muda o layout interno de cada seção; edita
-o conteúdo das 10 seções existentes, a ordem e a visibilidade delas. Rodapé,
-cabeçalho, contatos e telefones continuam em `site/lib/site.ts`.
+Listas de itens (cartões, abas do menu, coordenações, documentos, redes) se
+arrastam, somam, **duplicam**, **ligam/desligam** (a chave esconde do site sem
+apagar) e removem. Telefones são digitados uma vez: o link de ligação e o de
+WhatsApp são montados sozinhos.
+
+### Sincronização e trabalho em equipe
+
+- **Painel → site:** publicar chama `revalidatePath("/", "layout")`; o site muda
+  na hora, em todas as páginas.
+- **Banco → painel:** o editor assina o Realtime do Supabase. Se outra pessoa
+  salvar o mesmo rascunho e aqui não houver nada pendente, o editor carrega a
+  versão nova sozinho. Ao voltar para a aba, ele confere de novo (rede
+  reserva caso o Realtime caia).
+- **Ninguém apaga o trabalho de ninguém:** o rascunho só é salvo sobre a versão
+  que o editor conhece (`atualizado_em`). Se mudou no meio do caminho, o painel
+  mostra o conflito e pergunta: carregar a versão da outra pessoa ou manter a
+  sua. Publicar fica travado até decidir.
+- O Realtime abre a conexão com o token da sessão (`prepararTempoReal`); sem
+  ele, o RLS não entrega rascunhos.
+
+### O que continua fixo (diferenças honestas em relação ao Elementor)
+
+- O **layout interno** de cada seção da home (onde fica cada foto, a animação)
+  é o do design; o painel muda conteúdo, ordem, visibilidade e cores.
+- As 10 seções originais têm âncoras do menu ou efeitos próprios, então cada
+  uma existe **uma vez** (dá para remover e acrescentar de novo). As seções
+  "Texto e imagem" e "Chamada com botão" se repetem à vontade.
+- **Fonte** e espaçamentos não são editáveis: o design usa uma fonte só
+  (Schibsted Grotesk) e uma escala própria; trocar pelo painel quebraria o
+  título de duas linhas e o carregamento rápido. Cores e cantos, sim.
+- Páginas novas inteiras ainda não se criam pelo painel.
 
 ## Como funciona
 
-- `site/lib/conteudo/esquema.ts`: lista de seções e campos editáveis, com o
-  texto atual como **padrão**. Para tornar um texto novo editável, adicione o
-  campo aqui e leia-o no componente com `txt(c, "chave")`.
+- `site/lib/conteudo/esquema.ts`: seções da home e seus campos, com o texto
+  atual como **padrão**. `site/lib/conteudo/config.ts`: os grupos de
+  Informações do site, no mesmo formato. `site/lib/site.ts` guarda só os
+  valores de fábrica que esses dois usam.
+- Tipos de campo: texto, texto longo, link (validado), cor, número, escolha,
+  imagem, lista de imagens, lista, itens e **registros** (lista de cartões com
+  campos próprios, um nível de lista dentro).
 - `site/lib/conteudo/documento.ts`: o banco guarda só a ordem, a visibilidade e
-  os campos alterados. `normalizar` valida tudo (tipos, tamanhos, imagens só do
-  próprio site ou do bucket `midia`); `resolver` mescla com os padrões.
+  os campos alterados. `normalizar`/`normalizarConfig` validam tudo (tipos,
+  tamanhos, links só do site ou https/mailto/tel, imagens só do próprio site ou
+  do bucket `midia`, cores só `#rrggbb`); `resolver`/`resolverConfig` mesclam
+  com os padrões.
+- O layout lê as informações publicadas (`configPublicada`) e entrega a todos os
+  componentes pelo `ConfigSite` (`useConfig()`); `lib/conteudo/dados.ts` monta
+  telefone, WhatsApp, menu, segmentos e o CSS das cores. Na prévia, o mesmo
+  provedor recebe o rascunho.
+- Para tornar um texto novo editável: acrescente o campo no esquema (ou no
+  grupo) e leia no componente com `txt(c, "chave")` ou pelo `useConfig()`.
+  **Não** escreva contato, telefone ou link direto no componente.
 - Sem banco (variáveis ausentes ou Supabase fora do ar) o site mostra os padrões.
-- Publicar chama `revalidatePath("/", "layout")`: o site muda na hora.
 
 ## Banco (Supabase)
 
 Projeto Supabase **"Dask Site"** (`ijtczqufmwyulchjwbmb`, us-east-1). Migrações em
 [`supabase/migrations/`](../supabase/migrations), já aplicadas. Tabelas: `admins`,
-`paginas` (publicada, leitura pública), `rascunhos` (só painel), `versoes`,
+`paginas` (publicadas "home" e "site", leitura pública), `rascunhos` (só painel), `versoes`,
 `noticias`, `tour360`, `auditoria`; bucket `midia`. As funções de permissão
 ficam no schema `privado`, fora da API.
 

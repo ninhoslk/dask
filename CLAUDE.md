@@ -80,10 +80,11 @@ estrutura. Antes de escrever código de Next, leia o guia relevante em
 | `site/components/site-header.tsx`, `site-footer.tsx` | Cabeçalho (com variante clara sobre vídeo) e rodapé |
 | `site/components/motion.tsx` | Revela elementos `[data-reveal]` ao rolar |
 | `site/components/ui/*` | Componentes shadcn/ui (Button, Select, Sheet, Tabs, DropdownMenu, Toggle) |
-| `site/lib/site.ts` | **Dados institucionais**: contatos, links, segmentos, coordenações, linha do tempo, conquistas, documentos |
+| `site/lib/site.ts` | **Valores de fábrica** dos dados institucionais (contatos, segmentos, documentos, linha do tempo, conquistas); o site lê pelo painel |
+| `site/lib/conteudo/config.ts`, `dados.ts`, `site/components/config-site.tsx` | Informações do site editáveis (grupos), leituras prontas (telefone → WhatsApp, menu, segmentos, cores) e o provedor `useConfig()` |
 | `site/lib/noticias-todas.json` | **Todas** as notícias do blog do colégio (265), importadas por `scripts/importar-noticias.mjs`; fallback quando o banco não responde |
 | `site/app/noticias/` | Lista de notícias (filtros, busca) e página de cada notícia com compartilhamento |
-| `site/app/admin/`, `site/components/admin/` | **Painel** (editor visual, notícias, mídia, tour 360°). Ver [docs/PAINEL.md](docs/PAINEL.md) |
+| `site/app/admin/`, `site/components/admin/` | **Painel** (página inicial, informações do site, notícias, mídia, tour 360°), com sincronização em tempo real e proteção contra sobrescrita. Ver [docs/PAINEL.md](docs/PAINEL.md) |
 | `site/lib/conteudo/` | Esquema do conteúdo editável da home, validação e leitura do banco |
 | `site/lib/supabase/`, `site/proxy.ts`, `supabase/migrations/` | Supabase: clientes, sessão do painel, tabelas e RLS |
 | `site/lib/hero-cinematico.ts` | Configuração da abertura cinematográfica (frames, altura, textos) |
@@ -97,7 +98,7 @@ Arquitetura completa: [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 2. **Sem imagens criadas ou geradas.** Só fotos reais já baixadas. Se faltar uma foto, avise em vez de gerar.
 3. **Logos de parceiros** (SAS Educação e Árvore) sempre dentro do componente `.logo-chip` (fundo branco), sem alterar cores ou proporções.
 4. **SAS e Árvore aparecem integrados** na seção Método, **não** em uma aba ou página própria. Não existe mais menção à Geekie One (era do site antigo; a escola agora é SAS).
-5. Contatos, endereço e links ficam **só** em `lib/site.ts`. Não copie para componentes.
+5. **Tudo o que a escola pode querer mudar é editável no painel.** Contatos, endereço, menus, segmentos, coordenação, documentos, rodapé e cores vêm de `useConfig()` / `lib/conteudo/dados.ts` (grupos em `lib/conteudo/config.ts`); textos das seções da home, de `txt(c, …)` (campos em `lib/conteudo/esquema.ts`). `lib/site.ts` guarda só os valores de fábrica. **Nunca** escreva telefone, link ou texto institucional direto num componente. Ver [docs/PAINEL.md](docs/PAINEL.md).
 6. Notícias: reimportar do WordPress do colégio (`/wp-json/wp/v2/posts`) em vez de digitar à mão.
 
 ## Regras de design

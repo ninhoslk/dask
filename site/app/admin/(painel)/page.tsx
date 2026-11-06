@@ -1,12 +1,7 @@
 import { Editor } from "@/components/admin/editor"
-import { exigirAdmin } from "@/lib/admin/sessao"
-import { normalizar } from "@/lib/conteudo/documento"
+import { dadosDoEditor } from "@/lib/admin/editor-dados"
 
-export default async function EditorVisual() {
-  const { sb } = await exigirAdmin()
-  const [rascunho, publicado] = await Promise.all([
-    sb.from("rascunhos").select("conteudo").eq("id", "home").maybeSingle(),
-    sb.from("paginas").select("conteudo").eq("id", "home").maybeSingle(),
-  ])
-  return <Editor rascunho={normalizar(rascunho.data?.conteudo)} publicado={normalizar(publicado.data?.conteudo)} />
+export default async function EditorPaginaInicial() {
+  const { inicial, publicado } = await dadosDoEditor("home")
+  return <Editor pagina="home" inicial={inicial} publicado={publicado} />
 }

@@ -75,9 +75,9 @@ a partir da Central do aluno).
 ## Cabeçalho (`site-header.tsx`)
 
 - Props: `tom?: "escuro" | "claro"`. `claro` troca o logo para o branco e o texto para branco (usado sobre o vídeo).
-- Desktop (`lg`): links, menu "Área do aluno" (Diário do Aluno, Prof. Web, Central do aluno) e botão "Agendar visita".
+- Desktop (`xl`, 1280px+): abas, menu "Área do aluno" e botão "Agendar visita", todos de Informações do site → Menu do topo.
 - Celular: botão "Menu" abre um `Sheet` com os mesmos itens e o botão do WhatsApp.
-- Botão "Agendar visita" abre o WhatsApp da secretaria com mensagem pronta (`whatsappLink(mensagemVisita)` em `lib/site.ts`).
+- Botão "Agendar visita" abre o WhatsApp da secretaria com a mensagem pronta (`contatoDe(useConfig()).whatsappVisita`).
 
 ## Seletor de série (`ensino.tsx`)
 
@@ -108,8 +108,8 @@ são reais.
 
 ## Tipos e dados
 
-`lib/site.ts` exporta tipos `Coordenacao` e `Segmento` e as constantes `contato`,
-`segmentos`, `psicologa`, `linhaDoTempo`, `conquistas`, `documentos`, `navegacao`,
-além das funções `whatsappLink(mensagem)` e da constante `mensagemVisita`.
+Os componentes leem as informações do site por `useConfig()` (provedor `ConfigSite`,
+no layout) e as leituras prontas de `lib/conteudo/dados.ts` (`contatoDe`, `menuDe`,
+`segmentosDe`, `redesDe`, `temaCss`…). `lib/site.ts` só fornece os valores de fábrica.
 `lib/noticias.json` é importado diretamente (`resolveJsonModule`); o tipo vem do
 próprio JSON (`typeof noticias[number]`).

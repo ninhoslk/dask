@@ -21,23 +21,25 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-import { contato, mensagemVisita, navegacao, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { LinkDoSite } from "@/components/link-do-site"
+import { contatoDe, menuDe } from "@/lib/conteudo/dados"
+import { img, txt } from "@/lib/conteudo/documento"
 
-const acessos = [
-  { label: "Diário do Aluno", href: contato.diarioDoAluno, externo: true },
-  { label: "Prof. Web", href: contato.profWeb, externo: true },
-  { label: "Central do aluno", href: "/central-do-aluno", externo: false },
-]
-
-// tom "claro": texto branco e logo branco, para usar sobre foto ou vídeo
+// tom "claro": texto branco e logo branco, para usar sobre foto ou vídeo.
+// Abas, acessos, botão e logos vêm de Informações do site → Menu e Identidade.
 export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
   const claro = tom === "claro"
+  const cfg = useConfig()
+  const menu = menuDe(cfg)
+  const { whatsappVisita, nome } = contatoDe(cfg)
+  const logo = img(cfg.identidade, claro ? "logoBranco" : "logo")
   return (
     <header className={cn("flex items-center justify-between gap-6", claro && "text-white")}>
-      <Link href="/" aria-label="Colégio Dask, página inicial" className="shrink-0">
+      <Link href="/" aria-label={`${nome}, página inicial`} className="shrink-0">
         <Image
-          src={claro ? "/logo-dask-branco.png" : "/logo-dask.png"}
-          alt="Colégio Dask"
+          src={logo.src}
+          alt={logo.alt || nome}
           width={claro ? 360 : 466}
           height={claro ? 100 : 135}
           priority
@@ -45,40 +47,32 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
         />
       </Link>
 
-      <nav aria-label="Principal" className="hidden items-center gap-6 font-semibold whitespace-nowrap xl:flex 2xl:gap-7">
-        {navegacao.map((item) => (
-          <Link key={item.href} href={item.href} className="decoration-2 underline-offset-[0.25em] hover:underline">
-            {item.label}
-          </Link>
+      <nav aria-label="Principal" className="hidden items-center gap-5 font-semibold whitespace-nowrap xl:flex min-[1440px]:gap-7">
+        {menu.itens.map((item) => (
+          <LinkDoSite key={item.id} item={item} className="decoration-2 underline-offset-[0.25em] hover:underline" />
         ))}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-sm font-semibold">
-            Área do aluno
-            <ChevronDownIcon aria-hidden className="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-52">
-            <DropdownMenuGroup>
-              {acessos.map((a) => (
-                <DropdownMenuItem key={a.label} asChild>
-                  <a
-                    href={a.href}
-                    {...(a.externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  >
-                    {a.label}
-                  </a>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <a
-          href={whatsappLink(mensagemVisita)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-action"
-        >
-          Agendar visita
-        </a>
+        {menu.area.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-sm font-semibold">
+              {menu.areaTitulo}
+              <ChevronDownIcon aria-hidden className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-52">
+              <DropdownMenuGroup>
+                {menu.area.map((a) => (
+                  <DropdownMenuItem key={a.id} asChild>
+                    <LinkDoSite item={a} />
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+        {menu.botao && whatsappVisita && (
+          <a href={whatsappVisita} target="_blank" rel="noopener noreferrer" className="btn-action">
+            {menu.botao}
+          </a>
+        )}
       </nav>
 
       <Sheet>
@@ -88,36 +82,26 @@ export function SiteHeader({ tom = "escuro" }: { tom?: "escuro" | "claro" }) {
         </SheetTrigger>
         <SheetContent side="right" className="w-[86vw] max-w-sm gap-0 bg-background p-6">
           <SheetHeader className="p-0">
-            <SheetTitle className="text-2xl font-extrabold tracking-tight">Colégio Dask</SheetTitle>
-            <SheetDescription>Dracena-SP · desde 1996</SheetDescription>
+            <SheetTitle className="text-2xl font-extrabold tracking-tight">{nome}</SheetTitle>
+            <SheetDescription>{txt(cfg.identidade, "subtitulo")}</SheetDescription>
           </SheetHeader>
           <nav aria-label="Menu" className="mt-8 flex flex-col gap-4 text-2xl font-extrabold tracking-tight">
-            {navegacao.map((item) => (
-              <SheetClose asChild key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
+            {menu.itens.map((item) => (
+              <SheetClose asChild key={item.id}>
+                <LinkDoSite item={item} />
               </SheetClose>
             ))}
           </nav>
           <div className="mt-10 flex flex-col gap-3 font-semibold">
-            {acessos.map((a) => (
-              <a
-                key={a.label}
-                href={a.href}
-                className="link"
-                {...(a.externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              >
-                {a.label}
-              </a>
+            {menu.area.map((a) => (
+              <LinkDoSite key={a.id} item={a} className="link" />
             ))}
           </div>
-          <a
-            href={whatsappLink(mensagemVisita)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-action mt-auto self-start"
-          >
-            Agendar visita pelo WhatsApp
-          </a>
+          {menu.botaoCelular && whatsappVisita && (
+            <a href={whatsappVisita} target="_blank" rel="noopener noreferrer" className="btn-action mt-auto self-start">
+              {menu.botaoCelular}
+            </a>
+          )}
         </SheetContent>
       </Sheet>
     </header>

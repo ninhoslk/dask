@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 import sanitizeHtml from "sanitize-html"
 
 import { adminOuErro } from "@/lib/admin/sessao"
-import { normalizar, type Documento } from "@/lib/conteudo/documento"
+import { normalizar, normalizarConfig, type ConfigDoc, type Documento } from "@/lib/conteudo/documento"
 import { permiteIncorporar } from "@/lib/tour"
 
 type Resultado<T = undefined> = { ok: true; dados?: T } | { ok: false; erro: string }
@@ -15,39 +15,90 @@ const falha = (erro: string): Resultado<never> => ({ ok: false, erro })
 // conta própria, valida a entrada e só então escreve, sempre com o token do
 // usuário: as políticas de RLS do banco são a última barreira.
 
-// ---------------------------------------------------------------- página
-export async function salvarRascunho(bruto: unknown): Promise<Resultado> {
-  const a = await adminOuErro()
-  if ("erro" in a) return falha(a.erro!)
-  const doc = normalizar(bruto)
-  const { error } = await a.sb
-    .from("rascunhos")
-    .upsert({ id: "home", conteudo: doc, atualizado_por: a.user.id })
-  return error ? falha("Não foi possível salvar o rascunho.") : { ok: true }
+// ---------------------------------------------------------------- páginas
+// "home": seções da página inicial. "site": informações do site inteiro.
+export type Pagina = "home" | "site"
+export type DocDaPagina = Documento | ConfigDoc
+
+const paginaValida = (p: unknown): p is Pagina => p === "home" || p === "site"
+const normalizarDa = (p: Pagina, bruto: unknown): DocDaPagina => (p === "home" ? normalizar(bruto) : normalizarConfig(bruto))
+
+/** O que o editor precisa para continuar de onde o banco está. */
+export type Estado = { doc: DocDaPagina; versao: string; autor: string }
+
+export type ResultadoSalvar =
+  | { ok: true; versao: string }
+  | { ok: false; erro: string; conflito?: Estado }
+
+type Sessao = Extract<Awaited<ReturnType<typeof adminOuErro>>, { sb: unknown }>
+
+async function nomeDe(a: Sessao, id: string | null) {
+  if (!id) return "Equipe"
+  if (id === a.user.id) return "Você (em outra aba)"
+  const { data } = await a.sb.from("admins").select("nome").eq("user_id", id).maybeSingle()
+  return data?.nome || "Equipe"
 }
 
-export async function publicar(bruto: unknown): Promise<Resultado> {
+/** Rascunho atual no banco (para recarregar depois de mudança de outra pessoa). */
+export async function lerRascunho(pagina: Pagina): Promise<Resultado<Estado>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  const doc = normalizar(bruto)
-  const pub = await a.sb.from("paginas").upsert({ id: "home", conteudo: doc, atualizado_por: a.user.id })
-  if (pub.error) return falha("Não foi possível publicar.")
-  await a.sb.from("rascunhos").upsert({ id: "home", conteudo: doc, atualizado_por: a.user.id })
-  await a.sb.from("versoes").insert({ pagina: "home", conteudo: doc })
-  await a.sb.from("auditoria").insert({ acao: "publicar", alvo: "home", user_id: a.user.id })
+  if (!paginaValida(pagina)) return falha("Página inválida.")
+  const { data, error } = await a.sb.from("rascunhos").select("conteudo,atualizado_em,atualizado_por").eq("id", pagina).maybeSingle()
+  if (error || !data) return falha("Não foi possível ler o rascunho.")
+  return {
+    ok: true,
+    dados: { doc: normalizarDa(pagina, data.conteudo), versao: data.atualizado_em, autor: await nomeDe(a, data.atualizado_por) },
+  }
+}
+
+// Salva só se o rascunho no banco ainda é a versão que o editor conhece: se
+// outra pessoa salvou no meio do caminho, devolve o conflito em vez de apagar
+// o trabalho dela.
+export async function salvarRascunho(pagina: Pagina, bruto: unknown, base: string | null): Promise<ResultadoSalvar> {
+  const a = await adminOuErro()
+  if ("erro" in a) return { ok: false, erro: a.erro! }
+  if (!paginaValida(pagina)) return { ok: false, erro: "Página inválida." }
+  const doc = normalizarDa(pagina, bruto)
+  let consulta = a.sb.from("rascunhos").update({ conteudo: doc, atualizado_por: a.user.id }).eq("id", pagina)
+  if (base) consulta = consulta.eq("atualizado_em", base)
+  const { data, error } = await consulta.select("atualizado_em")
+  if (error) return { ok: false, erro: "Não foi possível salvar o rascunho." }
+  if (data?.length) return { ok: true, versao: data[0].atualizado_em }
+
+  const atual = await lerRascunho(pagina)
+  if (!atual.ok) return { ok: false, erro: atual.erro }
+  return { ok: false, erro: `${atual.dados!.autor} alterou este rascunho enquanto você editava.`, conflito: atual.dados }
+}
+
+export async function publicar(pagina: Pagina, bruto: unknown): Promise<ResultadoSalvar> {
+  const a = await adminOuErro()
+  if ("erro" in a) return { ok: false, erro: a.erro! }
+  if (!paginaValida(pagina)) return { ok: false, erro: "Página inválida." }
+  const doc = normalizarDa(pagina, bruto)
+  const pub = await a.sb.from("paginas").upsert({ id: pagina, conteudo: doc, atualizado_por: a.user.id })
+  if (pub.error) return { ok: false, erro: "Não foi possível publicar." }
+  const ras = await a.sb
+    .from("rascunhos")
+    .upsert({ id: pagina, conteudo: doc, atualizado_por: a.user.id })
+    .select("atualizado_em")
+    .single()
+  await a.sb.from("versoes").insert({ pagina, conteudo: doc })
+  await a.sb.from("auditoria").insert({ acao: "publicar", alvo: pagina, user_id: a.user.id })
   revalidatePath("/", "layout")
-  return { ok: true }
+  return { ok: true, versao: ras.data?.atualizado_em ?? "" }
 }
 
 export type Versao = { id: number; criado_em: string; autor: string }
 
-export async function listarVersoes(): Promise<Resultado<Versao[]>> {
+export async function listarVersoes(pagina: Pagina): Promise<Resultado<Versao[]>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
+  if (!paginaValida(pagina)) return falha("Página inválida.")
   const { data, error } = await a.sb
     .from("versoes")
     .select("id,criado_em,criado_por")
-    .eq("pagina", "home")
+    .eq("pagina", pagina)
     .order("criado_em", { ascending: false })
     .limit(30)
   if (error) return falha("Não foi possível ler o histórico.")
@@ -59,13 +110,13 @@ export async function listarVersoes(): Promise<Resultado<Versao[]>> {
   }
 }
 
-export async function lerVersao(id: number): Promise<Resultado<Documento>> {
+export async function lerVersao(pagina: Pagina, id: number): Promise<Resultado<DocDaPagina>> {
   const a = await adminOuErro()
   if ("erro" in a) return falha(a.erro!)
-  if (!Number.isSafeInteger(id)) return falha("Versão inválida.")
-  const { data, error } = await a.sb.from("versoes").select("conteudo").eq("id", id).maybeSingle()
+  if (!paginaValida(pagina) || !Number.isSafeInteger(id)) return falha("Versão inválida.")
+  const { data, error } = await a.sb.from("versoes").select("conteudo").eq("id", id).eq("pagina", pagina).maybeSingle()
   if (error || !data) return falha("Versão não encontrada.")
-  return { ok: true, dados: normalizar(data.conteudo) }
+  return { ok: true, dados: normalizarDa(pagina, data.conteudo) }
 }
 
 // ---------------------------------------------------------------- notícias

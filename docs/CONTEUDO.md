@@ -11,18 +11,25 @@ As fotos brutas (≈940 arquivos, 490 MB) **não** estão no Git; veja `scripts/
 
 ## Onde editar cada coisa
 
-| O quê | Arquivo |
+**Pelo painel** (`/admin`), sem mexer em código. Ver [PAINEL.md](PAINEL.md).
+
+| O quê | Onde no painel |
 | --- | --- |
-| Telefone, WhatsApp, e-mail, endereço, redes, links do Diário do Aluno e Prof. Web, CNPJ, mantenedora | `site/lib/site.ts` → `contato` |
-| Mensagem pré-escrita do WhatsApp | `site/lib/site.ts` → `mensagemVisita` e `whatsappLink()` |
-| Segmentos, séries, coordenações, horários de atendimento | `site/lib/site.ts` → `segmentos`, `psicologa` |
-| Linha do tempo (1995–2022) | `site/lib/site.ts` → `linhaDoTempo` |
-| Frase "Nossos alunos estiveram…" | `site/lib/site.ts` → `conquistas` (cada item já leva a preposição: "na Olimpíada…", "no Torneio…") |
-| Links de documentos (listas de material, normas) | `site/lib/site.ts` → `documentos`; documentos "Em breve" ficam em `docsPorSegmento` no `central-do-aluno/page.tsx` |
-| Notícias | `site/lib/noticias.json` + imagens em `site/public/noticias/` |
-| Textos de cada seção da home | no próprio arquivo de `site/components/sections/` |
-| Textos e tempos da abertura em vídeo | `site/components/sections/hero-cinematico.tsx` e `site/lib/hero-cinematico.ts` |
-| Menu principal | `site/lib/site.ts` → `navegacao` |
+| Telefone, WhatsApp, mensagem pronta, e-mail, horário de atendimento, mapa | Informações do site → Contatos e atendimento |
+| Nome, logos, endereço, bairro, CEP, CNPJ, mantenedora | Informações do site → Identidade e endereço |
+| Instagram, Facebook e outros perfis | Informações do site → Redes sociais |
+| Abas do menu (inclui Trabalhe conosco), Área do aluno, botão de visita | Informações do site → Menu do topo |
+| Segmentos, séries, coordenações, telefones, horários, psicóloga, documentos de cada segmento | Informações do site → Segmentos e coordenação |
+| Cartões e textos da Central do aluno, link das normas | Informações do site → Central do aluno |
+| Links e créditos do rodapé | Informações do site → Rodapé |
+| Título e descrição no Google, textos da página de notícias | Informações do site → Páginas e buscadores |
+| Cores e cantos arredondados | Informações do site → Cores e aparência |
+| Textos, fotos, botões e ordem das seções da home (linha do tempo, conquistas…) | Página inicial |
+| Notícias | Notícias (a reserva sem banco é `site/lib/noticias-todas.json`) |
+
+Os **valores de fábrica** (o que aparece quando ninguém mexeu) estão em
+`site/lib/site.ts`, `site/lib/conteudo/esquema.ts` e `site/lib/conteudo/config.ts`.
+Tempos e frames da abertura em vídeo: `site/lib/hero-cinematico.ts`.
 
 ## Contatos usados (do site da escola)
 

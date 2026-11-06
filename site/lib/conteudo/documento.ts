@@ -1,30 +1,55 @@
-// Documento da home como o banco guarda: ordem das seções, visibilidade e só
-// os campos alterados. `normalizar` valida tudo o que chega (do banco ou do
-// painel) e descarta o que não conhece; `resolver` mescla com os padrões.
+// Documentos como o banco guarda. Home ("home"): seções na ordem, cada uma com
+// o tipo, a visibilidade e só os campos alterados. Site ("site"): os campos
+// alterados de cada grupo de informações. `normalizar*` valida tudo o que chega
+// (do banco ou do painel) e descarta o que não conhece; `resolver*` mescla com
+// os padrões. As duas coisas rodam no servidor e no navegador.
 
+import { grupos, type IdGrupo } from "@/lib/conteudo/config"
 import {
   secoes,
+  secoesPadrao,
   tipoDaSecao,
   type Campo,
   type IdSecao,
   type Imagem,
   type Item,
+  type Registro,
+  type Subcampo,
   type Valor,
 } from "@/lib/conteudo/esquema"
 
-export type SecaoDoc = { id: IdSecao; visivel: boolean; campos: Record<string, Valor> }
-export type Documento = { secoes: SecaoDoc[] }
+export type SecaoDoc = { id: string; tipo: IdSecao; visivel: boolean; campos: Record<string, Valor> }
+export type Documento = { v: 2; secoes: SecaoDoc[] }
 export type Conteudo = Record<string, Valor>
-export type SecaoResolvida = { id: IdSecao; visivel: boolean; c: Conteudo }
+export type SecaoResolvida = { id: string; tipo: IdSecao; visivel: boolean; c: Conteudo }
+
+export type ConfigDoc = { grupos: Partial<Record<IdGrupo, Record<string, Valor>>> }
+export type Config = Record<IdGrupo, Conteudo>
 
 const LIMITE_TEXTO = 2000
 const LIMITE_LISTA = 40
+const LIMITE_REGISTROS = 60
+const idValido = /^[a-z0-9][a-z0-9-]{0,39}$/
+const idRegistro = /^[\w-]{1,40}$/
 
 // Imagens aceitas: as do próprio site e as enviadas ao bucket "midia".
 const origemSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
 export function imagemPermitida(src: string) {
-  if (/^\/(fotos|logos|noticias|hero)\/[\w./-]+\.(jpe?g|png|webp|avif|svg|gif)$/i.test(src) && !src.includes("..")) return true
-  return Boolean(origemSupabase) && src.startsWith(`${origemSupabase}/storage/v1/object/public/midia/`) && !src.includes("..")
+  if (src.includes("..")) return false
+  if (/^\/(fotos|logos|noticias|hero)\/[\w./-]+\.(jpe?g|png|webp|avif|svg|gif)$/i.test(src)) return true
+  if (/^\/[\w-]+\.(png|jpe?g|webp|svg)$/i.test(src)) return true
+  return Boolean(origemSupabase) && src.startsWith(`${origemSupabase}/storage/v1/object/public/midia/`)
+}
+
+/** Página do site (/x, /#x), âncora (#x) ou endereço https, mailto e tel. */
+export function linkSeguro(v: unknown): string | undefined {
+  if (typeof v !== "string") return undefined
+  const s = v.trim().slice(0, 1000)
+  if (s === "") return ""
+  if (/^(https:\/\/|mailto:|tel:)[^\s"'<>\\]+$/i.test(s)) return s
+  if (/^\/(?!\/)[^\s"'<>\\]*$/.test(s)) return s
+  if (/^#[\w-]+$/.test(s)) return s
+  return undefined
 }
 
 const texto = (v: unknown, max = LIMITE_TEXTO) => (typeof v === "string" ? v.slice(0, max) : undefined)
@@ -36,11 +61,64 @@ function imagem(v: unknown): Imagem | undefined {
   return { src, alt: texto(alt, 300) ?? "" }
 }
 
-function valorDo(campo: Campo, v: unknown): Valor | undefined {
+function registrosDe(v: unknown, subcampos: Subcampo[], profundidade = 0): Registro[] | undefined {
+  if (!Array.isArray(v)) return undefined
+  const vistos = new Set<string>()
+  const lista: Registro[] = []
+  v.slice(0, LIMITE_REGISTROS).forEach((bruto, i) => {
+    if (!bruto || typeof bruto !== "object") return
+    const o = bruto as Record<string, unknown>
+    let id = typeof o._id === "string" && idRegistro.test(o._id) ? o._id : `r-${i + 1}`
+    if (vistos.has(id)) id = `${id}-${i + 1}`
+    vistos.add(id)
+    const r: Registro = { _id: id, ativo: o.ativo !== false }
+    for (const s of subcampos) {
+      const x = o[s.chave]
+      switch (s.tipo) {
+        case "texto":
+        case "telefone":
+          r[s.chave] = texto(x, 300) ?? ""
+          break
+        case "textarea":
+          r[s.chave] = texto(x, 1000) ?? ""
+          break
+        case "link":
+          r[s.chave] = linkSeguro(x) ?? ""
+          break
+        case "simnao":
+          r[s.chave] = x === true
+          break
+        case "escolha":
+          r[s.chave] = typeof x === "string" && s.opcoes.some((op) => op.valor === x) ? x : s.opcoes[0].valor
+          break
+        case "imagem": {
+          const im = imagem(x)
+          if (im) r[s.chave] = im
+          break
+        }
+        case "registros":
+          if (profundidade < 1) r[s.chave] = registrosDe(x, s.subcampos, profundidade + 1) ?? []
+          break
+      }
+    }
+    lista.push(r)
+  })
+  return lista
+}
+
+export function valorDo(campo: Campo, v: unknown): Valor | undefined {
   switch (campo.tipo) {
     case "texto":
     case "textarea":
       return texto(v)
+    case "link":
+      return linkSeguro(v)
+    case "cor":
+      return typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v) ? v.toLowerCase() : undefined
+    case "numero":
+      return typeof v === "number" && Number.isFinite(v) ? Math.min(campo.max, Math.max(campo.min, Math.round(v))) : undefined
+    case "escolha":
+      return typeof v === "string" && campo.opcoes.some((o) => o.valor === v) ? v : undefined
     case "imagem":
       return imagem(v)
     case "imagens": {
@@ -67,58 +145,118 @@ function valorDo(campo: Campo, v: unknown): Valor | undefined {
           return t !== undefined && d !== undefined ? { titulo: t, texto: d } : undefined
         })
         .filter((x): x is Item => Boolean(x))
+    case "registros":
+      return registrosDe(v, campo.subcampos)
   }
 }
 
-export function documentoPadrao(): Documento {
-  return { secoes: secoes.map((s) => ({ id: s.id, visivel: true, campos: {} })) }
+function camposValidos(lista: Campo[], bruto: unknown) {
+  const campos: Record<string, Valor> = {}
+  if (bruto && typeof bruto === "object") {
+    for (const campo of lista) {
+      const v = valorDo(campo, (bruto as Record<string, unknown>)[campo.chave])
+      if (v !== undefined) campos[campo.chave] = v
+    }
+  }
+  return campos
 }
 
-/** Valida um documento qualquer; nunca lança. Seções fixas ficam no topo. */
+function mesclar(lista: Campo[], alterados: Record<string, Valor> | undefined): Conteudo {
+  const c: Conteudo = {}
+  for (const campo of lista) c[campo.chave] = alterados?.[campo.chave] ?? campo.padrao
+  return c
+}
+
+// ---------------------------------------------------------------- home
+
+export function documentoPadrao(): Documento {
+  return { v: 2, secoes: secoesPadrao.map((s) => ({ id: s.id, tipo: s.id, visivel: true, campos: {} })) }
+}
+
+/** Uma seção nova, com id próprio, para acrescentar ou duplicar. */
+export function novaSecao(tipo: IdSecao, existentes: string[], campos: Record<string, Valor> = {}): SecaoDoc {
+  let id: string = tipo
+  for (let n = 2; existentes.includes(id); n++) id = `${tipo}-${n}`
+  return { id, tipo, visivel: true, campos }
+}
+
+/** Valida um documento qualquer; nunca lança. A abertura fica sempre no topo. */
 export function normalizar(bruto: unknown): Documento {
-  const vistas = new Set<IdSecao>()
+  const ids = new Set<string>()
+  const unicas = new Set<IdSecao>()
   const lista: SecaoDoc[] = []
   const entrada = (bruto as { secoes?: unknown })?.secoes
   if (Array.isArray(entrada)) {
     for (const s of entrada.slice(0, 50)) {
-      const id = (s as { id?: unknown })?.id
-      if (typeof id !== "string" || !(id in tipoDaSecao) || vistas.has(id as IdSecao)) continue
-      const tipo = tipoDaSecao[id as IdSecao]
-      vistas.add(tipo.id)
-      const camposBrutos = (s as { campos?: unknown }).campos
-      const campos: Record<string, Valor> = {}
-      if (camposBrutos && typeof camposBrutos === "object") {
-        for (const campo of tipo.campos) {
-          const v = valorDo(campo, (camposBrutos as Record<string, unknown>)[campo.chave])
-          if (v !== undefined) campos[campo.chave] = v
-        }
-      }
-      const visivel = tipo.fixa ? true : (s as { visivel?: unknown }).visivel !== false
-      lista.push({ id: tipo.id, visivel, campos })
+      const o = s as { id?: unknown; tipo?: unknown; visivel?: unknown; campos?: unknown }
+      // documents written before section types existed only had the id
+      const nomeTipo = typeof o?.tipo === "string" ? o.tipo : o?.id
+      if (typeof nomeTipo !== "string" || !(nomeTipo in tipoDaSecao)) continue
+      const tipo = tipoDaSecao[nomeTipo as IdSecao]
+      const id = typeof o.id === "string" && idValido.test(o.id) ? o.id : tipo.id
+      if (ids.has(id) || ((tipo.unica || tipo.fixa) && unicas.has(tipo.id))) continue
+      ids.add(id)
+      unicas.add(tipo.id)
+      const visivel = tipo.fixa ? true : o.visivel !== false
+      lista.push({ id, tipo: tipo.id, visivel, campos: camposValidos(tipo.campos, o.campos) })
     }
   }
-  // sections the document does not mention yet keep their default place at the end
-  for (const s of secoes) if (!vistas.has(s.id)) lista.push({ id: s.id, visivel: true, campos: {} })
-  const fixas = lista.filter((s) => tipoDaSecao[s.id].fixa)
-  return { secoes: [...fixas, ...lista.filter((s) => !tipoDaSecao[s.id].fixa)] }
+  const versao2 = (bruto as { v?: unknown })?.v === 2
+  for (const s of secoesPadrao) {
+    if (unicas.has(s.id)) continue
+    // old documents: sections they did not mention keep their default place at
+    // the end. New ones: a missing section was removed on purpose, except the
+    // opening, which cannot be removed.
+    if (!versao2 || s.fixa) lista.push({ id: s.id, tipo: s.id, visivel: true, campos: {} })
+  }
+  const fixas = lista.filter((s) => tipoDaSecao[s.tipo].fixa)
+  return { v: 2, secoes: [...fixas, ...lista.filter((s) => !tipoDaSecao[s.tipo].fixa)] }
 }
 
 export function resolver(doc: Documento): SecaoResolvida[] {
-  return doc.secoes.map((s) => {
-    const c: Conteudo = {}
-    for (const campo of tipoDaSecao[s.id].campos) c[campo.chave] = s.campos[campo.chave] ?? campo.padrao
-    return { id: s.id, visivel: s.visivel, c }
-  })
+  return doc.secoes.map((s) => ({ id: s.id, tipo: s.tipo, visivel: s.visivel, c: mesclar(tipoDaSecao[s.tipo].campos, s.campos) }))
 }
 
-/** Conteúdo padrão de uma seção, para quando ela é usada fora da home. */
-export function conteudoPadrao(id: IdSecao): Conteudo {
-  return resolver({ secoes: [{ id, visivel: true, campos: {} }] })[0].c
+/** Conteúdo padrão de um tipo de seção, para quando ela é usada fora da home. */
+export function conteudoPadrao(tipo: IdSecao): Conteudo {
+  return mesclar(tipoDaSecao[tipo].campos, undefined)
 }
 
-// Leitura tipada dentro dos componentes.
+// ---------------------------------------------------------------- site
+
+export function configDocPadrao(): ConfigDoc {
+  return { grupos: {} }
+}
+
+export function normalizarConfig(bruto: unknown): ConfigDoc {
+  const entrada = (bruto as { grupos?: unknown })?.grupos
+  const doc: ConfigDoc = { grupos: {} }
+  for (const g of grupos) {
+    const campos = camposValidos(g.campos, (entrada as Record<string, unknown> | undefined)?.[g.id])
+    if (Object.keys(campos).length) doc.grupos[g.id] = campos
+  }
+  return doc
+}
+
+export function resolverConfig(doc: ConfigDoc): Config {
+  return Object.fromEntries(grupos.map((g) => [g.id, mesclar(g.campos, doc.grupos[g.id])])) as Config
+}
+
+// ---------------------------------------------------------------- leitura tipada nos componentes
+
 export const txt = (c: Conteudo, k: string) => (typeof c[k] === "string" ? (c[k] as string) : "")
+export const num = (c: Conteudo, k: string) => (typeof c[k] === "number" ? (c[k] as number) : 0)
 export const img = (c: Conteudo, k: string) => c[k] as Imagem
 export const imgs = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as Imagem[]) : [])
 export const lst = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as string[]) : [])
 export const itens = (c: Conteudo, k: string) => (Array.isArray(c[k]) ? (c[k] as Item[]) : [])
+/** Registros ligados (os desligados no painel ficam fora do site). */
+export const regs = (c: Conteudo | Registro, k: string) =>
+  Array.isArray(c[k]) ? (c[k] as Registro[]).filter((r) => r.ativo) : []
+export const campo = (r: Registro, k: string) => (typeof r[k] === "string" ? (r[k] as string) : "")
+
+/** Troca {chave} pelos valores; o que não existir fica como está. */
+export const preencher = (modelo: string, valores: Record<string, string>) =>
+  modelo.replace(/\{(\w+)\}/g, (m, k: string) => valores[k] ?? m)
+
+export { secoes }

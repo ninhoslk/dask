@@ -8,6 +8,8 @@ import { Compartilhar } from "@/components/compartilhar"
 import { RedesSociais } from "@/components/redes-sociais"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { preencher, txt } from "@/lib/conteudo/documento"
+import { configPublicada } from "@/lib/conteudo/obter"
 import { htmlSeguro, listarNoticias, obterNoticia } from "@/lib/noticias"
 import { formatoData, resumoInteiro } from "@/lib/noticias-tipos"
 
@@ -20,10 +22,10 @@ export async function generateStaticParams() {
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const n = await obterNoticia((await params).slug)
+  const [n, cfg] = await Promise.all([obterNoticia((await params).slug), configPublicada()])
   if (!n) return {}
   return {
-    title: `${n.titulo} · Colégio Dask`,
+    title: `${n.titulo} · ${txt(cfg.identidade, "nome")}`,
     description: resumoInteiro(n.resumo),
     openGraph: { title: n.titulo, description: resumoInteiro(n.resumo), images: n.imagem ? [n.imagem] : undefined, type: "article" },
   }
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PaginaNoticia({ params }: Props) {
   const { slug } = await params
-  const n = await obterNoticia(slug)
+  const [n, cfg] = await Promise.all([obterNoticia(slug), configPublicada()])
   if (!n) notFound()
 
   const todas = await listarNoticias()
@@ -83,7 +85,7 @@ export default async function PaginaNoticia({ params }: Props) {
             <aside className="col-span-12 flex flex-col gap-8 lg:col-span-4 lg:col-start-9">
               <Compartilhar url={url} titulo={n.titulo} imagem={n.imagem ?? undefined} />
               <div>
-                <p className="font-semibold">Siga o Dask</p>
+                <p className="font-semibold">{txt(cfg.paginas, "redesTitulo")}</p>
                 <div className="mt-3">
                   <RedesSociais />
                 </div>
@@ -95,7 +97,9 @@ export default async function PaginaNoticia({ params }: Props) {
         {relacionadas.length > 0 && (
           <section aria-labelledby="relacionadas" className="mt-24">
             <h2 id="relacionadas" className="text-[clamp(26px,2.6vw,40px)] font-extrabold tracking-[-0.04em]">
-              Mais de {n.categoria === "Geral" ? "o Dask" : n.categoria}
+              {preencher(txt(cfg.paginas, "relacionadas"), {
+                categoria: n.categoria === "Geral" ? "o Dask" : n.categoria,
+              })}
             </h2>
             <ul className="mt-8 grid gap-8 md:grid-cols-3">
               {relacionadas.map((r) => (

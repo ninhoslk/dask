@@ -3,27 +3,60 @@
 // alterados; o que faltar cai no padrão daqui. Assim o site funciona igual
 // sem banco (build local, Supabase fora do ar).
 
-import { conquistas, linhaDoTempo } from "@/lib/site"
+import { conquistas, linhaDoTempo, parceiros } from "@/lib/site"
 
 export type Imagem = { src: string; alt: string }
 export type Item = { titulo: string; texto: string }
+export type Opcao = { valor: string; rotulo: string }
+
+// Campos de um registro (um cartão, um item de menu, uma coordenação...).
+// Um registro pode ter uma lista de registros dentro (um nível só).
+export type Subcampo =
+  | { chave: string; rotulo: string; tipo: "texto" | "textarea" | "link" | "telefone"; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "simnao"; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "escolha"; opcoes: Opcao[]; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "imagem"; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "registros"; subcampos: Subcampo[]; titulo: string; novo: string; ajuda?: string }
+
+/** `_id` estável (para arrastar e duplicar) e `ativo` (desligar sem apagar). */
+export type Registro = { _id: string; ativo: boolean } & { [chave: string]: string | boolean | Imagem | Registro[] }
 
 export type Campo =
   | { chave: string; rotulo: string; tipo: "texto"; padrao: string; ajuda?: string }
   | { chave: string; rotulo: string; tipo: "textarea"; padrao: string; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "link"; padrao: string; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "cor"; padrao: string; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "numero"; padrao: number; min: number; max: number; unidade?: string; ajuda?: string }
+  | { chave: string; rotulo: string; tipo: "escolha"; padrao: string; opcoes: Opcao[]; ajuda?: string }
   | { chave: string; rotulo: string; tipo: "imagem"; padrao: Imagem; ajuda?: string }
   | { chave: string; rotulo: string; tipo: "imagens"; padrao: Imagem[]; fixo?: boolean; ajuda?: string }
   | { chave: string; rotulo: string; tipo: "lista"; padrao: string[]; ajuda?: string }
   | { chave: string; rotulo: string; tipo: "itens"; padrao: Item[]; rotulos?: [string, string]; ajuda?: string }
+  | {
+      chave: string
+      rotulo: string
+      tipo: "registros"
+      padrao: Registro[]
+      subcampos: Subcampo[]
+      /** subcampo usado como nome do registro na lista */
+      titulo: string
+      /** texto do botão de adicionar */
+      novo: string
+      ajuda?: string
+    }
 
-export type Valor = string | Imagem | Imagem[] | string[] | Item[]
+export type Valor = string | number | Imagem | Imagem[] | string[] | Item[] | Registro[]
 
 export type TipoSecao = {
   id: IdSecao
   nome: string
   descricao: string
-  /** a abertura fica sempre no topo: não arrasta nem some */
+  /** a abertura fica sempre no topo: não arrasta, não some, não sai */
   fixa?: boolean
+  /** só pode existir uma na página (tem âncora no menu ou efeito próprio) */
+  unica?: boolean
+  /** seções que não entram sozinhas: só pelo botão "Adicionar seção" */
+  extra?: boolean
   campos: Campo[]
 }
 
@@ -38,8 +71,21 @@ export type IdSecao =
   | "conquistas"
   | "noticias"
   | "contato"
+  | "bloco"
+  | "chamada"
 
 const quebra = "Use Enter para quebrar a linha do título."
+
+export const fundos: Opcao[] = [
+  { valor: "claro", rotulo: "Claro" },
+  { valor: "tinta", rotulo: "Verde-claro" },
+  { valor: "escuro", rotulo: "Azul-escuro" },
+]
+
+/** Monta registros padrão com `_id` fixo, para o padrão nunca mudar de id. */
+export function registros(prefixo: string, lista: Record<string, string | boolean | Imagem | Registro[]>[]): Registro[] {
+  return lista.map((r, i) => ({ _id: `${prefixo}-${i + 1}`, ativo: true, ...r }) as Registro)
+}
 
 export const secoes: TipoSecao[] = [
   {
@@ -61,10 +107,13 @@ export const secoes: TipoSecao[] = [
     id: "apresentacao",
     nome: "Apresentação",
     descricao: "Frase, números e faixa de fotos logo após a abertura.",
+    unica: true,
     campos: [
       { chave: "titulo", rotulo: "Título", tipo: "texto", padrao: "Do 1º ano ao vestibular, em Dracena." },
       { chave: "texto", rotulo: "Texto", tipo: "textarea", padrao: "Fundamental I, Fundamental II e Ensino Médio, com o sistema de ensino SAS e a plataforma de leitura Árvore." },
-      { chave: "botao", rotulo: "Botão", tipo: "texto", padrao: "Agende uma visita" },
+      { chave: "botao", rotulo: "Botão (abre o WhatsApp)", tipo: "texto", padrao: "Agende uma visita" },
+      { chave: "link2Texto", rotulo: "Segundo link · texto", tipo: "texto", padrao: "Ver séries e turnos" },
+      { chave: "link2", rotulo: "Segundo link · destino", tipo: "link", padrao: "#ensino" },
       {
         chave: "destaques",
         rotulo: "Números",
@@ -99,7 +148,12 @@ export const secoes: TipoSecao[] = [
     id: "escola",
     nome: "A escola",
     descricao: "Quem somos, fotos e a linha do tempo.",
+    unica: true,
     campos: [
+      { chave: "rotuloOnde", rotulo: "Rótulo “Onde”", tipo: "texto", padrao: "Onde", ajuda: "O bairro e a cidade vêm de Informações do site → Identidade." },
+      { chave: "rotuloDesde", rotulo: "Rótulo “Desde”", tipo: "texto", padrao: "Desde" },
+      { chave: "desde", rotulo: "Ano de fundação", tipo: "texto", padrao: "1996" },
+      { chave: "rotuloSecretaria", rotulo: "Rótulo do telefone", tipo: "texto", padrao: "Secretaria", ajuda: "O número vem de Informações do site → Contatos." },
       { chave: "destaque", rotulo: "Início em negrito", tipo: "texto", padrao: "O Colégio Dask" },
       { chave: "paragrafo1", rotulo: "Primeiro parágrafo", tipo: "textarea", padrao: "nasceu da ideia de um grupo de professores de Dracena. Ensinar, para nós, é revelar o talento de cada aluno." },
       { chave: "paragrafo2", rotulo: "Segundo parágrafo", tipo: "textarea", padrao: "Hoje são mais de 700 alunos, do Fundamental I ao Médio. O nome mudou em 2022; a ideia continua: evoluir para transformar." },
@@ -129,9 +183,38 @@ export const secoes: TipoSecao[] = [
     id: "ensino",
     nome: "Ensino e coordenação",
     descricao: "Seletor de série, segmentos e telefones das coordenações.",
+    unica: true,
     campos: [
       { chave: "titulo", rotulo: "Título", tipo: "textarea", padrao: "Do primeiro ano\nao vestibular.", ajuda: quebra },
       { chave: "pergunta", rotulo: "Pergunta do seletor", tipo: "texto", padrao: "Em que série seu filho vai estudar?" },
+      { chave: "placeholder", rotulo: "Texto do seletor vazio", tipo: "texto", padrao: "Escolha a série…" },
+      {
+        chave: "vazio",
+        rotulo: "Explicação antes de escolher",
+        tipo: "textarea",
+        padrao: "Mostramos o segmento, quem coordena a turma e um atalho para agendar a visita já com a série preenchida.",
+      },
+      {
+        chave: "resposta",
+        rotulo: "Resposta ao escolher a série",
+        tipo: "textarea",
+        padrao: "O {serie} faz parte do {segmento}. Quem acompanha a turma é {coordenador}, que atende por ligação ou WhatsApp das {horario}.",
+        ajuda: "Use {serie}, {segmento}, {coordenador} e {horario}; o site troca pelos dados de Segmentos e coordenação.",
+      },
+      { chave: "botaoSerie", rotulo: "Botão de visita", tipo: "texto", padrao: "Agendar visita para o {serie}" },
+      {
+        chave: "mensagemSerie",
+        rotulo: "Mensagem pronta do WhatsApp",
+        tipo: "textarea",
+        padrao: "Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar o {serie}.",
+      },
+      { chave: "rotuloSeries", rotulo: "Tabela · “Séries”", tipo: "texto", padrao: "Séries" },
+      { chave: "rotuloCoordenacao", rotulo: "Tabela · “Coordenação”", tipo: "texto", padrao: "Coordenação" },
+      { chave: "rotuloAtendimento", rotulo: "Tabela · “Atendimento”", tipo: "texto", padrao: "Atendimento" },
+      { chave: "rotuloHorario", rotulo: "Tabela · “Horário”", tipo: "texto", padrao: "Horário" },
+      { chave: "nota", rotulo: "Nota no fim da tabela", tipo: "textarea", padrao: "Normas, listas de material e documentos de cada segmento ficam na" },
+      { chave: "notaLink", rotulo: "Nota · texto do link", tipo: "texto", padrao: "Central do aluno" },
+      { chave: "normasTexto", rotulo: "Link das normas · texto", tipo: "texto", padrao: "Normas disciplinares", ajuda: "O endereço das normas fica em Informações do site → Central do aluno." },
       { chave: "foto", rotulo: "Foto", tipo: "imagem", padrao: { src: "/fotos/laboratorio.jpg", alt: "Alunos do Fundamental observando experimentos no laboratório" } },
     ],
   },
@@ -139,9 +222,12 @@ export const secoes: TipoSecao[] = [
     id: "metodo",
     nome: "Método (SAS e Árvore)",
     descricao: "Os dois parceiros pedagógicos, com logo e link.",
+    unica: true,
     campos: [
       { chave: "titulo", rotulo: "Título", tipo: "texto", padrao: "Aprender fazendo, com método." },
       { chave: "texto", rotulo: "Texto", tipo: "textarea", padrao: "O professor orienta, o aluno põe a mão na massa. Por trás disso estão dois parceiros presentes no dia a dia do Dask." },
+      { chave: "sasLink", rotulo: "SAS · site", tipo: "link", padrao: parceiros.sas },
+      { chave: "sasBotao", rotulo: "SAS · botão", tipo: "texto", padrao: "Ver mais sobre o SAS" },
       { chave: "sasTitulo", rotulo: "SAS · título", tipo: "texto", padrao: "Sistema de ensino SAS em todas as séries" },
       {
         chave: "sasItens",
@@ -165,6 +251,8 @@ export const secoes: TipoSecao[] = [
           { src: "/fotos/sas-maker.jpg", alt: "Estudantes montando um projeto de cultura maker" },
         ],
       },
+      { chave: "arvoreLink", rotulo: "Árvore · site", tipo: "link", padrao: parceiros.arvore },
+      { chave: "arvoreBotao", rotulo: "Árvore · botão", tipo: "texto", padrao: "Ver mais sobre a Árvore" },
       { chave: "arvoreTitulo", rotulo: "Árvore · título", tipo: "texto", padrao: "Leitura todo dia, com a Árvore" },
       { chave: "arvoreTexto", rotulo: "Árvore · texto", tipo: "textarea", padrao: "Nas aulas de Língua Portuguesa, os alunos usam a Árvore, programa de formação leitora com o maior acervo do mercado." },
       {
@@ -194,6 +282,7 @@ export const secoes: TipoSecao[] = [
     id: "robotica",
     nome: "Robótica",
     descricao: "A foto dos Makerníficos que se aproxima com a rolagem.",
+    unica: true,
     campos: [
       { chave: "titulo1", rotulo: "Primeira linha", tipo: "texto", padrao: "Robótica é aula" },
       { chave: "titulo2", rotulo: "Segunda linha", tipo: "texto", padrao: "com pódio." },
@@ -204,6 +293,7 @@ export const secoes: TipoSecao[] = [
     id: "vida",
     nome: "Vida no Dask",
     descricao: "Título grande com fotos espalhadas em volta.",
+    unica: true,
     campos: [
       { chave: "titulo1", rotulo: "Primeira linha", tipo: "texto", padrao: "Vida" },
       { chave: "titulo2", rotulo: "Segunda linha", tipo: "texto", padrao: "no Dask" },
@@ -226,6 +316,7 @@ export const secoes: TipoSecao[] = [
     id: "conquistas",
     nome: "Conquistas",
     descricao: "A frase lida palavra por palavra com a rolagem.",
+    unica: true,
     campos: [
       { chave: "inicio", rotulo: "Início da frase", tipo: "texto", padrao: "Nossos alunos estiveram" },
       { chave: "lista", rotulo: "Onde estiveram", tipo: "lista", padrao: conquistas, ajuda: "Cada linha com a preposição: “na UNESP”, “no Simulado FUVEST”." },
@@ -235,6 +326,7 @@ export const secoes: TipoSecao[] = [
     id: "noticias",
     nome: "Notícias",
     descricao: "Destaque e últimas notícias. As notícias em si ficam na aba Notícias.",
+    unica: true,
     campos: [
       { chave: "titulo", rotulo: "Título", tipo: "texto", padrao: "Acontece no Dask" },
       { chave: "link", rotulo: "Link para todas", tipo: "texto", padrao: "Todas as notícias" },
@@ -244,14 +336,52 @@ export const secoes: TipoSecao[] = [
     id: "contato",
     nome: "Contato e localização",
     descricao: "Convite para visita, contatos, fachada e mapa.",
+    unica: true,
     campos: [
       { chave: "titulo", rotulo: "Título", tipo: "texto", padrao: "Venha nos visitar" },
       { chave: "texto", rotulo: "Texto", tipo: "textarea", padrao: "Conheça as salas, o laboratório, a quadra e as pessoas que vão acompanhar seu filho." },
+      { chave: "pergunta", rotulo: "Pergunta acima dos contatos", tipo: "texto", padrao: "Como prefere falar com a gente?", ajuda: "WhatsApp, e-mail, endereço e horário vêm de Informações do site → Contatos." },
+      { chave: "rotuloWhatsapp", rotulo: "Rótulo do WhatsApp", tipo: "texto", padrao: "WhatsApp" },
       { chave: "foto", rotulo: "Foto pequena", tipo: "imagem", padrao: { src: "/fotos/campus.jpg", alt: "Alunos no gramado do campus do Colégio Dask" } },
       { chave: "tituloLocal", rotulo: "Título da localização", tipo: "texto", padrao: "Onde estamos" },
+      { chave: "botaoMapa", rotulo: "Botão do mapa", tipo: "texto", padrao: "Como chegar" },
       { chave: "fachada", rotulo: "Foto da fachada", tipo: "imagem", padrao: { src: "/fotos/fachada.jpg", alt: "Vista aérea da fachada do Colégio Dask, com a praça das palmeiras na entrada" } },
     ],
   },
+  // ---- seções que a equipe acrescenta (podem se repetir) ----
+  {
+    id: "bloco",
+    nome: "Texto e imagem",
+    descricao: "Título, texto, foto e um botão, lado a lado.",
+    extra: true,
+    campos: [
+      { chave: "titulo", rotulo: "Título", tipo: "textarea", padrao: "Título da seção", ajuda: quebra },
+      { chave: "texto", rotulo: "Texto", tipo: "textarea", padrao: "Escreva aqui o texto da seção." },
+      { chave: "imagem", rotulo: "Foto", tipo: "imagem", padrao: { src: "/fotos/campus.jpg", alt: "Alunos no gramado do campus do Colégio Dask" } },
+      { chave: "lado", rotulo: "Foto de que lado", tipo: "escolha", padrao: "direita", opcoes: [{ valor: "direita", rotulo: "Direita" }, { valor: "esquerda", rotulo: "Esquerda" }] },
+      { chave: "botaoTexto", rotulo: "Botão · texto (vazio = sem botão)", tipo: "texto", padrao: "" },
+      { chave: "botaoAcao", rotulo: "Botão · ação", tipo: "escolha", padrao: "link", opcoes: [{ valor: "link", rotulo: "Abrir um endereço" }, { valor: "whatsapp", rotulo: "Abrir o WhatsApp da secretaria" }] },
+      { chave: "botaoLink", rotulo: "Botão · endereço", tipo: "link", padrao: "/central-do-aluno" },
+      { chave: "fundo", rotulo: "Fundo", tipo: "escolha", padrao: "claro", opcoes: fundos },
+    ],
+  },
+  {
+    id: "chamada",
+    nome: "Chamada com botão",
+    descricao: "Uma frase grande e um botão, para avisos e convites.",
+    extra: true,
+    campos: [
+      { chave: "titulo", rotulo: "Frase", tipo: "textarea", padrao: "Matrículas abertas.", ajuda: quebra },
+      { chave: "texto", rotulo: "Texto de apoio", tipo: "textarea", padrao: "" },
+      { chave: "botaoTexto", rotulo: "Botão · texto (vazio = sem botão)", tipo: "texto", padrao: "Fale com a secretaria" },
+      { chave: "botaoAcao", rotulo: "Botão · ação", tipo: "escolha", padrao: "whatsapp", opcoes: [{ valor: "link", rotulo: "Abrir um endereço" }, { valor: "whatsapp", rotulo: "Abrir o WhatsApp da secretaria" }] },
+      { chave: "botaoLink", rotulo: "Botão · endereço", tipo: "link", padrao: "/" },
+      { chave: "fundo", rotulo: "Fundo", tipo: "escolha", padrao: "escuro", opcoes: fundos },
+    ],
+  },
 ]
+
+/** As seções que formam a home quando nada foi editado (as que não são extras). */
+export const secoesPadrao = secoes.filter((s) => !s.extra)
 
 export const tipoDaSecao = Object.fromEntries(secoes.map((s) => [s.id, s])) as Record<IdSecao, TipoSecao>

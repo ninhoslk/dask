@@ -1,3 +1,7 @@
+"use client"
+
+import { Bloco } from "@/components/sections/bloco"
+import { Chamada } from "@/components/sections/chamada"
 import { Conquistas } from "@/components/sections/conquistas"
 import { Contato } from "@/components/sections/contato"
 import { Ensino } from "@/components/sections/ensino"
@@ -14,7 +18,8 @@ import type { NoticiaCartao } from "@/lib/noticias-tipos"
 
 // Monta a home na ordem do documento publicado (ou do rascunho, na prévia do
 // painel). Cada seção fica num invólucro `display: contents`, que não muda o
-// layout e deixa o editor achar e destacar a seção pelo data-secao.
+// layout e deixa o editor achar e destacar a seção pelo data-secao (o id da
+// seção na página, que distingue duas seções do mesmo tipo).
 export function PaginaInicial({
   secoes,
   noticias,
@@ -35,6 +40,8 @@ export function PaginaInicial({
     conquistas: (s) => <Conquistas c={s.c} />,
     noticias: (s) => <Noticias c={s.c} noticias={noticias} />,
     contato: (s) => <Contato c={s.c} />,
+    bloco: (s) => <Bloco c={s.c} />,
+    chamada: (s) => <Chamada c={s.c} />,
   }
 
   return (
@@ -48,7 +55,7 @@ export function PaginaInicial({
             data-oculta={editavel && !s.visivel ? "" : undefined}
             style={{ display: "contents" }}
           >
-            {render[s.id](s)}
+            {render[s.tipo](s)}
           </div>
         ))}
     </>

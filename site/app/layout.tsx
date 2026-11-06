@@ -3,8 +3,12 @@ import { Schibsted_Grotesk } from "next/font/google"
 
 import "./globals.css"
 import { BotoesFlutuantes } from "@/components/botoes-flutuantes"
+import { ConfigSite } from "@/components/config-site"
 import { Motion } from "@/components/motion"
 import { RolagemSuave } from "@/components/rolagem-suave"
+import { temaCss } from "@/lib/conteudo/dados"
+import { txt } from "@/lib/conteudo/documento"
+import { configPublicada } from "@/lib/conteudo/obter"
 
 const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
@@ -13,24 +17,31 @@ const schibsted = Schibsted_Grotesk({
   display: "swap",
 })
 
-export const metadata: Metadata = {
-  title: "Colégio Dask · Dracena-SP · Fundamental I ao Ensino Médio",
-  description:
-    "Escola feita de professores para alunos desde 1996. Ensino Fundamental I, Fundamental II e Ensino Médio em Dracena-SP, com o sistema de ensino SAS.",
-  icons: { icon: "/favicon.png" },
+export async function generateMetadata(): Promise<Metadata> {
+  const cfg = await configPublicada()
+  return {
+    title: txt(cfg.paginas, "seoTitulo"),
+    description: txt(cfg.paginas, "seoDescricao"),
+    icons: { icon: "/favicon.png" },
+  }
 }
 
-export const viewport: Viewport = {
-  themeColor: "#f4f8f8",
+export async function generateViewport(): Promise<Viewport> {
+  const cfg = await configPublicada()
+  return { themeColor: txt(cfg.tema, "background") || "#f4f8f8" }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cfg = await configPublicada()
   return (
     <html lang="pt-BR" className={schibsted.variable}>
+      <head>
+        <style id="tema">{temaCss(cfg)}</style>
+      </head>
       <body>
         <a
           href="#conteudo"
@@ -38,8 +49,10 @@ export default function RootLayout({
         >
           Pular para o conteúdo
         </a>
-        {children}
-        <BotoesFlutuantes />
+        <ConfigSite config={cfg}>
+          {children}
+          <BotoesFlutuantes />
+        </ConfigSite>
         <Motion />
         <RolagemSuave />
       </body>

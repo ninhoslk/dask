@@ -1,12 +1,14 @@
 import { FaixaFotos } from "@/components/sections/faixa-fotos"
 import { itens, imgs, txt, type Conteudo } from "@/lib/conteudo/documento"
-import { mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 
 // Faixa logo depois da abertura cinematográfica: quem é o Dask em uma frase,
 // os números reais e as fotos do dia a dia.
 export function Apresentacao({ c }: { c: Conteudo }) {
   const destaques = itens(c, "destaques").map((d) => ({ valor: d.titulo, texto: d.texto }))
+  const { whatsappVisita } = contatoDe(useConfig())
   return (
     <section className="bg-tint" aria-labelledby="apresentacao-title">
       <div className="frame grid12 items-end gap-y-8" style={{ paddingTop: "clamp(56px, 7vw, 104px)" }}>
@@ -17,16 +19,18 @@ export function Apresentacao({ c }: { c: Conteudo }) {
           <p className="lead max-w-[38ch]">{txt(c, "texto")}</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <a
-              href={whatsappLink(mensagemVisita)}
+              href={whatsappVisita}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-action text-lg"
             >
               {txt(c, "botao")}
             </a>
-            <a href="#ensino" className="link font-semibold">
-              Ver séries e turnos
-            </a>
+            {txt(c, "link2Texto") && txt(c, "link2") && (
+              <a href={txt(c, "link2")} className="link font-semibold">
+                {txt(c, "link2Texto")}
+              </a>
+            )}
           </div>
         </div>
         <dl className="col-span-12 grid grid-cols-3 gap-3 lg:col-span-6 lg:gap-4">

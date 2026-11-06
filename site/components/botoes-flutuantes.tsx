@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import { ArrowUpIcon } from "lucide-react"
 
+import { useConfig } from "@/components/config-site"
 import { IconeInstagram, IconeWhatsApp } from "@/components/icones-redes"
-import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
+import { contatoDe, redesDe } from "@/lib/conteudo/dados"
 import { rolarPara } from "@/lib/rolagem"
 
 // Canto inferior direito: WhatsApp sempre visível; Instagram logo acima; o
@@ -14,6 +15,9 @@ import { rolarPara } from "@/lib/rolagem"
 export function BotoesFlutuantes() {
   const pathname = usePathname()
   const topo = useRef<HTMLButtonElement>(null)
+  const cfg = useConfig()
+  const { whatsappVisita, nome } = contatoDe(cfg)
+  const instagram = redesDe(cfg).find((r) => r.icone === "instagram")
 
   useEffect(() => {
     const b = topo.current
@@ -52,24 +56,28 @@ export function BotoesFlutuantes() {
       >
         <ArrowUpIcon aria-hidden className="size-5" />
       </button>
-      <a
-        href={contato.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flutuante flutuante-instagram"
-        aria-label="Instagram do Colégio Dask"
-      >
-        <IconeInstagram className="size-5" />
-      </a>
-      <a
-        href={whatsappLink(mensagemVisita)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flutuante flutuante-whatsapp"
-        aria-label="Conversar no WhatsApp da secretaria"
-      >
-        <IconeWhatsApp className="size-7" />
-      </a>
+      {instagram && (
+        <a
+          href={instagram.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flutuante flutuante-instagram"
+          aria-label={`Instagram do ${nome}`}
+        >
+          <IconeInstagram className="size-5" />
+        </a>
+      )}
+      {whatsappVisita && (
+        <a
+          href={whatsappVisita}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flutuante flutuante-whatsapp"
+          aria-label="Conversar no WhatsApp da secretaria"
+        >
+          <IconeWhatsApp className="size-7" />
+        </a>
+      )}
     </div>
   )
 }

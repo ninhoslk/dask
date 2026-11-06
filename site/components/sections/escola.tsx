@@ -1,9 +1,11 @@
 import Image from "next/image"
 
 import { img, imgs, itens, txt, type Conteudo } from "@/lib/conteudo/documento"
-import { contato } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 export function Escola({ c }: { c: Conteudo }) {
+  const contato = contatoDe(useConfig())
   const retrato = img(c, "retrato")
   const [grande, foto2, foto3] = imgs(c, "fotos")
   const historia = itens(c, "historia")
@@ -39,15 +41,15 @@ export function Escola({ c }: { c: Conteudo }) {
           </p>
           <dl className="small mt-10 grid grid-cols-3 gap-4 md:max-w-xl">
             <div data-reveal>
-              <dt className="text-muted-foreground">Onde</dt>
-              <dd className="font-semibold">Jardim América, {contato.cidade}</dd>
+              <dt className="text-muted-foreground">{txt(c, "rotuloOnde")}</dt>
+              <dd className="font-semibold">{[contato.bairro, contato.cidade].filter(Boolean).join(", ")}</dd>
             </div>
             <div data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
-              <dt className="text-muted-foreground">Desde</dt>
-              <dd className="font-semibold">1996</dd>
+              <dt className="text-muted-foreground">{txt(c, "rotuloDesde")}</dt>
+              <dd className="font-semibold">{txt(c, "desde")}</dd>
             </div>
             <div data-reveal style={{ "--d": "160ms" } as React.CSSProperties}>
-              <dt className="text-muted-foreground">Secretaria</dt>
+              <dt className="text-muted-foreground">{txt(c, "rotuloSecretaria")}</dt>
               <dd className="font-semibold">
                 <a href={contato.telefoneHref} className="link">
                   {contato.telefone}

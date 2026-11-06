@@ -5,7 +5,9 @@ import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { Linhas } from "@/components/linhas"
-import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
+import { useConfig } from "@/components/config-site"
+import { img, preencher, txt, type Conteudo } from "@/lib/conteudo/documento"
+import { contatoDe, psicologiaDe, segmentosDe, type Segmento } from "@/lib/conteudo/dados"
 import { IconeWhatsApp } from "@/components/icones-redes"
 import {
   Select,
@@ -16,22 +18,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  documentos,
-  psicologa,
-  segmentos,
-  whatsappLink,
-  type Segmento,
-} from "@/lib/site"
 
-function segmentoDa(serie: string | undefined): Segmento | undefined {
-  return segmentos.find((s) => serie && s.series.includes(serie))
-}
-
+// Segmentos, coordenação e psicologia vêm de Informações do site → Segmentos
+// e coordenação; os textos desta seção, dos campos dela.
 export function Ensino({ c }: { c: Conteudo }) {
+  const cfg = useConfig()
+  const segmentos = segmentosDe(cfg)
+  const psicologia = psicologiaDe(cfg)
+  const contato = contatoDe(cfg)
+  const normas = txt(cfg.central, "normas")
   const foto = img(c, "foto")
   const [serie, setSerie] = useState<string>()
-  const atual = segmentoDa(serie)
+  const atual: Segmento | undefined = segmentos.find((s) => serie && s.series.includes(serie))
 
   return (
     <section
@@ -56,14 +54,14 @@ export function Ensino({ c }: { c: Conteudo }) {
             </label>
             <Select value={serie} onValueChange={setSerie}>
               <SelectTrigger id="serie" className="h-12 w-full bg-background text-base">
-                <SelectValue placeholder="Escolha a série…" />
+                <SelectValue placeholder={txt(c, "placeholder")} />
               </SelectTrigger>
               <SelectContent>
                 {segmentos.map((s) => (
                   <SelectGroup key={s.id}>
                     <SelectLabel>{s.nome}</SelectLabel>
                     {s.series.map((x) => (
-                      <SelectItem key={x} value={x}>
+                      <SelectItem key={`${s.id}-${x}`} value={x}>
                         {x}
                       </SelectItem>
                     ))}
@@ -76,35 +74,34 @@ export function Ensino({ c }: { c: Conteudo }) {
               {atual && serie ? (
                 <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                   <p>
-                    O {serie} faz parte do <strong>{atual.nome}</strong>.
-                    Quem acompanha a turma é {atual.coordenacao.nome}, que
-                    atende por ligação ou WhatsApp das{" "}
-                    {atual.coordenacao.horario}.
+                    {preencher(txt(c, "resposta"), {
+                      serie,
+                      segmento: atual.nome,
+                      coordenador: atual.coordenador,
+                      horario: atual.horario,
+                    })}
                   </p>
                   <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-                    <a
-                      className="btn-action"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={whatsappLink(
-                        `Olá! Gostaria de agendar uma visita ao Colégio Dask. Meu filho(a) vai cursar o ${serie}.`
-                      )}
-                    >
-                      <IconeWhatsApp className="size-5" />
-                      Agendar visita para o {serie}
-                    </a>
-                    {atual.id === "fund1" && (
-                      <a href="/central-do-aluno" className="link small font-semibold">
-                        Lista de materiais
+                    {contato.whatsapp && (
+                      <a
+                        className="btn-action"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={contato.whatsappCom(preencher(txt(c, "mensagemSerie"), { serie }))}
+                      >
+                        <IconeWhatsApp className="size-5" />
+                        {preencher(txt(c, "botaoSerie"), { serie })}
+                      </a>
+                    )}
+                    {atual.atalhoTexto && atual.atalhoLink && (
+                      <a href={atual.atalhoLink} className="link small font-semibold">
+                        {atual.atalhoTexto}
                       </a>
                     )}
                   </div>
                 </div>
               ) : (
-                <p className="text-muted-foreground">
-                  Mostramos o segmento, quem coordena a turma e um atalho para
-                  agendar a visita já com a série preenchida.
-                </p>
+                <p className="text-muted-foreground">{txt(c, "vazio")}</p>
               )}
             </div>
           </div>
@@ -127,7 +124,7 @@ export function Ensino({ c }: { c: Conteudo }) {
         <div className="col-span-12 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">
-              Segmentos, séries e coordenação do Colégio Dask
+              Segmentos, séries e coordenação do {contato.nome}
             </caption>
             {segmentos.map((s, i) => (
               <tbody
@@ -151,80 +148,97 @@ export function Ensino({ c }: { c: Conteudo }) {
                     {s.nome}
                   </th>
                 </tr>
-                <tr>
-                  <td colSpan={2} className="pb-5 text-muted-foreground">
-                    {s.resumo}
-                  </td>
-                </tr>
+                {s.resumo && (
+                  <tr>
+                    <td colSpan={2} className="pb-5 text-muted-foreground">
+                      {s.resumo}
+                    </td>
+                  </tr>
+                )}
                 <tr>
                   <th scope="row" className="w-[34%] py-2 align-top font-normal text-muted-foreground">
-                    Séries
+                    {txt(c, "rotuloSeries")}
                   </th>
                   <td className="py-2 font-semibold">{s.series.join(", ")}</td>
                 </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Coordenação
-                  </th>
-                  <td className="py-2 font-semibold">{s.coordenacao.nome}</td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Atendimento
-                  </th>
-                  <td className="py-2">
-                    <a
-                      href={`https://wa.me/${s.coordenacao.numero}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link inline-flex items-center gap-2 font-semibold"
-                      aria-label={`WhatsApp da ${s.coordenacao.cargo.toLowerCase()}: ${s.coordenacao.telefone}`}
-                    >
-                      <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
-                      {s.coordenacao.telefone}
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                    Horário
-                  </th>
-                  <td className="py-2">{s.coordenacao.horario}</td>
-                </tr>
+                {s.coordenador && (
+                  <tr>
+                    <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
+                      {txt(c, "rotuloCoordenacao")}
+                    </th>
+                    <td className="py-2 font-semibold">{s.coordenador}</td>
+                  </tr>
+                )}
+                {s.whatsapp && (
+                  <tr>
+                    <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
+                      {txt(c, "rotuloAtendimento")}
+                    </th>
+                    <td className="py-2">
+                      <a
+                        href={s.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link inline-flex items-center gap-2 font-semibold"
+                        aria-label={`WhatsApp da ${s.cargo.toLowerCase() || "coordenação"}: ${s.telefone}`}
+                      >
+                        <IconeWhatsApp className="size-5 shrink-0 text-whatsapp-ink" />
+                        {s.telefone}
+                      </a>
+                    </td>
+                  </tr>
+                )}
+                {s.horario && (
+                  <tr>
+                    <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
+                      {txt(c, "rotuloHorario")}
+                    </th>
+                    <td className="py-2">{s.horario}</td>
+                  </tr>
+                )}
               </tbody>
             ))}
-            <tbody data-reveal>
-              <tr>
-                <th
-                  scope="rowgroup"
-                  colSpan={2}
-                  className="pt-14 pb-2 text-[clamp(26px,2.4vw,36px)] font-extrabold tracking-[-0.04em]"
-                >
-                  Psicologia escolar
-                </th>
-              </tr>
-              <tr>
-                <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                  Psicóloga
-                </th>
-                <td className="py-2 font-semibold">{psicologa.nome}</td>
-              </tr>
-              <tr>
-                <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
-                  Horários
-                </th>
-                <td className="py-2">{psicologa.horario}, com agendamento pela secretaria</td>
-              </tr>
-            </tbody>
+            {psicologia.nome && (
+              <tbody data-reveal>
+                <tr>
+                  <th
+                    scope="rowgroup"
+                    colSpan={2}
+                    className="pt-14 pb-2 text-[clamp(26px,2.4vw,36px)] font-extrabold tracking-[-0.04em]"
+                  >
+                    {psicologia.titulo}
+                  </th>
+                </tr>
+                <tr>
+                  <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
+                    {psicologia.rotulo}
+                  </th>
+                  <td className="py-2 font-semibold">{psicologia.nome}</td>
+                </tr>
+                {psicologia.horario && (
+                  <tr>
+                    <th scope="row" className="py-2 align-top font-normal text-muted-foreground">
+                      {txt(c, "rotuloHorario")}
+                    </th>
+                    <td className="py-2">
+                      {[psicologia.horario, psicologia.nota].filter(Boolean).join(", ")}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            )}
           </table>
           <p className="small mt-10 text-muted-foreground">
-            Normas, listas de material e documentos de cada segmento ficam na{" "}
+            {txt(c, "nota")}{" "}
             <a href="/central-do-aluno" className="link font-semibold text-foreground">
-              Central do aluno
+              {txt(c, "notaLink")}
             </a>
-            . <a href={documentos.normas} target="_blank" rel="noopener noreferrer" className="link">
-              Normas disciplinares
-            </a>
+            .{" "}
+            {normas && (
+              <a href={normas} target="_blank" rel="noopener noreferrer" className="link">
+                {txt(c, "normasTexto")}
+              </a>
+            )}
           </p>
         </div>
       </div>

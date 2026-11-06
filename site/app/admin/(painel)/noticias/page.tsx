@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { PlusIcon } from "lucide-react"
 
+import { AtualizarAoMudar } from "@/components/admin/atualizar-ao-mudar"
 import { TabelaNoticias } from "@/components/admin/tabela-noticias"
 import { Button } from "@/components/ui/button"
 import { exigirAdmin } from "@/lib/admin/sessao"
@@ -29,6 +30,7 @@ export default async function AdminNoticias() {
           </Button>
         </div>
         <TabelaNoticias noticias={data ?? []} />
+        <AtualizarAoMudar tabelas={["noticias"]} />
       </div>
     </div>
   )

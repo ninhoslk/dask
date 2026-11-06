@@ -14,7 +14,8 @@ import {
 } from "@/lib/hero-cinematico"
 import { Linhas } from "@/components/linhas"
 import { txt, type Conteudo } from "@/lib/conteudo/documento"
-import { mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 // Abertura de tela cheia: o voo do drone até a porta do Dask avança e volta
 // conforme o scroll. A seção é alta e o palco fica preso (sticky) enquanto o
@@ -48,6 +49,7 @@ function desenharCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: 
 }
 
 export function HeroCinematico({ c }: { c: Conteudo }) {
+  const { whatsappVisita } = contatoDe(useConfig())
   const secaoRef = useRef<HTMLElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const barraRef = useRef<HTMLDivElement>(null)
@@ -251,7 +253,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             </p>
             {estatico && (
               <a
-                href={whatsappLink(mensagemVisita)}
+                href={whatsappVisita}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-action mt-8 text-lg"
@@ -291,7 +293,7 @@ export function HeroCinematico({ c }: { c: Conteudo }) {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
               <a
-                href={whatsappLink(mensagemVisita)}
+                href={whatsappVisita}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-action text-lg"

@@ -3,9 +3,11 @@ import { MapPinIcon } from "lucide-react"
 
 import { FaixaFotos } from "@/components/sections/faixa-fotos"
 import { img, txt, type Conteudo } from "@/lib/conteudo/documento"
-import { contato, mensagemVisita, whatsappLink } from "@/lib/site"
+import { useConfig } from "@/components/config-site"
+import { contatoDe } from "@/lib/conteudo/dados"
 
 export function Contato({ c }: { c: Conteudo }) {
+  const contato = contatoDe(useConfig())
   const foto = img(c, "foto")
   const fachada = img(c, "fachada")
   return (
@@ -44,18 +46,18 @@ export function Contato({ c }: { c: Conteudo }) {
             data-reveal
             style={{ "--d": "90ms" } as React.CSSProperties}
           >
-            <p className="text-lg font-semibold">Como prefere falar com a gente?</p>
-            <a
-              href={whatsappLink(mensagemVisita)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link text-lg"
-            >
-              WhatsApp {contato.whatsapp}
-            </a>
-            <a href={`mailto:${contato.email}`} className="link text-lg break-all">
-              {contato.email}
-            </a>
+            <p className="text-lg font-semibold">{txt(c, "pergunta")}</p>
+            {contato.whatsappVisita && (
+              <a href={contato.whatsappVisita} target="_blank" rel="noopener noreferrer" className="link text-lg">
+                {txt(c, "rotuloWhatsapp")} {contato.whatsapp}
+              </a>
+            )}
+            {contato.email && (
+              <a href={`mailto:${contato.email}`} className="link text-lg break-all">
+                {contato.email}
+              </a>
+            )}
+            {contato.horario && <p className="whitespace-pre-line">{contato.horario}</p>}
             <p className="small text-muted-foreground">
               {contato.endereco}, {contato.cidade}
             </p>
@@ -73,7 +75,7 @@ export function Contato({ c }: { c: Conteudo }) {
             {txt(c, "tituloLocal")}
           </h3>
           <p className="max-w-[40ch]">
-            {contato.endereco} · {contato.cidade} · CEP {contato.cep}
+            {[contato.endereco, contato.cidade, contato.cep && `CEP ${contato.cep}`].filter(Boolean).join(" · ")}
           </p>
         </div>
         <figure className="media col-span-12 aspect-[16/10] lg:col-span-7 lg:aspect-auto" data-reveal>
@@ -90,20 +92,24 @@ export function Contato({ c }: { c: Conteudo }) {
           data-reveal
           style={{ "--d": "90ms" } as React.CSSProperties}
         >
+          {contato.mapaEmbed && (
           <div className="media aspect-[4/3] w-full">
             <iframe
               src={contato.mapaEmbed}
-              title="Mapa com a localização do Colégio Dask em Dracena-SP"
+              title={`Mapa com a localização do ${contato.nome} em ${contato.cidade}`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="size-full border-0"
               data-lenis-prevent
             />
           </div>
-          <a href={contato.mapa} target="_blank" rel="noopener noreferrer" className="btn-action self-start">
-            <MapPinIcon aria-hidden className="size-4" />
-            Como chegar
-          </a>
+          )}
+          {contato.mapa && (
+            <a href={contato.mapa} target="_blank" rel="noopener noreferrer" className="btn-action self-start">
+              <MapPinIcon aria-hidden className="size-4" />
+              {txt(c, "botaoMapa")}
+            </a>
+          )}
         </div>
       </section>
     </section>
